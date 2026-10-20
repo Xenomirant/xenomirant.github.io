@@ -11,7 +11,7 @@ const nLocal = count((p) => p.data.source === 'local');
 const nLw = count((p) => p.data.source === 'lesswrong');
 const nRu = count((p) => p.data.lang === 'ru');
 ---
-<Page title="writing" zone={2} lede="random notes from random places." description="writing by Sergei Kudriashov: local notes and LessWrong cross-posts.">
+<Page title="writing" zone={2} lede="notes on research, plus cross-posts from LessWrong." description="writing by Sergei Kudriashov: local notes and LessWrong cross-posts.">
   <div class="stream">
     <div class="filters" role="radiogroup" aria-label="filter the stream">
       <input type="radio" name="f" id="f-all" checked /><label class="chip" for="f-all">all · {posts.length}</label>

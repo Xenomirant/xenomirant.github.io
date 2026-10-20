@@ -10,7 +10,7 @@ year: 2026
 date: 2026-09-26
 tags: [svd, numerical-linear-algebra, gpu, differentiable]
 group: main
-tldr: 'SVD on a GPU is slow because it is not a matmul. Polar decomposition is, if you compute it with Newton–Schulz-type iterations, and the SVD follows from it. The pipeline is up to twice as fast as the standard implementations and comes with a numerically stable backward pass, so the whole thing is differentiable. PyTorch and JAX.'
+tldr: 'Differentiable SVD on GPU, computed through the polar decomposition with Newton–Schulz iterations, which are only matrix multiplications. It runs up to twice as fast as standard implementations, has a numerically stable backward pass, and ships for PyTorch and JAX.'
 links:
   - { label: arxiv, url: 'https://arxiv.org/abs/2609.32505' }
   - { label: code, url: 'https://github.com/fallnlove/cans_svd' }

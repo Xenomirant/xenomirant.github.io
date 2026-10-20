@@ -10,7 +10,7 @@ const main = all.filter(({ p }) => p.data.group === 'main').reverse();
 const linguistics = all.filter(({ p }) => p.data.group === 'linguistics').reverse();
 const years = [...new Set(main.map(({ p }) => p.data.year))].sort((a, b) => b - a);
 ---
-<Page title="papers" zone={3} lede="what got written down. links to whatever exists." description="papers by Sergei Kudriashov: tensors, optimizers, attention geometry, membership inference.">
+<Page title="papers" zone={3} lede="published and submitted work, with links." description="papers by Sergei Kudriashov: tensors, optimizers, attention geometry, membership inference.">
   {main.length === 0 && <p class="meta">nothing published yet.</p>}
   {years.map((y) => (
     <section aria-labelledby={`y-${y}`}>

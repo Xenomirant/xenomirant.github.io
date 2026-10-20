@@ -1,7 +1,7 @@
 ---
 title: 'Reflections on unlearning and inoculation'
 date: 2026-09-20
-description: 'Inoculation prompting and inoculation adapters suppress rather than unlearn; a framework for saying what unlearning would even mean, and a counterexample.'
+description: 'Inoculation prompting and adapters suppress behaviour rather than unlearn it, and a simple counterexample shows why.'
 tags: [unlearning, inoculation, task-vectors]
 source: lesswrong
 crosspost: excerpt
@@ -10,4 +10,4 @@ canonicalUrl: 'https://www.lesswrong.com/posts/GnG2ono8vdoJvyF9f/reflections-on-
 karma: 17
 ---
 
-I see no reason, theoretical or empirical, to believe that inoculation results in unlearning. The post separates learning in-context from learning in-weights, and feature, data-point and weight-anchor unlearning from each other, following Xu and Strohmer. There is a simple counterexample where selective inoculation is impossible once the distributions overlap. Adapters are task vectors with better marketing. I doubt genuine unlearning is possible in any foundation model, but I might be wrong.
+I see no evidence that inoculation removes a behaviour from the weights rather than suppressing it. The post separates learning in context from learning in weights, and distinguishes three targets of unlearning (a feature, a data point, a set of weights), following Xu and Strohmer. A simple counterexample shows that selective inoculation is impossible once the clean and harmful distributions overlap.

@@ -7,17 +7,17 @@ export type Social = {
   glyph: string;
   selectable?: boolean;
   rel?: string;
+  note?: string;
 };
 
 export const email = 'xenomirant@gmail.com';
 
 export const socials: Social[] = [
   { id: 'email', label: 'email', handle: 'xenomirant <at> gmail <dot> com', url: `mailto:${email}`, show: true, glyph: 'mail' },
-  { id: 'tgblog', label: 'telegram blog', handle: 'pseudorandom_search', url: 'https://t.me/pseudorandom_search', show: true, glyph: 'telegram' },
-  { id: 'telegram', label: 'telegram', handle: '@HANDLE', url: 'https://t.me/HANDLE', show: false, glyph: 'telegram' },
-  { id: 'x', label: 'x', handle: '@HANDLE', url: 'https://x.com/HANDLE', show: false, glyph: 'x' },
+  { id: 'tgblog', label: 'telegram blog', handle: 'pseudorandom_search', url: 'https://t.me/pseudorandom_search', show: true, glyph: 'telegram', note: 'in russian' },
+  { id: 'x', label: 'x', handle: '@xenodonkey', url: 'https://x.com/xenodonkey', show: true, glyph: 'x' },
   { id: 'linkedin', label: 'linkedin', handle: 'in/xenomirant', url: 'https://www.linkedin.com/in/xenomirant/', show: true, glyph: 'linkedin' },
-  { id: 'discord', label: 'discord', handle: 'HANDLE', url: '', show: false, glyph: 'discord', selectable: true },
+  { id: 'discord', label: 'discord', handle: 'xenomirant', url: '', show: true, glyph: 'discord', selectable: true },
   { id: 'github', label: 'github', handle: 'Xenomirant', url: 'https://github.com/Xenomirant', show: true, glyph: 'github' },
   { id: 'lesswrong', label: 'lesswrong', handle: 'xenomirant', url: 'https://www.lesswrong.com/users/xenomirant', show: true, glyph: 'lw' },
   { id: 'hf', label: 'hugging face', handle: 'xenomirant', url: 'https://huggingface.co/xenomirant', show: true, glyph: 'hf' },
@@ -28,4 +28,4 @@ export const socials: Social[] = [
 
 export const shown = socials.filter((s) => s.show);
 /** the short row under the hero / in the footer */
-export const hits = shown.filter((s) => ['email', 'tgblog', 'github', 'lesswrong', 'linkedin'].includes(s.id));
+export const hits = shown.filter((s) => ['email', 'tgblog', 'x', 'github', 'lesswrong', 'linkedin'].includes(s.id));

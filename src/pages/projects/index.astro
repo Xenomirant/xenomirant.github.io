@@ -15,7 +15,7 @@ const groups = (['ongoing', 'done', 'dormant'] as const)
   .filter((g) => g.rows.length > 0);
 const heroImg = existsSync(new URL('../../../public/img/projects-1280.png', import.meta.url)) ? '/img/projects-1280.png' : undefined;
 ---
-<Page title="projects" zone={4} lede="built, taught, or left running." description="projects by Sergei Kudriashov: tools, hackathons, teaching, fieldwork.">
+<Page title="projects" zone={4} lede="tools, competitions, teaching." description="projects by Sergei Kudriashov: tools, hackathons, teaching, fieldwork.">
   {heroImg && (
     <Fragment slot="hero">
       <div class="hero project-hero" aria-hidden="true">

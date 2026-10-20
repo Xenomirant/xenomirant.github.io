@@ -1,16 +1,14 @@
 .statusbar {
-  position: sticky; top: 0; z-index: 20;
   display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem;
-  padding: 0.85rem var(--pad-x);
-  background: color-mix(in srgb, var(--ground) 86%, transparent);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--rule);
+  padding: 1.1rem var(--pad-x);
+  border-top: 1px solid var(--rule);
   font: var(--t-xs) var(--mono); letter-spacing: 0.04em; text-transform: lowercase;
-  view-transition-name: statusbar;
 }
-.statusbar .brand { display: flex; align-items: center; gap: 0.7rem; color: var(--ink); margin-right: auto; }
+.topline { display: flex; align-items: center; padding: 1rem var(--pad-x); font: var(--t-xs) var(--mono); letter-spacing: 0.04em; text-transform: lowercase; }
+.topline .brand { display: flex; align-items: center; gap: 0.7rem; color: var(--ink-2); }
+.topline .brand:hover { color: var(--ink); }
 .statusbar .brand .dots { color: var(--ink-3); }
-.statusbar nav { display: flex; flex-wrap: wrap; gap: 0 1.1rem; }
+.statusbar nav { display: flex; flex-wrap: wrap; gap: 0 1.1rem; margin-left: auto; }
 .statusbar nav a { color: var(--ink-3); display: inline-flex; align-items: baseline; gap: 0.45em; transition: color 0.2s; padding: 0.4rem 0; }
 .statusbar nav a .n { font-variant-numeric: tabular-nums; opacity: 0.6; }
 .statusbar nav a:hover { color: var(--ink); }
@@ -20,8 +18,8 @@
   background: var(--amber); box-shadow: var(--glow); margin-right: 0.1em;
 }
 @media (width <= 640px) {
-  .statusbar { gap: 0.5rem 1rem; padding-block: 0.7rem; }
-  .statusbar .brand { width: 100%; }
+  .statusbar { gap: 0.5rem 1rem; padding-block: 0.9rem; }
+  .statusbar .brand { display: none; }
   .statusbar nav { gap: 0.2rem 0.9rem; }
 }
 
@@ -49,10 +47,20 @@
 }
 .hero { position: relative; }
 .hero .bg {
-  position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
-  mask-image: linear-gradient(#000 35%, transparent 95%);
-  -webkit-mask-image: linear-gradient(#000 35%, transparent 95%);
+  position: absolute; z-index: -1; overflow: hidden; pointer-events: none;
+  /* bleed past the column and off the viewport edge; no edge coincides with the text */
+  top: -14vh; bottom: -10vh; left: -40vw; right: -60vw;
+  transform: rotate(-3deg);
+  mask-image:
+    radial-gradient(70% 60% at 62% 45%, #000 20%, transparent 75%),
+    linear-gradient(90deg, transparent 0%, #000 25%, #000 70%, transparent 100%);
+  -webkit-mask-image:
+    radial-gradient(70% 60% at 62% 45%, #000 20%, transparent 75%),
+    linear-gradient(90deg, transparent 0%, #000 25%, #000 70%, transparent 100%);
+  mask-composite: intersect; -webkit-mask-composite: source-in;
+  filter: blur(6px) saturate(1.1);
 }
-.hero .bg img, .hero .bg picture { width: 100%; height: 100%; object-fit: cover; opacity: 0.55; }
+.hero .bg img, .hero .bg picture { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+main.content { overflow: visible; }
 .hero .bg canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 @media (width <= 640px) { .hero .bg img { opacity: 0.4; } }

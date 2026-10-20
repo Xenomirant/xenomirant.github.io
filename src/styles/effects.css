@@ -9,7 +9,7 @@ html[data-motion='off'] body::before { display: none; }
 @media (prefers-reduced-motion: reduce) { body::before { display: none; } }
 
 /* scanlines + grain */
-.hero::after, .ribbon::after, figure::after {
+.ribbon::after, figure::after {
   content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
   opacity: var(--overlay); mix-blend-mode: multiply;
   background:

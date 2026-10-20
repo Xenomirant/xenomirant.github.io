@@ -1,7 +1,7 @@
 ---
 title: 'Evaluating task vectors, unlearning and inoculation'
 date: 2026-09-20
-description: 'An empirical companion on Qwen2.5-1.5B and TOFU: inoculation prompting against adapters, soft prompts and prefixes, and where each one fails.'
+description: 'Experiments on Qwen2.5-1.5B and TOFU comparing inoculation prompting with adapters, soft prompts and prefixes.'
 tags: [unlearning, inoculation, task-vectors, experiments]
 source: lesswrong
 crosspost: excerpt
@@ -10,4 +10,4 @@ canonicalUrl: 'https://www.lesswrong.com/posts/8AYQrvD4HEh8MEjgR/evaluating-task
 karma: 17
 ---
 
-Short empirical evaluation to go with the reflections. Learned inoculation is not consistently better than prompting, degrades under distribution shift, and soft prompts overfit worst; learned methods do resist hidden backdoors better. Low-rank adapters keep traits separable where full fine-tuning couples them. On TOFU, inoculation fails at unlearning, as expected: factual knowledge has a long description length. Reverse KL throughout, because it is the stable one.
+Inoculation is a way to train a model on data carrying a bad trait without the model absorbing the trait. In experiments on Qwen2.5-1.5B, learned inoculation (adapters, soft prompts, prefixes) was not consistently better than plain prompting, and it degraded under distribution shift. It did resist hidden backdoors better. On the TOFU benchmark, inoculation did not remove factual knowledge, so it does not unlearn.

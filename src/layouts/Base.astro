@@ -7,6 +7,8 @@ import '@/styles/global.css';
 import Head from '@/components/Head.astro';
 import StatusBar from '@/components/StatusBar.astro';
 import Footer from '@/components/Footer.astro';
+import Sigil from '@/components/Sigil.astro';
+import { meta } from '@/data/meta';
 interface Props {
   title?: string; description?: string; zone?: number; lang?: 'en' | 'ru'; image?: string;
   type?: 'website' | 'article'; canonical?: string; math?: boolean; noindex?: boolean; date?: Date; class?: string;
@@ -22,10 +24,13 @@ const { title, description, zone, lang = 'en', image, type, canonical, math, noi
   <body>
     <a class="skip" href="#main">skip to content</a>
     <div class="shell">
-      <StatusBar {zone} />
+      <header class="topline">
+        <a class="brand" href="/"><Sigil zone={zone} title={`zone ${zone ?? '—'}`} /><span>{meta.name.toLowerCase()}</span></a>
+      </header>
       <main id="main" class:list={['content', cls]} tabindex="-1">
         <slot />
       </main>
+      <StatusBar {zone} />
       <Footer {zone} {date} />
     </div>
     <script src="@/scripts/site.ts"></script>

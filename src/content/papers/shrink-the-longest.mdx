@@ -10,7 +10,7 @@ year: 2024
 date: 2024-10-17
 tags: [isotropy, topology, embeddings, regularization]
 group: main
-tldr: 'Contextual embeddings collapse into a narrow cone during fine-tuning. The regulariser here maximises the persistent entropy of Vietoris–Rips barcodes over the embeddings, which in practice shrinks the longest edges of the point cloud and spreads it out. Downstream metrics improve without reparametrising anything. Ships as a pip package.'
+tldr: 'A regulariser that keeps contextual embeddings from collapsing into a narrow cone during fine-tuning. It maximises the persistent entropy of their Vietoris–Rips barcodes, a topological summary of the point cloud. In practice it shrinks the longest edges, spreads the embeddings out and improves downstream metrics.'
 links:
   - { label: paper, url: 'https://doi.org/10.1007/978-3-031-88036-0_6' }
   - { label: arxiv, url: 'https://arxiv.org/abs/2501.05502' }

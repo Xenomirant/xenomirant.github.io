@@ -9,7 +9,7 @@ const list = all ? shown : hits;
   {list.map((s) => (
     <li>
       <a href={s.url} rel={s.id === 'email' ? undefined : 'me noopener'} target={s.id === 'email' ? undefined : '_blank'} title={s.label}>
-        <Glyph name={s.glyph} /><span>{s.label}</span>
+        <Glyph name={s.glyph} /><span>{s.label}</span>{s.note && <span class="note">({s.note})</span>}
       </a>
     </li>
   ))}

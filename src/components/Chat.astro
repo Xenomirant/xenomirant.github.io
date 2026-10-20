@@ -22,6 +22,7 @@ const rows = shown.filter((s) => s.id !== 'email');
         {s.url
           ? <a class="value" href={s.url} rel="me noopener" target="_blank">{s.handle}</a>
           : <span class:list={['value', { selectable: s.selectable }]}>{s.handle}</span>}
+        {s.note && <span class="meta">{s.note}</span>}
       </div>
     ))}
   </div>

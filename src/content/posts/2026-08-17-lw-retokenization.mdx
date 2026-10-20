@@ -1,7 +1,7 @@
 ---
 title: 'Weird Re-Tokenization, Symmetries and Compression: Research Agenda'
 date: 2026-08-17
-description: 'Language models understand and produce wrongly tokenised text without being trained to; a research agenda on what that partial symmetry means for alignment.'
+description: 'Language models read and produce wrongly tokenized text without being trained to; what that partial symmetry means for alignment.'
 tags: [tokenization, symmetries, alignment]
 source: lesswrong
 crosspost: excerpt
@@ -11,4 +11,4 @@ coauthors: ['Sami Wolf']
 karma: 21
 ---
 
-LLMs develop the capacity to read, and sometimes write, non-canonically tokenised text, and nobody asked them to. We think this is understudied from an alignment perspective: adversarial re-tokenisation bypasses guardrails, and the extra degrees of freedom are a steganography channel. The agenda covers reader and writer invariance, consistency training, tokenisation curvature in in-context learning, entropy-regularised exploration in RL, and some tokenizer-design theory. Written as MARS V fellows under Dmitry Vaintrob; some of this may not hold at frontier scale.
+Language models learn to read, and sometimes write, text that is tokenized the wrong way, although nobody trained them to. This matters for alignment: adversarial re-tokenization can bypass guardrails, and the extra freedom in tokenization is a channel for hidden messages. The agenda, written with Sami Wolf under Dmitry Vaintrob, covers how invariant models are to re-tokenization, consistency training, and tokenizer design.

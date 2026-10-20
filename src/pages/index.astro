@@ -23,11 +23,10 @@ const featured = papers.map((p, i) => ({ p, n: i + 1 })).reverse().filter(({ p }
     <section class="hero-home" aria-label="intro">
       <p class="prompt meta">[ {meta.handle}@shenzhen ~ ] $</p>
       <h1 class="name" data-decode={meta.name}>{meta.name}<span class="cursor" aria-hidden="true">▌</span></h1>
-      <p class="sub">tensors, tokens, and other things that should not generalise</p>
+      <p class="sub">tensors, tokenization, unlearning, evals</p>
       <p class="bio">
-        phd student in ai at cuhk-shenzhen. i work on tensors and optimizers, tokenization symmetries,
-        unlearning that isn't, and evaluations that say what they measure. formerly a linguist, with fieldwork
-        in kamchatka and the caucasus. random notes from random places.
+        phd student in ai at cuhk-shenzhen, supervised by zhi-quan tom luo. part-time, i do ai safety
+        research with a group in cambridge. formerly a linguist.
       </p>
       <ul class="hits mono">
         <li><a href="#writing">writing ↓</a></li>
@@ -63,7 +62,7 @@ const featured = papers.map((p, i) => ({ p, n: i + 1 })).reverse().filter(({ p }
   </section>
 
   <div id="chat">
-    <Chat note="replies are pseudorandom but the search terminates." />
+    <Chat />
   </div>
 </Base>
 

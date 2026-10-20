@@ -10,7 +10,7 @@ year: 2024
 date: 2024-10-21
 tags: [linguistics, bert, modularity, grammar]
 group: linguistics
-tldr: 'We taught BERT a synthetic version of Russian with polypersonal agreement, a grammar it has never seen, through an extra module. The model keeps the new grammar geometrically separate from the standard one and gets better perplexity for it. A small result about where grammar lives in the layers.'
+tldr: 'We taught BERT a synthetic variant of Russian with polypersonal agreement (verbs marking both subject and object) through an added module. The model keeps the new grammar in its own region of representation space and predicts text better (lower perplexity), which suggests grammar is stored in separable pieces across layers.'
 links:
   - { label: arxiv, url: 'https://arxiv.org/abs/2501.05503' }
   - { label: code, url: 'https://github.com/Xenomirant/ModularLM' }
