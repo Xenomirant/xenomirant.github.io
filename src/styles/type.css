@@ -61,7 +61,7 @@ p, li { text-wrap: pretty; }
 }
 .chip.amber { border-color: var(--amber-dim); color: var(--amber); }
 .chip.teal { border-color: color-mix(in srgb, var(--teal) 55%, transparent); color: var(--teal); }
-.chip.dim { opacity: 0.6; }
+.chip.dim { color: var(--ink-3); border-color: var(--rule); }
 .go { color: var(--ink-3); white-space: nowrap; }
 .go .arrow, .arrow { display: inline-block; transition: transform 0.35s var(--ease); }
 a:hover > .arrow, a:hover .go .arrow, .go:hover .arrow { transform: translateX(0.25em); }
