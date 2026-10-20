@@ -6,7 +6,7 @@ import Chat from '@/components/Chat.astro';
 import { meta } from '@/data/meta';
 const bgImg = existsSync(resolve(process.cwd(), 'public/img/contact-1600.png')) ? '/img/contact-1600.png' : undefined;
 ---
-<Base title="contact" zone={6} class="contact-page" description={`contact ${meta.name}: email and handles.`}>
+<Base title="contact" zone={6} class="contact-page screen" description={`contact ${meta.name}: email and handles.`}>
   {bgImg && (
     <div class="bg" aria-hidden="true">
       <img src={bgImg} alt="" width="1600" height="1000" loading="eager" decoding="async" />

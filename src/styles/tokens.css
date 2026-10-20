@@ -7,7 +7,7 @@
   --ink-3: color-mix(in srgb, var(--ink) 62%, transparent);
   --rule: color-mix(in srgb, var(--ink) 14%, transparent);
   --wash: color-mix(in srgb, var(--ink) 5%, transparent);
-  --amber: #f0a32e;
+  --amber: #f6bd16;
   --amber-dim: color-mix(in srgb, var(--amber) 55%, transparent);
   --teal: #2fb8b0;
   --glitch: #ff3f7f;
@@ -17,8 +17,7 @@
   --serif: 'Source Serif 4 Variable', 'serif-fb', Georgia, 'Times New Roman', serif;
   --display: 'Instrument Serif', 'Source Serif 4 Variable', Georgia, serif;
   --din: 'Barlow Condensed', 'DIN Condensed', 'Arial Narrow', sans-serif;
-  --neon: #00f0ff;
-  --neon-2: #ff2bd6;
+  --rail: 14rem;
   --mono: 'IBM Plex Mono', 'mono-fb', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
   --t-xs: 0.72rem;

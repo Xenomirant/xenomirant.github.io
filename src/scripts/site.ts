@@ -1,16 +1,18 @@
 import { initMotion } from './motion';
 import { initDecode } from './decode';
 import { initSigil } from './sigil';
-import { initGlow } from './glow';
+import { initSparks } from './sparks';
+import { initTransit } from './transit';
 import { initClock } from './clock';
 import { initReveal } from './reveal';
 import { initCopy } from './copy';
 
 function init() {
   initMotion();
+  initTransit();
   initDecode();
   initSigil();
-  initGlow();
+  initSparks();
   initClock();
   initReveal();
   initCopy();

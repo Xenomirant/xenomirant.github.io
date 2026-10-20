@@ -39,7 +39,7 @@
 
 .footer {
   border-top: 1px solid var(--rule);
-  padding: 1.5rem var(--pad-x) 2.5rem;
+  padding: 0.9rem var(--pad-x) 1.1rem;
   font: var(--t-xs) / 1.9 var(--mono); letter-spacing: 0.04em; text-transform: lowercase;
   color: var(--ink-3);
   display: flex; flex-wrap: wrap; gap: 0.2rem 1.2rem; align-items: center;
@@ -83,3 +83,66 @@
 main.content { overflow: visible; }
 @media (width <= 640px) { .hero .bg { left: 0; right: -30vw; top: -2rem; } .hero .bg img { opacity: 0.8; } }
 .hero .bg canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* ---------- rail (desktop) ---------- */
+.rail { display: none; }
+@media (width >= 900px) {
+  .shell { padding-left: var(--rail); }
+  .topline, .statusbar { display: none; }
+  .rail {
+    display: block; position: fixed; inset: 0 auto 0 0; width: var(--rail); z-index: 30;
+    padding: 1.4rem 0 2rem 1.75rem;
+    font: var(--t-xs) var(--mono); letter-spacing: 0.04em; text-transform: lowercase;
+  }
+  .rail-brand { display: flex; align-items: center; gap: 0.8rem; color: var(--ink-2); -webkit-tap-highlight-color: transparent; }
+  .rail-brand:hover { color: var(--ink); }
+  .rail-brand .sigil { width: 34px; height: 34px; }
+  /* the line drops from the knob's centre */
+  .rail-line {
+    list-style: none; margin: 0 0 0 17px; padding: 1.1rem 0 0 1.3rem;
+    border-left: 1px solid var(--rule); display: flex; flex-direction: column; gap: 0.15rem;
+    transition: opacity 0.45s ease;
+  }
+  .rail-line li { position: relative; }
+  .rail-line li::before {
+    content: ''; position: absolute; left: -1.3rem; top: 50%; width: 0.55rem; height: 1px; background: var(--rule);
+  }
+  .rail-line a {
+    position: relative; display: inline-flex; align-items: baseline; gap: 0.5em;
+    padding: 0.42rem 0.55rem; margin-left: -0.55rem; color: var(--ink-2);
+    transition: color 0.15s, background-color 0.15s; -webkit-tap-highlight-color: transparent;
+  }
+  .rail-line a .n { color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .rail-line a::after {
+    content: ''; position: absolute; left: 0.55rem; right: 0.55rem; bottom: 0.25rem; height: 1px;
+    background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 0.25s var(--ease);
+  }
+  .rail-line a:hover, .rail-line a:focus-visible { color: var(--ink); background: var(--wash); }
+  .rail-line a:hover::after, .rail-line a:focus-visible::after { transform: scaleX(1); }
+  .rail-line a:active { animation: tap-flicker 0.32s steps(1) 1; color: var(--amber); }
+  .rail-line a[aria-current='page'] { color: var(--amber); }
+  .rail-line a[aria-current='page'] .n { color: var(--amber); }
+  /* the amber dot sits on the line at the current zone */
+  .rail-line a[aria-current='page']::before {
+    content: ''; position: absolute; left: calc(-1.3rem + 0.55rem - 4.5px); top: 50%; width: 9px; height: 9px; margin-top: -4.5px;
+    border-radius: 50%; background: var(--amber);
+  }
+}
+
+/* ---------- key pages fit one screen ---------- */
+.shell { min-height: 100svh; }
+main.content.screen { display: flex; flex-direction: column; justify-content: center; padding-top: clamp(1rem, 4vh, 2.5rem); padding-bottom: clamp(1rem, 4vh, 2.5rem); }
+/* phones and tablets: the zone list is pinned to the bottom edge, always reachable */
+@media (width < 900px) {
+  .statusbar {
+    position: fixed; inset: auto 0 0 0; z-index: 30; padding: 0.35rem var(--pad-x) calc(0.35rem + env(safe-area-inset-bottom));
+    background: color-mix(in srgb, var(--ground) 92%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .statusbar nav { margin: 0; justify-content: space-between; width: 100%; gap: 0 0.4rem; }
+  .statusbar nav a { padding: 0.5rem 0.35rem; margin: 0; }
+  .statusbar nav a .n { display: none; }
+  .statusbar nav a[aria-current='page']::before { display: none; }
+  .shell { padding-bottom: 3rem; }
+  .shell:has(main.screen) .footer { display: none; }
+  .topline { padding-block: 0.8rem 0; }
+}

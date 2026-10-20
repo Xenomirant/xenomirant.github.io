@@ -1,6 +1,7 @@
 /* chat */
 .chat { display: flex; flex-direction: column; margin-top: 5rem; }
-.chat.full { min-height: calc(100svh - var(--pad-top) - 8rem); }
+.chat.full { margin-top: 0; }
+.chat.full .invite { flex: none; padding: 0 0 2.5rem; }
 .chat .invite { flex: 1; display: flex; align-items: center; padding: 3rem 0; margin: 0; }
 .chat .invite a {
   max-width: 34rem; font-family: var(--display); font-style: italic; font-size: clamp(1.7rem, 3vw, 2.75rem); line-height: 1.22;
@@ -39,39 +40,33 @@
 .sigil { width: 28px; height: 28px; flex: none; }
 .sigil circle, .sigil line { stroke: var(--ink-3); fill: none; stroke-width: 1; vector-effect: non-scaling-stroke; }
 .sigil line { opacity: 0.5; }
-.sigil circle.node { fill: var(--ground); transition: fill 0.6s, filter 0.6s, stroke 0.6s; }
-.sigil circle.node.on { fill: var(--amber); stroke: var(--amber); filter: drop-shadow(0 0 4px var(--amber)); }
+.sigil circle.node { fill: var(--ink-3); stroke: none; transition: fill 0.3s; }
+.sigil circle.node.on { fill: var(--amber); }
 .sigil.big { width: 96px; height: 96px; }
 .sigil.big circle, .sigil.big line { stroke-width: 1.25; }
 
 /* now block */
 .now-block {
-  position: relative; padding: 1.4rem 1.6rem 1.5rem;
-  background: color-mix(in srgb, var(--neon) 5%, var(--ground));
-  border: 1px solid var(--neon);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--neon) 25%, transparent), 0 0 24px color-mix(in srgb, var(--neon) 35%, transparent), inset 0 0 24px color-mix(in srgb, var(--neon) 12%, transparent);
-  font-family: var(--din); font-weight: 500; letter-spacing: 0.01em;
+  background: var(--amber); color: var(--ground);
+  padding: 1.1rem 1.4rem 1.3rem; max-width: 36rem;
+  font-family: var(--din); font-weight: 500;
 }
-.now-block::before {
-  content: 'now'; position: absolute; top: -0.75em; left: 1.2rem; padding: 0 0.5rem;
-  background: var(--ground); color: var(--neon-2);
-  font: 700 0.95rem/1.5 var(--din); letter-spacing: 0.14em; text-transform: uppercase;
-  text-shadow: 0 0 8px var(--neon-2);
-}
-.now-block .meta { margin-bottom: 0.4rem; color: color-mix(in srgb, var(--neon) 70%, var(--ink)); }
-.now-block .meta a { color: var(--neon); }
-.now-block .meta a:hover { color: var(--ink); }
+.now-block .plate-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; border-bottom: 2px solid var(--ground); padding-bottom: 0.45rem; margin-bottom: 0.2rem; }
+.now-block .plate-title { font: 700 2rem/1 var(--din); text-transform: uppercase; letter-spacing: 0.04em; margin: 0; color: var(--ground); }
+.now-block .plate-title a { color: inherit; }
+.now-block .plate-title a:hover { text-decoration: underline 2px; text-underline-offset: 0.12em; }
+.now-block .plate-meta { font: 500 0.95rem/1 var(--din); letter-spacing: 0.06em; text-transform: uppercase; margin: 0; }
 .now-block h2, .now-block h3 {
-  font: 700 1.05rem/1.2 var(--din); letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--neon); text-shadow: 0 0 10px color-mix(in srgb, var(--neon) 70%, transparent);
-  display: block; margin: 1.1rem 0 0.35rem;
+  font: 700 0.85rem/1.2 var(--din); letter-spacing: 0.16em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--ground) 62%, var(--amber)); margin: 0.9rem 0 0.15rem;
 }
-.now-block h2::before { content: none; }
-.now-block ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.15rem; }
-.now-block li { font: 500 1.3rem/1.3 var(--din); color: var(--ink); letter-spacing: 0.01em; }
-.now-block li::before { content: '▸ '; color: var(--neon-2); }
-.now-block li a { color: inherit; text-decoration: underline 1px var(--neon); text-underline-offset: 0.2em; }
-.now-block li a:hover { color: var(--neon); }
+.now-block ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.05rem; }
+.now-block li { font: 500 1.25rem/1.25 var(--din); }
+.now-block li::before { content: '— '; }
+.now-block a { color: inherit; }
+.now-block li a { text-decoration: underline 1px; text-underline-offset: 0.18em; }
+.now-block li a:hover { text-decoration-thickness: 2px; }
+@media (width <= 640px) { .now-block li { font-size: 1.1rem; } .now-block .plate-title { font-size: 1.6rem; } }
 
 /* now page */
 .now-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 3rem; align-items: start; }
@@ -87,7 +82,7 @@
 .hero-home .prompt { color: var(--ink-3); margin: 0 0 1.2rem; }
 .hero-home .name {
   font-family: var(--display); font-style: italic; font-weight: 400;
-  font-size: clamp(3.2rem, 9.5vw, 7rem); line-height: 0.95; letter-spacing: -0.01em; margin: 0 0 1.2rem -0.03em;
+  font-size: clamp(2.6rem, min(9.5vw, 12vh), 7rem); line-height: 0.95; letter-spacing: -0.01em; margin: 0 0 1.2rem -0.03em;
   min-height: 1em; position: relative;
 }
 .hero-home .sub { font-family: var(--serif); font-style: italic; color: var(--ink-2); font-size: 1.3rem; margin: 0 0 1.6rem; }
@@ -134,3 +129,33 @@ details.more[open] summary .label::before { transform: scale(1.5); }
   -webkit-mask-image: radial-gradient(60% 80% at 50% 50%, #000 30%, transparent 85%);
 }
 .about-hero img, .page-hero img { width: 100%; height: auto; opacity: 0.8; }
+
+/* phones: compact the one-screen pages */
+@media (width <= 640px) {
+  main.home .prompt { display: none; }
+  main.home .bio { font-size: 1.02rem; line-height: 1.5; }
+  .hero-socials span:not(.note) { display: none; }
+  .hero-socials .note { display: none; }
+  .hero-socials { gap: 0.2rem 1.3rem; }
+  .hero-socials svg { width: 18px; height: 18px; }
+  .now-block { padding: 0.9rem 1rem 1rem; }
+  .now-block h2, .now-block h3 { margin-top: 0.6rem; }
+  .now-block li { font-size: 1.02rem; line-height: 1.2; }
+  .chat.full .details { grid-template-columns: 1fr 1fr; gap: 0.9rem 1rem; }
+  .chat.full .details .cell:first-child { grid-column: 1 / -1; }
+  .chat.full .details .value { font-size: 0.82rem; }
+  .chat.full .label { margin-bottom: 0.2rem; }
+  .now-grid { gap: 1rem; }
+  .now-grid .sections { gap: 1rem; padding-top: 0; }
+  .now-grid .sections ul { font-size: 1rem; gap: 0.2rem; }
+}
+/* short laptop screens */
+@media (width >= 641px) and (height <= 780px) {
+  main.home .prompt { margin-bottom: 0.5rem; }
+  main.home .hero-home .name { margin-bottom: 0.7rem; }
+  main.home .bio { font-size: 1.05rem; line-height: 1.5; }
+  .hero-wrap + .now-block { margin-top: 1.4rem !important; }
+  .now-block { padding: 0.8rem 1.2rem 1rem; }
+  .now-block h2, .now-block h3 { margin-top: 0.55rem; }
+  .now-block li { font-size: 1.1rem; }
+}

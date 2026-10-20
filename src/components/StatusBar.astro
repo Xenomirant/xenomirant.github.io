@@ -1,7 +1,5 @@
 ---
 import { zones } from '@/data/zones';
-import { meta } from '@/data/meta';
-import Sigil from './Sigil.astro';
 interface Props { zone?: number }
 const { zone } = Astro.props;
 const nav = zones.filter((z) => z.nav);

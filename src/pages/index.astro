@@ -1,24 +1,11 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '@/layouts/Base.astro';
 import Hero from '@/components/Hero.astro';
 import Socials from '@/components/Socials.astro';
 import NowBlock from '@/components/NowBlock.astro';
-import Ribbon from '@/components/Ribbon.astro';
-import Label from '@/components/Label.astro';
-import RowWriting from '@/components/RowWriting.astro';
-import RowPaper from '@/components/RowPaper.astro';
-import Chat from '@/components/Chat.astro';
 import { meta } from '@/data/meta';
-import { byDateAsc } from '@/lib/fmt';
-
-const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(byDateAsc);
-const latestPosts = posts.map((p, i) => ({ p, n: i + 1 })).reverse().slice(0, 3);
-
-const papers = (await getCollection('papers', ({ data }) => data.group === 'main')).sort(byDateAsc);
-const featured = papers.map((p, i) => ({ p, n: i + 1 })).reverse().filter(({ p }) => p.data.featured).slice(0, 3);
 ---
-<Base zone={0} description={meta.description}>
+<Base zone={0} description={meta.description} class="screen home">
   <Hero class="hero-wrap">
     <section class="hero-home" aria-label="intro">
       <p class="prompt meta">[ {meta.handle}@shenzhen ~ ] $</p>
@@ -27,45 +14,14 @@ const featured = papers.map((p, i) => ({ p, n: i + 1 })).reverse().filter(({ p }
         phd student in ai at cuhk-shenzhen, supervised by zhi-quan tom luo. part-time, i do ai safety
         research with a group in cambridge. formerly a linguist.
       </p>
-      <ul class="hits mono">
-        <li><a href="#writing">writing ↓</a></li>
-        <li><a href="#papers">papers ↓</a></li>
-        <li><a href="#chat">let's chat? <span class="arrow" aria-hidden="true">→</span></a></li>
-      </ul>
       <Socials class="hero-socials" />
     </section>
   </Hero>
-
   <NowBlock />
-
-  <Ribbon />
-
-  <section class="section" id="writing" aria-labelledby="writing-h">
-    <div class="section-head">
-      <Label id="writing-h">fragments</Label>
-      <a class="go" href="/writing/">all writing <span class="arrow" aria-hidden="true">→</span></a>
-    </div>
-    {latestPosts.length > 0
-      ? <ol class="rows">{latestPosts.map(({ p, n }) => <RowWriting entry={p} index={n} />)}</ol>
-      : <p class="meta">nothing written down yet.</p>}
-  </section>
-
-  <section class="section" id="papers" aria-labelledby="papers-h">
-    <div class="section-head">
-      <Label id="papers-h">papers</Label>
-      <a class="go" href="/papers/">all papers <span class="arrow" aria-hidden="true">→</span></a>
-    </div>
-    {featured.length > 0
-      ? <ol class="rows">{featured.map(({ p, n }) => <RowPaper entry={p} index={n} />)}</ol>
-      : <p class="meta">nothing published yet.</p>}
-  </section>
-
-  <div id="chat">
-    <Chat />
-  </div>
 </Base>
 
 <style>
-  .hero-socials { margin-top: 1.4rem; }
-  .hero-wrap + :global(.now-block) { margin-top: 2rem; }
+  :global(.hero-socials) { margin-top: 1.4rem; }
+  .hero-wrap + :global(.now-block) { margin-top: 2.2rem; }
+  :global(main.home .hero-home) { padding-top: 0; padding-bottom: 0; }
 </style>

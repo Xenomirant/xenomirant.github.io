@@ -14,10 +14,10 @@ export function initSigil() {
     });
   }
   // hovering a zone link lights that node without unlighting the current page's.
-  document.querySelectorAll<HTMLElement>('.statusbar nav a[data-zone]').forEach((a) => {
+  document.querySelectorAll<HTMLElement>('.statusbar nav a[data-zone], .rail a[data-zone]').forEach((a) => {
     if (a.dataset.bound) return;
     a.dataset.bound = '1';
-    const nodes = () => document.querySelectorAll(`.statusbar [data-node="${a.dataset.zone}"]`);
+    const nodes = () => document.querySelectorAll(`[data-sigil] [data-node="${a.dataset.zone}"]`);
     a.addEventListener('pointerenter', () => nodes().forEach((n) => n.classList.add('on', 'hover')));
     a.addEventListener('pointerleave', () =>
       nodes().forEach((n) => { if (n.classList.contains('hover')) n.classList.remove('on', 'hover'); }));

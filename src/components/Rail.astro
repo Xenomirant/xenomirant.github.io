@@ -1,0 +1,28 @@
+---
+/** desktop navigation: a line that drops from the knob, zones hung along it. */
+import { zones } from '@/data/zones';
+import { meta } from '@/data/meta';
+import Sigil from './Sigil.astro';
+interface Props { zone?: number }
+const { zone } = Astro.props;
+const nav = zones.filter((z) => z.nav);
+---
+<nav class="rail" aria-label="zones">
+  <a class="rail-brand" href="/" data-zone="0">
+    <Sigil zone={zone} title={`zone ${zone ?? '—'}`} />
+    <span>{meta.name.toLowerCase()}</span>
+  </a>
+  <ol class="rail-line">
+    {nav.map((z) => (
+      <li>
+        <a
+          href={z.href}
+          aria-current={z.n === zone ? 'page' : undefined}
+          target={z.external ? '_blank' : undefined}
+          rel={z.external ? 'noopener' : undefined}
+          data-zone={z.n}
+        ><span class="n">{z.n}</span>{z.label}{z.external && <span aria-hidden="true"> ↗</span>}</a>
+      </li>
+    ))}
+  </ol>
+</nav>

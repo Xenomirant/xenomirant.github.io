@@ -10,6 +10,7 @@ import '@fontsource/barlow-condensed/700.css';
 import '@/styles/global.css';
 import Head from '@/components/Head.astro';
 import StatusBar from '@/components/StatusBar.astro';
+import Rail from '@/components/Rail.astro';
 import Footer from '@/components/Footer.astro';
 import Sigil from '@/components/Sigil.astro';
 import { meta } from '@/data/meta';
@@ -28,8 +29,9 @@ const { title, description, zone, lang = 'en', image, type, canonical, math, noi
   <body>
     <a class="skip" href="#main">skip to content</a>
     <div class="shell">
+      <Rail {zone} />
       <header class="topline">
-        <a class="brand" href="/"><Sigil zone={zone} title={`zone ${zone ?? '—'}`} /><span>{meta.name.toLowerCase()}</span></a>
+        <a class="brand" href="/" data-zone="0"><Sigil zone={zone} title={`zone ${zone ?? '—'}`} /><span>{meta.name.toLowerCase()}</span></a>
       </header>
       <main id="main" class:list={['content', cls]} tabindex="-1">
         <slot />

@@ -1,13 +1,5 @@
 /* motion layer. everything here is decorative; the kill-switch at the end disables it. */
 
-/* cursor glow */
-html.js body::before {
-  content: ''; position: fixed; inset: 0; z-index: 1; pointer-events: none;
-  background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 25%), rgb(240 163 46 / 0.07), transparent 45%);
-}
-html[data-motion='off'] body::before { display: none; }
-@media (prefers-reduced-motion: reduce) { body::before { display: none; } }
-
 /* scanlines + grain */
 .ribbon::after, figure::after {
   content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
@@ -65,16 +57,19 @@ html.js [data-copy] { display: inline-block; }
 html[data-motion='off'] .page-title::before, html[data-motion='off'] .page-title::after,
 html[data-motion='off'] .hero-home .name::before, html[data-motion='off'] .hero-home .name::after { content: none; }
 
-/* cross-document view transitions */
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition { navigation: auto; }
-  ::view-transition-old(root) { animation: 160ms steps(6) both vt-wipe; }
-  ::view-transition-new(root) { animation: 200ms ease-out both vt-in; }
-}
-@keyframes vt-wipe { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(100% 0 0 0); } }
-@keyframes vt-in { from { opacity: 0; } to { opacity: 1; } }
-html[data-motion='off'] { view-transition-name: none; }
-html[data-motion='off']::view-transition-old(root), html[data-motion='off']::view-transition-new(root) { animation: none; }
+/* knob: the amber dot turns to the destination zone */
+.knob-dot { transform-box: view-box; transform-origin: 50% 50%; transform: rotate(var(--a, 0deg)); transition: transform 0.42s cubic-bezier(0.65, 0, 0.35, 1); }
+.knob-dot circle { fill: var(--amber); stroke: none; }
+html.arriving .knob-dot { transition: none; }
+
+/* page change: everything but the rail fades to black, then back */
+.shell > :not(.rail) { transition: opacity 0.45s ease; }
+html.leaving .shell > :not(.rail) { opacity: 0; transition-duration: 0.32s; }
+html.arriving .shell > :not(.rail) { opacity: 0; transition: none; }
+html.leaving .rail-line { opacity: 0.45; transition: opacity 0.32s ease; }
+
+/* sparks canvas */
+.sparks { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; }
 
 /* kill-switch */
 @media (prefers-reduced-motion: reduce) {

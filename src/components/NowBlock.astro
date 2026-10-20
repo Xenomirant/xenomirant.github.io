@@ -1,5 +1,5 @@
 ---
-/** latest log entry on the homepage; silent when stale. */
+/** latest log entry as a yellow sign plate; silent when stale. */
 import { getCollection, render } from 'astro:content';
 import { meta } from '@/data/meta';
 import { byDateDesc, daysAgo, fmtDate, isoDate } from '@/lib/fmt';
@@ -10,11 +10,10 @@ const Content = fresh ? (await render(latest)).Content : undefined;
 ---
 {fresh && Content && (
   <aside class="now-block" aria-labelledby="now-h">
-    <p class="meta" id="now-h">
-      <a href="/now/">log</a> <time datetime={isoDate(latest.data.date)}>{fmtDate(latest.data.date)}</time>
-      <span class="sep">//</span>{latest.data.where.toLowerCase()}
-      {entries.length > 1 && <><span class="sep">//</span><a href="/now/#log">{entries.length - 1} earlier →</a></>}
-    </p>
-    <Content />
+    <header class="plate-head">
+      <h2 class="plate-title" id="now-h"><a href="/now/" data-zone="1">now</a></h2>
+      <p class="plate-meta"><time datetime={isoDate(latest.data.date)}>{fmtDate(latest.data.date)}</time> // {latest.data.where.toLowerCase()}</p>
+    </header>
+    <div class="plate-body"><Content /></div>
   </aside>
 )}
