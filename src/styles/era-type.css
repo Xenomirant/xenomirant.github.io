@@ -1,7 +1,7 @@
 /* era typography. content type changes with the era; the interface (rail, footer, meta, chips, credits)
    stays IBM Plex Mono and lowercase everywhere. */
 :root {
-  --f-blackletter: 'UnifrakturMaguntia', 'Grenze Gotisch', var(--display);
+  --f-blackletter: 'Grenze Gotisch', 'Texturina', var(--display);
   --f-typewriter: 'Special Elite', 'Courier Prime', var(--mono);
   --f-pixel: 'Pixelify Sans', var(--mono);
   --f-fax: 'Rubik Broken Fax', var(--display);
@@ -17,7 +17,7 @@
 :root[data-era='future'] { --t-title: var(--f-fax); --t-sub: var(--f-dot); --t-entry: var(--f-syne); }
 
 .page-title, .hero-home .name { font-family: var(--t-title); font-style: var(--t-title-style); font-weight: 400; letter-spacing: 0; }
-:root[data-era='past'] .page-title { font-size: clamp(3rem, 7.5vw, 6rem); line-height: 0.95; }
+:root[data-era='past'] .page-title { font-weight: 500; font-size: clamp(2.8rem, 7vw, 5.6rem); line-height: 0.95; }
 :root[data-era='present'] .page-title { font-size: clamp(2.4rem, 5.6vw, 4.4rem); line-height: 1; letter-spacing: -0.01em; }
 :root[data-era='future'] .page-title { font-size: clamp(2.6rem, 6.4vw, 5rem); line-height: 1; }
 .hero-home .name { font-size: clamp(2.4rem, min(7.6vw, 10vh), 5.6rem); line-height: 1; letter-spacing: -0.01em; }
@@ -64,3 +64,5 @@
   .chat.full .details { gap: 0.8rem clamp(2rem, 8vw, 6rem); padding-top: 0.9rem; }
   .chat.full .label { margin-bottom: 0.2rem; }
 }
+:root[data-era='future'] .page-title { font-size: clamp(2rem, 8.2vw, 5rem); }
+@media (height <= 820px) { :root[data-era='future'] .page-title { font-size: clamp(2rem, min(8.2vw, 7.5vh), 4rem); margin-bottom: 0.3em; } }

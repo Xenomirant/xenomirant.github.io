@@ -156,11 +156,26 @@ main.content.screen { display: flex; flex-direction: column; justify-content: ce
     position: fixed; inset: auto 0 0 0; z-index: 30; padding: 0.35rem var(--pad-x) calc(0.35rem + env(safe-area-inset-bottom));
     background: color-mix(in srgb, var(--ground) 92%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   }
-  .statusbar nav { margin: 0; justify-content: space-between; width: 100%; gap: 0 0.4rem; }
-  .statusbar nav a { padding: 0.5rem 0.35rem; margin: 0; }
+  .statusbar nav { margin: 0; justify-content: space-between; width: 100%; gap: 0 0.4rem; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .statusbar nav::-webkit-scrollbar { display: none; }
+  .statusbar nav a { padding: 0.55rem 0.4rem; margin: 0; white-space: nowrap; flex: none; }
   .statusbar nav a .n { display: none; }
   .statusbar nav a[aria-current='page']::before { display: none; }
-  .shell { padding-bottom: 3rem; }
+  .shell { padding-bottom: calc(3.4rem + env(safe-area-inset-bottom)); }
   .shell:has(main.screen) .footer { display: none; }
   .topline { padding-block: 0.8rem 0; }
 }
+
+/* ---------- any screen ---------- */
+/* root size grows on big screens, bounded by height so one-screen pages still fit */
+html { font-size: clamp(16px, min(0.55vw + 8px, 1.1vh + 6px), 22px); }
+/* wide screens: content sits nearer the rail instead of floating mid-screen */
+@media (width >= 1600px) { main.content { margin-inline: max(0px, calc((100% - var(--wide)) * 0.3)) auto; } }
+/* short landscape phones: the zone bar scrolls with the page instead of covering it */
+@media (width < 900px) and (height <= 500px) {
+  .statusbar { position: static; background: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .shell { padding-bottom: 0; }
+  .shell:has(main.screen) .footer { display: flex; }
+}
+/* mid widths: the footer drops the cross-link so it stays on one line */
+@media (900px <= width < 1200px) { .footer .pair { display: none; } }

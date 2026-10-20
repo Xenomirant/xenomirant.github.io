@@ -22,8 +22,8 @@ const buildTime = new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digi
   <span>{where} · utc{utc} <time data-clock data-tz={tz}>{buildTime}</time></span>
   {pair && (
     <>
-      <span class="sep">//</span>
-      <span>see also: <a href={pair.href} target={pair.external ? '_blank' : undefined}>{pair.n} {pair.label}{pair.external ? ' ↗' : ''}</a></span>
+      <span class="sep pair">//</span>
+      <span class="pair">see also: <a href={pair.href} target={pair.external ? '_blank' : undefined}>{pair.n} {pair.label}{pair.external ? ' ↗' : ''}</a></span>
     </>
   )}
   <span class="spacer"></span>

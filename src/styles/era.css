@@ -21,14 +21,18 @@ main.content, .footer { position: relative; z-index: 1; }
   .era-bg--meireles { width: 100%; opacity: 0.55; }
 }
 
-/* credit line: the reference stays visible, top right */
+/* credit line: a quiet line at the top of the page, in the flow, so it never covers content */
 .credit {
-  position: fixed; top: 1rem; right: var(--pad-x); z-index: 5; margin: 0; max-width: 30rem; text-align: right;
+  position: relative; z-index: 2; align-self: flex-end; margin: 0.9rem var(--pad-x) -0.4rem auto; max-width: min(34rem, calc(100% - 2 * var(--pad-x))); text-align: right;
   font: 0.8rem / 1.5 var(--mono); letter-spacing: 0.03em; color: var(--ink-2);
 }
-.credit em { font: italic 1.5rem / 1 var(--display); letter-spacing: 0; color: var(--ink); }
+.credit em { font: italic 1.4rem / 1 var(--display); letter-spacing: 0; color: var(--ink); }
 .credit a:hover, .credit a:hover em { color: var(--amber); }
-@media (width < 900px) { .credit { top: auto; bottom: 3.6rem; left: var(--pad-x); text-align: left; max-width: none; } }
+main .credit { align-self: auto; margin: 2rem 0 0; text-align: left; max-width: none; }
+@media (width < 900px) {
+  .credit { align-self: stretch; margin: 0.5rem var(--pad-x) 0; text-align: left; font-size: 0.72rem; }
+  .credit em { font-size: 1.1rem; }
+}
 
 /* ---------- spikes and quakes (past, future) ---------- */
 svg.spikes { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
@@ -70,11 +74,11 @@ main.future .lede { margin-bottom: 1.5rem; }
 .future-grid:has(li[data-q='q27']:hover) .syzygy[data-q='q27'],
 .future-grid:has(li[data-q='q36']:hover) .syzygy[data-q='q36'],
 .future-grid:has(li[data-q='q45']:hover) .syzygy[data-q='q45'] { stroke: var(--bolt); opacity: 1; stroke-width: 2.5; }
-@media (width < 900px) {
+@media (width < 1200px) {
   .future-grid { grid-template-columns: 1fr; }
-  .numogram { position: fixed; right: -30vw; top: 12vh; width: 90vw; opacity: 0.25; z-index: -1; }
-  .questions .q { font-size: 0.98rem; }
+  .future-grid > .numogram { position: fixed; right: -12vw; top: 10vh; width: min(70vw, 80vh); opacity: 0.28; z-index: -1; pointer-events: none; }
 }
+@media (width < 900px) { .future-grid > .numogram { right: -30vw; width: 90vw; } .questions .q { font-size: 0.95rem; } .questions li { grid-template-columns: 2.8rem 1fr; gap: 0.6rem; } }
 
 /* ---------- now: a calm column beside the tower ---------- */
 .now-col { max-width: 32rem; display: flex; flex-direction: column; gap: 0.8rem; }
@@ -181,4 +185,12 @@ main.future .lede { margin-bottom: 1.5rem; }
   .facts dt { margin-top: 0.45rem; }
   .facts dt:first-child { margin-top: 0; }
   .facts dd { font-size: 1.12rem; }
+}
+
+/* future and connect on shorter or narrower screens */
+@media (height <= 820px), (width <= 400px) {
+  main.future .lede { margin-bottom: 0.7rem; }
+  .questions { gap: 0.55rem; }
+  .questions .q { font-size: 0.92rem; line-height: 1.4; }
+  .chat.full .invite { padding-bottom: 1rem; }
 }
