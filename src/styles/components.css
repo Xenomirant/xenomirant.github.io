@@ -3,7 +3,7 @@
 .chat.full { min-height: calc(100svh - var(--pad-top) - 8rem); }
 .chat .invite { flex: 1; display: flex; align-items: center; padding: 3rem 0; margin: 0; }
 .chat .invite a {
-  max-width: 34rem; font-family: var(--serif); font-size: clamp(1.7rem, 3vw, 2.75rem); line-height: 1.22;
+  max-width: 34rem; font-family: var(--display); font-style: italic; font-size: clamp(1.7rem, 3vw, 2.75rem); line-height: 1.22;
   letter-spacing: -0.012em; color: var(--ink-2); text-wrap: balance; transition: color 0.25s;
 }
 .chat .invite a:hover { color: var(--ink); }
@@ -68,8 +68,8 @@
 .hero-home { padding-top: clamp(2rem, 8vh, 6rem); padding-bottom: 2rem; }
 .hero-home .prompt { color: var(--ink-3); margin: 0 0 1.2rem; }
 .hero-home .name {
-  font-family: var(--serif); font-style: italic; font-weight: 400;
-  font-size: var(--t-hero); line-height: 0.98; letter-spacing: -0.03em; margin: 0 0 1.2rem -0.04em;
+  font-family: var(--display); font-style: italic; font-weight: 400;
+  font-size: clamp(3.2rem, 9.5vw, 7rem); line-height: 0.95; letter-spacing: -0.01em; margin: 0 0 1.2rem -0.03em;
   min-height: 1em; position: relative;
 }
 .hero-home .sub { font-family: var(--serif); font-style: italic; color: var(--ink-2); font-size: 1.3rem; margin: 0 0 1.6rem; }
@@ -78,7 +78,7 @@
 /* posts */
 .post-head .facts { display: flex; flex-wrap: wrap; gap: 0.2rem 0; margin: 1.5rem 0 3rem; padding-top: 0.8rem; border-top: 1px solid var(--rule); }
 .post-head .facts .right { margin-left: auto; }
-.post-title { font-family: var(--serif); font-style: italic; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.02; letter-spacing: -0.02em; }
+.post-title { font-family: var(--display); font-style: italic; font-size: clamp(2.6rem, 6vw, 4.75rem); line-height: 1; letter-spacing: -0.01em; }
 .back { display: inline-block; margin-bottom: 2.5rem; }
 .end { margin-top: 5rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
 .end .near a { font-family: var(--serif); font-style: italic; font-size: 1.1rem; display: block; margin-top: 0.3rem; }
@@ -104,3 +104,15 @@ details.more summary { cursor: pointer; list-style: none; }
 details.more summary::-webkit-details-marker { display: none; }
 details.more summary .label::before { transition: transform 0.3s var(--ease); }
 details.more[open] summary .label::before { transform: scale(1.5); }
+
+/* soft edges on photo backgrounds: no rectangle may coincide with the layout */
+.contact-page .bg {
+  mask-image: radial-gradient(70% 65% at 55% 45%, #000 25%, transparent 78%);
+  -webkit-mask-image: radial-gradient(70% 65% at 55% 45%, #000 25%, transparent 78%);
+}
+.about-hero, .page-hero {
+  position: relative; margin: 0 -10vw 2rem; overflow: hidden;
+  mask-image: radial-gradient(60% 80% at 50% 50%, #000 30%, transparent 85%);
+  -webkit-mask-image: radial-gradient(60% 80% at 50% 50%, #000 30%, transparent 85%);
+}
+.about-hero img, .page-hero img { width: 100%; height: auto; opacity: 0.8; }

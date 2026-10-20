@@ -5,6 +5,7 @@
  */
 import type { MDXInstance } from 'astro';
 import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import Page from '@/layouts/Page.astro';
 import { components } from '@/components/mdx';
 import { meta } from '@/data/meta';
@@ -12,7 +13,7 @@ import { meta } from '@/data/meta';
 const mods = import.meta.glob<MDXInstance<Record<string, unknown>>>('/src/content/about.mdx', { eager: true });
 const about = Object.values(mods)[0];
 const About = about?.Content;
-const heroImg = existsSync(new URL('../../public/img/about-1280.png', import.meta.url)) ? '/img/about-1280.png' : undefined;
+const heroImg = existsSync(resolve(process.cwd(), 'public/img/about-1280.png')) ? '/img/about-1280.png' : undefined;
 ---
 <Page title="about" zone={5} description={`about ${meta.name}: bio, timeline, priors, name variants.`}>
   {heroImg && (

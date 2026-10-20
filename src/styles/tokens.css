@@ -15,6 +15,7 @@
   --overlay: 0.12;
 
   --serif: 'Source Serif 4 Variable', 'serif-fb', Georgia, 'Times New Roman', serif;
+  --display: 'Instrument Serif', 'Source Serif 4 Variable', Georgia, serif;
   --mono: 'IBM Plex Mono', 'mono-fb', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
   --t-xs: 0.72rem;

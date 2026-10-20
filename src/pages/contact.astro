@@ -1,9 +1,10 @@
 ---
 import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import Base from '@/layouts/Base.astro';
 import Chat from '@/components/Chat.astro';
 import { meta } from '@/data/meta';
-const bgImg = existsSync(new URL('../../public/img/contact-1600.png', import.meta.url)) ? '/img/contact-1600.png' : undefined;
+const bgImg = existsSync(resolve(process.cwd(), 'public/img/contact-1600.png')) ? '/img/contact-1600.png' : undefined;
 ---
 <Base title="contact" zone={6} class="contact-page" description={`contact ${meta.name}: email and handles.`}>
   {bgImg && (
