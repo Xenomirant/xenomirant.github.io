@@ -2,55 +2,29 @@
 import Base from '@/layouts/Base.astro';
 import Hero from '@/components/Hero.astro';
 import Socials from '@/components/Socials.astro';
-import { tree } from '@/data/zones';
 import { meta } from '@/data/meta';
-import { Picture } from 'astro:assets';
-import Numogram from '@/components/Numogram.astro';
-import bruegel from '@/assets/bruegel-babel.jpg';
-import meireles from '@/assets/babel-meireles.jpg';
-const credit: Record<string, { who: string; what: string; when: string }> = {
-  past: { who: 'Pieter Bruegel the Elder', what: 'The Tower of Babel', when: '1563' },
-  present: { who: 'Cildo Meireles', what: 'Babel', when: '2001' },
-  future: { who: 'after the CCRU', what: 'Numogram', when: '1995–2003' },
-};
-const pairs = [0, 1, 2, 3, 4].map((i) => ({ pair: [i, 9 - i] as [number, number], id: `p${i}` }));
-const lines: Record<string, string> = {
-  past: 'what I have written, published and built',
-  present: 'what I am working on now',
-  future: 'open questions',
-};
+import { email } from '@/data/socials';
 ---
 <Base zone={0} description={meta.description} class="screen home">
   <Hero class="hero-wrap">
     <section class="hero-home" aria-label="intro">
       <p class="prompt meta">[ {meta.handle}@shenzhen ~ ] $</p>
       <h1 class="name" data-decode={meta.name}>{meta.name}<span class="cursor" aria-hidden="true">▌</span></h1>
-      <p class="bio">
-        phd student in ai at cuhk-shenzhen, supervised by zhi-quan tom luo. part-time, i do ai safety
-        research with a group in cambridge. formerly a linguist.
-      </p>
       <Socials class="hero-socials" />
     </section>
   </Hero>
-  <nav class="plate" aria-label="past, present, future">
-    {tree.map((b) => (
-      <div class="door" data-era={b.era}>
-        <div class="emblem" aria-hidden="true" data-tremble={b.era !== 'present' ? '' : undefined}>
-          {b.era === 'past' && <Picture src={bruegel} widths={[400, 800]} sizes="14rem" formats={['avif', 'webp']} alt="" loading="eager" />}
-          {b.era === 'present' && <Picture src={meireles} widths={[300, 600]} sizes="14rem" formats={['avif', 'webp']} alt="" loading="eager" />}
-          {b.era === 'future' && <Numogram questions={pairs} />}
-        </div>
-        <div class="door-text">
-        {(() => { const to = b.zone ?? b.children[0]; return <a class="door-title" href={to.href} data-zone={to.n}>{b.label}{b.era === 'future' && <span class="ell"> …</span>}</a>; })()}
-        <p class="door-line">{lines[b.era]}</p>
-        <p class="door-credit">{credit[b.era].who}, <em>{credit[b.era].what}</em>, {credit[b.era].when}</p>
-        </div>
-      </div>
-    ))}
-  </nav>
+  <section class="facts" aria-label="key information">
+    <dl>
+      {meta.facts.map((f) => (<><dt>{f.k}</dt><dd>{f.v}</dd></>))}
+    </dl>
+    <p class="facts-foot">
+      <a href="/CV.pdf" target="_blank" rel="noopener">cv ↗</a>
+      <a href={`mailto:${email}?subject=${encodeURIComponent("let's chat")}`}>let's chat? <span class="arrow" aria-hidden="true">→</span></a>
+    </p>
+  </section>
 </Base>
 
 <style>
-  :global(.hero-socials) { margin-top: 1.4rem; }
+  :global(.hero-socials) { margin-top: 1.2rem; }
   :global(main.home .hero-home) { padding-top: 0; padding-bottom: 0; }
 </style>

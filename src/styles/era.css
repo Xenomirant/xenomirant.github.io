@@ -165,3 +165,20 @@ main.future .lede { margin-bottom: 1.5rem; }
 .emblem .numogram .ring, .emblem .numogram .syzygy, .emblem .numogram .circuit, .emblem .numogram .zone circle { stroke-width: 3; opacity: 0.9; }
 .emblem .numogram .zone circle { r: 9; }
 @media (width <= 640px) { .emblem .numogram .zone text { display: none; } .emblem .numogram .ring, .emblem .numogram .syzygy { stroke-width: 6; } }
+
+/* home: key information on the yellow plate */
+.facts { margin-top: 2rem; max-width: 40rem; background: var(--amber); color: var(--ground); padding: 1.1rem 1.4rem 1rem; }
+.facts dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 0.35rem 1.4rem; align-items: baseline; }
+.facts dt { font: var(--t-xs) var(--mono); letter-spacing: 0.04em; text-transform: lowercase; opacity: 0.7; }
+.facts dd { margin: 0; font: 500 1.3rem/1.2 var(--din); }
+.facts-foot { margin: 0.9rem 0 0; padding-top: 0.6rem; border-top: 2px solid var(--ground); display: flex; gap: 1.6rem; font: var(--t-xs) var(--mono); letter-spacing: 0.04em; }
+.facts-foot a { color: inherit; text-decoration: underline 1px; text-underline-offset: 0.25em; }
+.facts-foot a:hover { text-decoration-thickness: 2px; }
+@media (width >= 641px) and (height <= 780px) { .facts { margin-top: 1.3rem; padding-block: 0.8rem 0.7rem; } .facts dd { font-size: 1.15rem; } }
+@media (width <= 640px) {
+  .facts { margin-top: 1.4rem; padding: 0.9rem 1rem 0.8rem; }
+  .facts dl { grid-template-columns: 1fr; gap: 0 0; }
+  .facts dt { margin-top: 0.45rem; }
+  .facts dt:first-child { margin-top: 0; }
+  .facts dd { font-size: 1.12rem; }
+}

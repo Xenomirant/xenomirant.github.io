@@ -13,5 +13,13 @@ export const meta = {
     { name: 'Cambridge AI Safety Hub (MARS V)', role: 'fellow', from: '2026-07' },
   ],
   staleNowDays: 60,
+  /** key facts on the front page plate; edit freely */
+  facts: [
+    { k: 'role', v: 'phd student in ai, cuhk-shenzhen' },
+    { k: 'supervisor', v: 'zhi-quan tom luo' },
+    { k: 'also', v: 'ai safety research, cambridge ai safety hub (mars v)' },
+    { k: 'topics', v: 'tensors and optimizers · tokenization · unlearning · evaluations' },
+    { k: 'before', v: 'linguistics and mathematics, hse moscow' },
+  ],
   ogImage: '/img/og.jpg',
 };
