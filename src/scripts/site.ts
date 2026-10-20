@@ -6,6 +6,8 @@ import { initTransit } from './transit';
 import { initClock } from './clock';
 import { initReveal } from './reveal';
 import { initCopy } from './copy';
+import { initTremor } from './tremor';
+import { initDrips } from './drips';
 
 function init() {
   initMotion();
@@ -16,6 +18,8 @@ function init() {
   initClock();
   initReveal();
   initCopy();
+  initTremor();
+  initDrips();
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });

@@ -2,8 +2,13 @@
 import Base from '@/layouts/Base.astro';
 import Hero from '@/components/Hero.astro';
 import Socials from '@/components/Socials.astro';
-import NowBlock from '@/components/NowBlock.astro';
+import { byEra } from '@/data/zones';
 import { meta } from '@/data/meta';
+const doors = [
+  { era: 'past', line: 'papers, projects, writing, and how I got here', zones: byEra('past') },
+  { era: 'present', line: 'what I am working on, and how to reach me', zones: byEra('present') },
+  { era: 'future', line: 'open questions', zones: byEra('future') },
+] as const;
 ---
 <Base zone={0} description={meta.description} class="screen home">
   <Hero class="hero-wrap">
@@ -17,11 +22,18 @@ import { meta } from '@/data/meta';
       <Socials class="hero-socials" />
     </section>
   </Hero>
-  <NowBlock />
+  <nav class="plate" aria-label="past, present, future">
+    {doors.map((d) => (
+      <div class="door" data-era={d.era}>
+        <a class="door-title" href={d.zones[0].href} data-zone={d.zones[0].n}>{d.era}</a>
+        <p class="door-line">{d.line}</p>
+        <p class="door-links">{d.zones.map((z, i) => <>{i > 0 && <span class="sep"> · </span>}<a href={z.href} data-zone={z.n}>{z.label}</a></>)}</p>
+      </div>
+    ))}
+  </nav>
 </Base>
 
 <style>
   :global(.hero-socials) { margin-top: 1.4rem; }
-  .hero-wrap + :global(.now-block) { margin-top: 2.2rem; }
   :global(main.home .hero-home) { padding-top: 0; padding-bottom: 0; }
 </style>

@@ -1,8 +1,8 @@
 ---
-import { zones } from '@/data/zones';
+import { byEra, cv, eras } from '@/data/zones';
 interface Props { zone?: number }
 const { zone } = Astro.props;
-const nav = zones.filter((z) => z.nav);
+const nav = [...eras.flatMap((e) => byEra(e)), cv];
 ---
 <div class="statusbar" data-statusbar>
   <nav aria-label="zones">

@@ -1,11 +1,10 @@
 ---
-/** desktop navigation: a line that drops from the knob, zones hung along it. */
-import { zones } from '@/data/zones';
+/** desktop navigation: a line that drops from the knob; zones hang along it, grouped past / present / future. */
+import { byEra, cv, eras } from '@/data/zones';
 import { meta } from '@/data/meta';
 import Sigil from './Sigil.astro';
 interface Props { zone?: number }
 const { zone } = Astro.props;
-const nav = zones.filter((z) => z.nav);
 ---
 <nav class="rail" aria-label="zones">
   <a class="rail-brand" href="/" data-zone="0">
@@ -13,16 +12,20 @@ const nav = zones.filter((z) => z.nav);
     <span>{meta.name.toLowerCase()}</span>
   </a>
   <ol class="rail-line">
-    {nav.map((z) => (
-      <li>
-        <a
-          href={z.href}
-          aria-current={z.n === zone ? 'page' : undefined}
-          target={z.external ? '_blank' : undefined}
-          rel={z.external ? 'noopener' : undefined}
-          data-zone={z.n}
-        ><span class="n">{z.n}</span>{z.label}{z.external && <span aria-hidden="true"> ↗</span>}</a>
+    {eras.map((e) => (
+      <li class="rail-era" data-era={e}>
+        <span class="era-label">{e}</span>
+        <ol>
+          {byEra(e).map((z) => (
+            <li>
+              <a href={z.href} aria-current={z.n === zone ? 'page' : undefined} data-zone={z.n}><span class="n">{z.n}</span>{z.label}</a>
+            </li>
+          ))}
+        </ol>
       </li>
     ))}
+    <li class="rail-cv">
+      <a href={cv.href} target="_blank" rel="noopener" data-zone={cv.n}><span class="n">{cv.n}</span>{cv.label}<span aria-hidden="true"> ↗</span></a>
+    </li>
   </ol>
 </nav>

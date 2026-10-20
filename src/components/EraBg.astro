@@ -1,0 +1,27 @@
+---
+/** full-page background art with a visible credit line. past and future backgrounds tremble (see scripts/tremor.ts). */
+import { Picture } from 'astro:assets';
+import bruegel from '@/assets/bruegel-babel.jpg';
+import meireles from '@/assets/babel-meireles.jpg';
+type Kind = 'bruegel' | 'meireles' | 'drips' | 'grille';
+interface Props { kind: Kind; focus?: string }
+const { kind, focus } = Astro.props;
+const credits: Record<Kind, { who: string; what: string; when: string; note?: string; href?: string }> = {
+  bruegel: { who: 'Pieter Bruegel the Elder', what: 'The Tower of Babel', when: '1563', note: 'Kunsthistorisches Museum, Vienna', href: 'https://commons.wikimedia.org/wiki/File:Pieter_Bruegel_the_Elder_-_The_Tower_of_Babel_(Vienna)_-_Google_Art_Project_-_edited.jpg' },
+  meireles: { who: 'Cildo Meireles', what: 'Babel', when: '2001', note: 'my photo' },
+  grille: { who: 'Cildo Meireles', what: 'Babel', when: '2001', note: 'detail, my photo' },
+  drips: { who: 'after Jackson Pollock', what: 'Number 7A', when: '1948', note: 'generated' },
+};
+const c = credits[kind];
+const tremble = kind === 'bruegel' || kind === 'drips';
+---
+<div class:list={['era-bg', `era-bg--${kind}`]} aria-hidden="true" data-tremble={tremble ? '' : undefined} style={focus ? `--focus:${focus}` : undefined}>
+  {kind === 'bruegel' && <Picture src={bruegel} widths={[960, 1600, 2400]} sizes="100vw" formats={['avif', 'webp']} alt="" loading="eager" fetchpriority="high" />}
+  {kind === 'meireles' && <Picture src={meireles} widths={[420, 831]} sizes="(width >= 900px) 40vw, 90vw" formats={['avif', 'webp']} alt="" loading="eager" fetchpriority="high" />}
+  {kind === 'grille' && <img src="/img/contact-1600.png" alt="" width="1600" height="1801" loading="eager" decoding="async" />}
+  {kind === 'drips' && <canvas data-drips></canvas>}
+</div>
+<p class="credit">
+  {c.href ? <a href={c.href} target="_blank" rel="noopener">{c.who}, <em>{c.what}</em>, {c.when}</a> : <>{c.who}, <em>{c.what}</em>, {c.when}</>}
+  {c.note && <span class="credit-note"> · {c.note}</span>}
+</p>

@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Page from '@/layouts/Page.astro';
 import Label from '@/components/Label.astro';
 import RowPaper from '@/components/RowPaper.astro';
+import EraBg from '@/components/EraBg.astro';
 import { byDateAsc } from '@/lib/fmt';
 
 const all = (await getCollection('papers')).sort(byDateAsc).map((p, i) => ({ p, n: i + 1 }));
@@ -11,6 +12,7 @@ const linguistics = all.filter(({ p }) => p.data.group === 'linguistics').revers
 const years = [...new Set(main.map(({ p }) => p.data.year))].sort((a, b) => b - a);
 ---
 <Page title="papers" zone={3} lede="published and submitted work, with links." description="papers by Sergei Kudriashov: tensors, optimizers, attention geometry, membership inference.">
+  <EraBg kind="drips" slot="bg" />
   {main.length === 0 && <p class="meta">nothing published yet.</p>}
   {years.map((y) => (
     <section aria-labelledby={`y-${y}`}>

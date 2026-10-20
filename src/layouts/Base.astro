@@ -14,14 +14,16 @@ import Rail from '@/components/Rail.astro';
 import Footer from '@/components/Footer.astro';
 import Sigil from '@/components/Sigil.astro';
 import { meta } from '@/data/meta';
+import { eraOf } from '@/data/zones';
 interface Props {
   title?: string; description?: string; zone?: number; lang?: 'en' | 'ru'; image?: string;
   type?: 'website' | 'article'; canonical?: string; math?: boolean; noindex?: boolean; date?: Date; class?: string;
 }
 const { title, description, zone, lang = 'en', image, type, canonical, math, noindex, date, class: cls } = Astro.props;
+const era = eraOf(zone);
 ---
 <!doctype html>
-<html lang={lang} data-zone={zone}>
+<html lang={lang} data-zone={zone} data-era={era}>
   <head>
     <Head {title} {description} {image} {type} {canonical} {math} {noindex} {date} />
     <slot name="head" />
@@ -33,12 +35,14 @@ const { title, description, zone, lang = 'en', image, type, canonical, math, noi
       <header class="topline">
         <a class="brand" href="/" data-zone="0"><Sigil zone={zone} title={`zone ${zone ?? '—'}`} /><span>{meta.name.toLowerCase()}</span></a>
       </header>
+      <slot name="bg" />
       <main id="main" class:list={['content', cls]} tabindex="-1">
         <slot />
       </main>
       <StatusBar {zone} />
       <Footer {zone} {date} />
     </div>
+    <slot name="after" />
     <script src="@/scripts/site.ts"></script>
   </body>
 </html>

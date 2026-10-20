@@ -1,0 +1,29 @@
+---
+/** after the CCRU numogram: ten zones, five syzygies (pairs summing to nine), three regions. drawn here, not copied. */
+interface Props { questions: { pair: [number, number]; id: string }[] }
+const { questions } = Astro.props;
+const R = 180, C = 220;
+const pt = (i: number, r = R) => { const a = (-90 + i * 36) * Math.PI / 180; return [C + r * Math.cos(a), C + r * Math.sin(a)] as const; };
+const region = (i: number) => (i === 0 || i === 9 ? 'plex' : i === 3 || i === 6 ? 'warp' : 'time-circuit');
+const circuit = [1, 2, 4, 5, 7, 8];
+---
+<svg class="numogram" viewBox="0 0 440 440" role="img" aria-label="numogram: ten zones joined in five pairs that sum to nine">
+  <circle cx={C} cy={C} r={R} class="ring" />
+  <circle cx={C} cy={C} r={R * 0.62} class="ring inner" />
+  <polyline class="circuit" points={[...circuit, circuit[0]].map((i) => pt(i, R * 0.62).join(',')).join(' ')} />
+  {questions.map(({ pair: [a, b], id }) => {
+    const [x1, y1] = pt(a), [x2, y2] = pt(b);
+    return <line x1={x1} y1={y1} x2={x2} y2={y2} class="syzygy" data-q={id} />;
+  })}
+  {Array.from({ length: 10 }, (_, i) => {
+    const [x, y] = pt(i), [lx, ly] = pt(i, R + 22);
+    return (
+      <g class:list={['zone', region(i)]}>
+        <circle cx={x} cy={y} r="6" />
+        <text x={lx} y={ly} text-anchor="middle" dominant-baseline="central">{i}</text>
+      </g>
+    );
+  })}
+  <text x={C} y={C - 6} text-anchor="middle" class="region-label">time-circuit</text>
+  <text x={C} y={C + 12} text-anchor="middle" class="region-label dim">warp 3::6 · plex 0::9</text>
+</svg>

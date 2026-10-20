@@ -5,6 +5,7 @@ const { title, description, zone, lede, lang, image, math, class: cls } = Astro.
 ---
 <Base {title} {description} {zone} {lang} {image} {math} class={cls}>
   <slot name="head" slot="head" />
+  <slot name="bg" slot="bg" />
   <slot name="hero" />
   <h1 class="page-title" data-decode={title}>{title}<span class="cursor" aria-hidden="true">▌</span></h1>
   {lede && <p class="lede">{lede}</p>}

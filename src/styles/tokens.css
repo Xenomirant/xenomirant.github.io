@@ -50,6 +50,8 @@
   size-adjust: 98%;
 }
 
+:root[data-era='past'] { --amber: #e5801c; }
+:root[data-era='future'] { --amber: #ff3b2a; --ground: #0a0708; --ground-2: #140c0d; --bolt: #ffe14d; }
 @media (prefers-reduced-motion: reduce) { :root { --motion: 0; } }
 :root[data-motion='off'] { --motion: 0; }
 @media (prefers-contrast: more) { :root { --overlay: 0; } }

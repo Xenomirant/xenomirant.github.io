@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Page from '@/layouts/Page.astro';
 import RowWriting from '@/components/RowWriting.astro';
+import EraBg from '@/components/EraBg.astro';
 import { byDateAsc } from '@/lib/fmt';
 
 const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(byDateAsc);
@@ -12,6 +13,7 @@ const nLw = count((p) => p.data.source === 'lesswrong');
 const nRu = count((p) => p.data.lang === 'ru');
 ---
 <Page title="writing" zone={2} lede="notes on research, plus cross-posts from LessWrong." description="writing by Sergei Kudriashov: local notes and LessWrong cross-posts.">
+  <EraBg kind="bruegel" focus="30% 12%" slot="bg" />
   <div class="stream">
     <div class="filters" role="radiogroup" aria-label="filter the stream">
       <input type="radio" name="f" id="f-all" checked /><label class="chip" for="f-all">all · {posts.length}</label>

@@ -1,0 +1,23 @@
+---
+import Page from '@/layouts/Page.astro';
+import Numogram from '@/components/Numogram.astro';
+// five open questions, one per syzygy (two zones that sum to nine). plain text; edit freely.
+const questions: { pair: [number, number]; id: string; text: string }[] = [
+  { pair: [0, 9], id: 'q09', text: 'Is there a sparse, context-dependent basis in which a network’s computation becomes simple to read?' },
+  { pair: [1, 8], id: 'q18', text: 'Can optimizers respect the tensor structure of parameters instead of flattening it into matrices?' },
+  { pair: [2, 7], id: 'q27', text: 'How invariant are language models to the way text is tokenized, and what breaks when they are not?' },
+  { pair: [3, 6], id: 'q36', text: 'Can a model unlearn something, or can we only suppress it?' },
+  { pair: [4, 5], id: 'q45', text: 'Can an evaluation come with a statistical guarantee about what it measures?' },
+];
+---
+<Page title="future" zone={7} lede="open questions I want to work on." description="open research questions of Sergei Kudriashov, arranged on a numogram." class="screen future">
+  <div class="future-grid">
+    <ol class="questions">
+      {questions.map((q) => (
+        <li data-q={q.id}><span class="pair">{q.pair[0]}::{q.pair[1]}</span><span class="q">{q.text}</span></li>
+      ))}
+    </ol>
+    <Numogram questions={questions} />
+  </div>
+  <p class="credit">numogram after the <em>CCRU</em>, Cybernetic Culture Research Unit, 1995–2003</p>
+</Page>
