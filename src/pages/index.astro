@@ -2,13 +2,23 @@
 import Base from '@/layouts/Base.astro';
 import Hero from '@/components/Hero.astro';
 import Socials from '@/components/Socials.astro';
-import { byEra } from '@/data/zones';
+import { tree } from '@/data/zones';
 import { meta } from '@/data/meta';
-const doors = [
-  { era: 'past', line: 'papers, projects, writing, and how I got here', zones: byEra('past') },
-  { era: 'present', line: 'what I am working on, and how to reach me', zones: byEra('present') },
-  { era: 'future', line: 'open questions', zones: byEra('future') },
-] as const;
+import { Picture } from 'astro:assets';
+import Numogram from '@/components/Numogram.astro';
+import bruegel from '@/assets/bruegel-babel.jpg';
+import meireles from '@/assets/babel-meireles.jpg';
+const credit: Record<string, { who: string; what: string; when: string }> = {
+  past: { who: 'Pieter Bruegel the Elder', what: 'The Tower of Babel', when: '1563' },
+  present: { who: 'Cildo Meireles', what: 'Babel', when: '2001' },
+  future: { who: 'after the CCRU', what: 'Numogram', when: '1995–2003' },
+};
+const pairs = [0, 1, 2, 3, 4].map((i) => ({ pair: [i, 9 - i] as [number, number], id: `p${i}` }));
+const lines: Record<string, string> = {
+  past: 'what I have written, published and built',
+  present: 'what I am working on, and how to reach me',
+  future: 'open questions',
+};
 ---
 <Base zone={0} description={meta.description} class="screen home">
   <Hero class="hero-wrap">
@@ -23,11 +33,23 @@ const doors = [
     </section>
   </Hero>
   <nav class="plate" aria-label="past, present, future">
-    {doors.map((d) => (
-      <div class="door" data-era={d.era}>
-        <a class="door-title" href={d.zones[0].href} data-zone={d.zones[0].n}>{d.era}</a>
-        <p class="door-line">{d.line}</p>
-        <p class="door-links">{d.zones.map((z, i) => <>{i > 0 && <span class="sep"> · </span>}<a href={z.href} data-zone={z.n}>{z.label}</a></>)}</p>
+    {tree.map((b) => (
+      <div class="door" data-era={b.era}>
+        <div class="emblem" aria-hidden="true" data-tremble={b.era !== 'present' ? '' : undefined}>
+          {b.era === 'past' && <Picture src={bruegel} widths={[400, 800]} sizes="14rem" formats={['avif', 'webp']} alt="" loading="eager" />}
+          {b.era === 'present' && <Picture src={meireles} widths={[300, 600]} sizes="14rem" formats={['avif', 'webp']} alt="" loading="eager" />}
+          {b.era === 'future' && <Numogram questions={pairs} />}
+        </div>
+        <div class="door-text">
+        {b.zone
+          ? <a class="door-title" href={b.zone.href} data-zone={b.zone.n}>{b.label}{b.era === 'future' && <span class="ell"> …</span>}</a>
+          : <span class="door-title">{b.label}</span>}
+        <p class="door-line">{lines[b.era]}</p>
+        <p class="door-credit">{credit[b.era].who}, <em>{credit[b.era].what}</em>, {credit[b.era].when}</p>
+        {b.children.length > 0 && (
+          <p class="door-links">{b.children.map((z, i) => <>{i > 0 && <span class="sep"> · </span>}<a href={z.href} data-zone={z.n}>{z.label}</a></>)}</p>
+        )}
+        </div>
       </div>
     ))}
   </nav>

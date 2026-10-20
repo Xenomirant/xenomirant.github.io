@@ -105,15 +105,22 @@ main.content { overflow: visible; }
   }
   .rail-line li { position: relative; }
   .rail-line ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.1rem; }
-  .rail-era { margin-bottom: 0.7rem; }
+  .rail-era { margin-bottom: 0.9rem; }
   .rail-era::before { display: none; }
-  .rail-era > .era-label {
-    display: block; margin: 0 0 0.15rem; padding-left: 0;
-    font: 700 0.72rem/1.6 var(--din); letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-3);
+  .rail-line .era-head {
+    position: relative; display: inline-block; margin: 0 0 0.1rem -0.55rem; padding: 0.15rem 0.55rem;
+    font: italic 400 1.45rem/1.15 var(--display); letter-spacing: 0; text-transform: none; color: var(--ink);
   }
-  .rail-era[data-era='past'] > .era-label { color: #e5801c; }
-  .rail-era[data-era='present'] > .era-label { color: #f6bd16; }
-  .rail-era[data-era='future'] > .era-label { color: #ff3b2a; }
+  span.era-head { color: var(--ink-2); }
+  .rail-line a.era-head::after { bottom: 0.1rem; }
+  .rail-line .era-head::before {
+    content: ''; position: absolute; left: calc(-1.3rem + 0.55rem - 3.5px); top: 50%; width: 7px; height: 7px; margin-top: -3.5px;
+    border-radius: 50%; background: var(--ground); border: 1px solid var(--ink-3);
+  }
+  .rail-line a.era-head[aria-current='page']::before { width: 9px; height: 9px; margin-top: -4.5px; left: calc(-1.3rem + 0.55rem - 4.5px); border: 0; background: var(--amber); }
+  .rail-era > ol { margin: 0.1rem 0 0.2rem; }
+  .ell { display: inline-block; animation: ell 2.4s steps(1) infinite; }
+  @keyframes ell { 0%, 60% { opacity: 1; } 62% { opacity: 0.2; } 66% { opacity: 1; } 80% { opacity: 0.4; } 82% { opacity: 1; } }
   .rail-cv { margin-top: 0.3rem; }
   .rail-line ol li::before, .rail-cv::before {
     content: ''; position: absolute; left: -1.3rem; top: 50%; width: 0.55rem; height: 1px; background: var(--rule);

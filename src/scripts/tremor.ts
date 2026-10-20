@@ -74,7 +74,14 @@ function stop() {
 
 export function initTremor() {
   const era = document.documentElement.dataset.era;
-  if (era !== 'past' && era !== 'future') return;
+  if (era !== 'past' && era !== 'future') {
+    // present pages stay still, except the past/future emblems on the home plate
+    if (!document.querySelector('[data-tremble]')) return;
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    onMotion((r) => (r ? stop() : start()));
+    start();
+    return;
+  }
   let svg = document.querySelector<SVGSVGElement>('svg.spikes');
   if (!svg) {
     svg = document.createElementNS(SVG, 'svg') as SVGSVGElement;

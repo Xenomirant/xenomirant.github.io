@@ -8,6 +8,7 @@ import { initReveal } from './reveal';
 import { initCopy } from './copy';
 import { initTremor } from './tremor';
 import { initDrips } from './drips';
+import { initBabel } from './babel';
 
 function init() {
   initMotion();
@@ -20,6 +21,7 @@ function init() {
   initCopy();
   initTremor();
   initDrips();
+  initBabel();
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });

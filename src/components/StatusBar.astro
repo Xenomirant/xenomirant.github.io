@@ -1,8 +1,8 @@
 ---
-import { byEra, cv, eras } from '@/data/zones';
+import { flat, cv } from '@/data/zones';
 interface Props { zone?: number }
 const { zone } = Astro.props;
-const nav = [...eras.flatMap((e) => byEra(e)), cv];
+const nav = [...flat, cv];
 ---
 <div class="statusbar" data-statusbar>
   <nav aria-label="zones">
@@ -14,7 +14,7 @@ const nav = [...eras.flatMap((e) => byEra(e)), cv];
         rel={z.external ? 'noopener' : undefined}
         data-zone={z.n}
       >
-        <span class="n">{z.n}</span>{z.label}{z.external && <span aria-hidden="true"> ↗</span>}
+        {z.short ?? z.label}{z.external && <span aria-hidden="true"> ↗</span>}
       </a>
     ))}
   </nav>
