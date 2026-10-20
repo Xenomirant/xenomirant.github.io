@@ -23,13 +23,13 @@
 
 /* socials row */
 .socials { display: flex; flex-wrap: wrap; gap: 0.2rem 1.1rem; margin: 0; padding: 0; list-style: none; }
-.socials a { color: var(--ink-3); display: inline-flex; align-items: center; gap: 0.4em; transition: color 0.2s; }
+.socials a { color: var(--ink-3); display: inline-flex; align-items: center; gap: 0.4em; transition: color 0.2s; padding: 0.3rem 0; }
 .socials a:hover { color: var(--amber); }
 .socials svg { width: 14px; height: 14px; fill: currentColor; }
 
 /* hits */
 .hits { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin: 2.2rem 0 0; padding: 0; list-style: none; }
-.hits a { display: inline-flex; align-items: center; gap: 0.6em; color: var(--ink-2); transition: color 0.2s; }
+.hits a { display: inline-flex; align-items: center; gap: 0.6em; color: var(--ink-2); transition: color 0.2s; padding: 0.3rem 0; }
 .hits a::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--amber); box-shadow: var(--glow); transition: transform 0.3s var(--ease); }
 .hits a:hover { color: var(--ink); }
 .hits a:hover::before { transform: scale(1.5); }

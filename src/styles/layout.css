@@ -10,8 +10,8 @@
 }
 .statusbar .brand { display: flex; align-items: center; gap: 0.7rem; color: var(--ink); margin-right: auto; }
 .statusbar .brand .dots { color: var(--ink-3); }
-.statusbar nav { display: flex; flex-wrap: wrap; gap: 0.2rem 1.1rem; }
-.statusbar nav a { color: var(--ink-3); display: inline-flex; align-items: baseline; gap: 0.45em; transition: color 0.2s; }
+.statusbar nav { display: flex; flex-wrap: wrap; gap: 0 1.1rem; }
+.statusbar nav a { color: var(--ink-3); display: inline-flex; align-items: baseline; gap: 0.45em; transition: color 0.2s; padding: 0.4rem 0; }
 .statusbar nav a .n { font-variant-numeric: tabular-nums; opacity: 0.6; }
 .statusbar nav a:hover { color: var(--ink); }
 .statusbar nav a[aria-current='page'] { color: var(--amber); }
@@ -32,6 +32,7 @@
   color: var(--ink-3);
   display: flex; flex-wrap: wrap; gap: 0.2rem 1.2rem; align-items: center;
 }
+.footer a, .footer button { padding: 0.3rem 0; display: inline-block; }
 .footer a:hover, .footer button:hover { color: var(--amber); }
 .footer .sep { opacity: 0.55; }
 .footer .spacer { flex: 1; }

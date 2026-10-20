@@ -7,7 +7,7 @@ const { zone } = Astro.props;
 const nav = zones.filter((z) => z.nav);
 ---
 <header class="statusbar" data-statusbar>
-  <a class="brand" href="/" aria-label="home">
+  <a class="brand" href="/">
     <Sigil zone={zone} title={`zone ${zone ?? '—'}`} />
     <span>{meta.name.toLowerCase()}</span>
     <span class="dots" aria-hidden="true">··</span>

@@ -4,7 +4,7 @@
   --ground-2: #0e1319;
   --ink: #d9d4c7;
   --ink-2: color-mix(in srgb, var(--ink) 74%, transparent);
-  --ink-3: color-mix(in srgb, var(--ink) 54%, transparent);
+  --ink-3: color-mix(in srgb, var(--ink) 62%, transparent);
   --rule: color-mix(in srgb, var(--ink) 14%, transparent);
   --wash: color-mix(in srgb, var(--ink) 5%, transparent);
   --amber: #f0a32e;

@@ -12,6 +12,8 @@ export function initReveal() {
     const sibs = el.parentElement ? Array.from(el.parentElement.children).filter((c) => c.matches('[data-reveal], .row')) : [el];
     el.style.setProperty('--i', String(Math.min(sibs.indexOf(el), 8)));
     el.classList.add('reveal');
+    // rows already on screen at load: show immediately, no fade (no flash, no mid-transition audits)
+    if (el.getBoundingClientRect().top < window.innerHeight) { el.classList.add('in'); return; }
     io.observe(el);
   });
   // safety net: never leave content hidden if the observer misfires (print, odd scroll roots, screenshots)

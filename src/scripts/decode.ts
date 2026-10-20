@@ -9,6 +9,11 @@ function run(el: HTMLElement, target: string) {
   let node = Array.from(el.childNodes).find((n) => n.nodeType === Node.TEXT_NODE) as Text | undefined;
   if (!node) { node = document.createTextNode(''); el.prepend(node); }
   const text = node;
+  // pin the box to the final (SSR) size so scrambled glyphs never reflow the page
+  const h = el.offsetHeight, w = el.offsetWidth;
+  if (h) { el.style.minHeight = h + 'px'; el.style.maxHeight = h + 'px'; el.style.overflow = 'hidden'; }
+  if (w) el.style.width = w + 'px';
+  const unpin = () => { el.style.minHeight = ''; el.style.maxHeight = ''; el.style.overflow = ''; el.style.width = ''; };
   const n = target.length;
   const ticks = Math.min(n * 2.5, MAX_MS / TICK);
   const perTick = n / ticks;
@@ -26,7 +31,7 @@ function run(el: HTMLElement, target: string) {
       }
       text.data = out;
     }
-    if (shown < n) requestAnimationFrame(frame); else text.data = target;
+    if (shown < n) requestAnimationFrame(frame); else { text.data = target; unpin(); }
   };
   text.data = target.replace(/\S/g, () => POOL[(Math.random() * POOL.length) | 0]!);
   requestAnimationFrame(frame);
