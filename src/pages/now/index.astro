@@ -2,7 +2,6 @@
 import { getCollection, render } from 'astro:content';
 import Page from '@/layouts/Page.astro';
 import EraBg from '@/components/EraBg.astro';
-import { email, shown } from '@/data/socials';
 import { byDateDesc, fmtDate, isoDate } from '@/lib/fmt';
 
 const entries = (await getCollection('now')).sort(byDateDesc);
@@ -10,7 +9,7 @@ const latest = entries[0];
 const Content = latest ? (await render(latest)).Content : undefined;
 const utc = (s: string) => (s.startsWith('+') || s.startsWith('-') ? `utc${s}` : `utc+${s}`);
 ---
-<Page title="the present" zone={1} description="what Sergei Kudriashov is doing now: a dated log." class="screen now-page">
+<Page title="now" zone={1} description="what Sergei Kudriashov is doing now: a dated log." class="screen now-page">
   <EraBg kind="meireles" slot="bg" />
   {latest && Content ? (
     <div class="now-col">
@@ -21,13 +20,6 @@ const utc = (s: string) => (s.startsWith('+') || s.startsWith('-') ? `utc${s}` :
       </p>
       {latest.data.mood && <p class="mood">{latest.data.mood}</p>}
       <div class="now-sections"><Content /></div>
-      <div class="reach">
-        <a class="reach-chat" href={`mailto:${email}?subject=${encodeURIComponent("let's chat")}`}>let's chat? <span class="arrow" aria-hidden="true">→</span></a>
-        <p class="meta reach-links">
-          {shown.filter((x) => x.id !== 'email' && x.url).map((x, i) => <>{i > 0 && <span class="sep"> · </span>}<a href={x.url} target="_blank" rel="me noopener">{x.label}</a>{x.note && <span class="note"> ({x.note})</span>}</>)}
-          <span class="sep"> · </span><a href="/contact/" data-zone="6">all handles</a><span class="sep"> · </span><a href="/about/" data-zone="5">about me</a>
-        </p>
-      </div>
       {entries.length > 1 && (
         <ol class="log" aria-label="earlier entries">
           {entries.slice(1).map((e) => (

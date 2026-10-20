@@ -13,7 +13,7 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      filter: (page) => !page.includes('-lw-') && !page.includes('/cv/'),
+      filter: (page) => !page.includes('-lw-') && !page.includes('/cv/') && !page.includes('/contact/'),
     }),
   ],
   markdown: {

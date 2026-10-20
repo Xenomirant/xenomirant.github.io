@@ -63,7 +63,7 @@ main.future .lede { margin-bottom: 1.5rem; }
 .numogram .zone.plex circle { fill: var(--amber); stroke: var(--amber); }
 .numogram .zone.warp circle { stroke: var(--amber); }
 .numogram .zone text { font: 700 15px var(--din); fill: var(--ink-2); }
-.numogram .region-label { font: 700 11px var(--din); letter-spacing: 0.22em; text-transform: uppercase; fill: var(--amber); }
+.numogram .region-label { font: 700 11px var(--din); letter-spacing: 0.12em; fill: var(--amber); }
 .numogram .region-label.dim { fill: var(--ink-3); letter-spacing: 0.12em; }
 .future-grid:has(li[data-q='q09']:hover) .syzygy[data-q='q09'],
 .future-grid:has(li[data-q='q18']:hover) .syzygy[data-q='q18'],
@@ -79,7 +79,7 @@ main.future .lede { margin-bottom: 1.5rem; }
 /* ---------- now: a calm column beside the tower ---------- */
 .now-col { max-width: 32rem; display: flex; flex-direction: column; gap: 0.8rem; }
 .now-col .mood { font-family: var(--display); font-style: italic; font-size: 1.5rem; line-height: 1.2; color: var(--ink-2); margin: 0; }
-.now-sections h2 { font: 700 0.8rem/1.2 var(--din); letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); margin: 1.2rem 0 0.3rem; }
+.now-sections h2 { font: 700 0.8rem/1.2 var(--din); color: var(--amber); margin: 1.2rem 0 0.3rem; }
 .now-sections ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.25rem; }
 .now-sections li { font-size: 1.1rem; line-height: 1.4; }
 .now-sections li::before { content: '— '; color: var(--amber); }
@@ -93,7 +93,7 @@ main.future .lede { margin-bottom: 1.5rem; }
 }
 .door { padding: 1rem 1.1rem 1.1rem; display: flex; flex-direction: column; gap: 0.35rem; }
 .door + .door { border-left: 2px solid var(--ground); }
-.door-title { font: 700 1.9rem/1 var(--din); text-transform: uppercase; letter-spacing: 0.03em; color: inherit; }
+.door-title { font: 700 1.9rem/1 var(--din); color: inherit; }
 .door-title:hover { text-decoration: underline 2px; text-underline-offset: 0.12em; }
 .door-line { margin: 0; font: 500 1.02rem/1.25 var(--din); }
 .door-links { margin: auto 0 0; padding-top: 0.4rem; font: 500 0.9rem/1.3 var(--mono); letter-spacing: 0.02em; text-transform: lowercase; }

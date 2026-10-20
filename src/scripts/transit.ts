@@ -3,7 +3,7 @@ import { isReduced } from './motion';
 
 const KEY = 'knob:from';
 const root = document.documentElement;
-const ZONES: [string, number][] = [['/now/', 1], ['/writing/', 2], ['/papers/', 3], ['/projects/', 4], ['/about/', 5], ['/contact/', 6], ['/future/', 7]];
+const ZONES: [string, number][] = [['/now/', 1], ['/writing/', 2], ['/papers/', 3], ['/projects/', 4], ['/about/', 5], ['/connect/', 6], ['/contact/', 6], ['/future/', 7]];
 const zoneFor = (path: string) => ZONES.find(([p]) => path.startsWith(p))?.[1] ?? (path === '/' ? 0 : undefined);
 const here = () => { const z = root.dataset.zone; return z === undefined || z === '' ? undefined : Number(z); };
 const dots = () => document.querySelectorAll<SVGGElement>('[data-knob-dot]');

@@ -16,7 +16,7 @@ const credit: Record<string, { who: string; what: string; when: string }> = {
 const pairs = [0, 1, 2, 3, 4].map((i) => ({ pair: [i, 9 - i] as [number, number], id: `p${i}` }));
 const lines: Record<string, string> = {
   past: 'what I have written, published and built',
-  present: 'what I am working on, and how to reach me',
+  present: 'what I am working on now',
   future: 'open questions',
 };
 ---
@@ -41,14 +41,9 @@ const lines: Record<string, string> = {
           {b.era === 'future' && <Numogram questions={pairs} />}
         </div>
         <div class="door-text">
-        {b.zone
-          ? <a class="door-title" href={b.zone.href} data-zone={b.zone.n}>{b.label}{b.era === 'future' && <span class="ell"> …</span>}</a>
-          : <span class="door-title">{b.label}</span>}
+        {(() => { const to = b.zone ?? b.children[0]; return <a class="door-title" href={to.href} data-zone={to.n}>{b.label}{b.era === 'future' && <span class="ell"> …</span>}</a>; })()}
         <p class="door-line">{lines[b.era]}</p>
         <p class="door-credit">{credit[b.era].who}, <em>{credit[b.era].what}</em>, {credit[b.era].when}</p>
-        {b.children.length > 0 && (
-          <p class="door-links">{b.children.map((z, i) => <>{i > 0 && <span class="sep"> · </span>}<a href={z.href} data-zone={z.n}>{z.label}</a></>)}</p>
-        )}
         </div>
       </div>
     ))}

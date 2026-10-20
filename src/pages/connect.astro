@@ -1,0 +1,11 @@
+---
+import Base from '@/layouts/Base.astro';
+import Chat from '@/components/Chat.astro';
+import EraBg from '@/components/EraBg.astro';
+import { meta } from '@/data/meta';
+---
+<Base title="connect" zone={6} class="contact-page screen" description={`connect with ${meta.name}: email and handles.`}>
+  <EraBg kind="grille" slot="bg" />
+  <h1 class="page-title" data-decode="connect">connect<span class="cursor" aria-hidden="true">▌</span></h1>
+  <Chat full />
+</Base>

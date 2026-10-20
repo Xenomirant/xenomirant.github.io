@@ -52,12 +52,12 @@
   font-family: var(--din); font-weight: 500;
 }
 .now-block .plate-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; border-bottom: 2px solid var(--ground); padding-bottom: 0.45rem; margin-bottom: 0.2rem; }
-.now-block .plate-title { font: 700 2rem/1 var(--din); text-transform: uppercase; letter-spacing: 0.04em; margin: 0; color: var(--ground); }
+.now-block .plate-title { font: 700 2rem/1 var(--din); margin: 0; color: var(--ground); }
 .now-block .plate-title a { color: inherit; }
 .now-block .plate-title a:hover { text-decoration: underline 2px; text-underline-offset: 0.12em; }
-.now-block .plate-meta { font: 500 0.95rem/1 var(--din); letter-spacing: 0.06em; text-transform: uppercase; margin: 0; }
+.now-block .plate-meta { font: 500 0.95rem/1 var(--din); letter-spacing: 0.04em; margin: 0; }
 .now-block h2, .now-block h3 {
-  font: 700 0.85rem/1.2 var(--din); letter-spacing: 0.16em; text-transform: uppercase;
+  font: 700 0.95rem/1.2 var(--din); letter-spacing: 0.04em;
   color: color-mix(in srgb, var(--ground) 62%, var(--amber)); margin: 0.9rem 0 0.15rem;
 }
 .now-block ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.05rem; }
