@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '@/layouts/Page.astro';
+import Label from '@/components/Label.astro';
+import RowProject from '@/components/RowProject.astro';
+import { byDateAsc } from '@/lib/fmt';
+import { existsSync } from 'node:fs';
+
+const all = (await getCollection('projects')).sort(byDateAsc).map((p, i) => ({ p, n: i + 1 })).reverse();
+const side = (k: string) => k === 'teaching' || k === 'fieldwork';
+const work = all.filter(({ p }) => !side(p.data.kind));
+const other = all.filter(({ p }) => side(p.data.kind));
+const groups = (['ongoing', 'done', 'dormant'] as const)
+  .map((s) => ({ s, rows: work.filter(({ p }) => p.data.status === s) }))
+  .filter((g) => g.rows.length > 0);
+const heroImg = existsSync(new URL('../../../public/img/projects-1280.png', import.meta.url)) ? '/img/projects-1280.png' : undefined;
+---
+<Page title="projects" zone={4} lede="built, taught, or left running." description="projects by Sergei Kudriashov: tools, hackathons, teaching, fieldwork.">
+  {heroImg && (
+    <Fragment slot="hero">
+      <div class="hero project-hero" aria-hidden="true">
+        <div class="bg"><img src={heroImg} alt="" width="1280" height="720" loading="eager" decoding="async" /></div>
+      </div>
+    </Fragment>
+  )}
+
+  {all.length === 0 && <p class="meta">nothing listed yet.</p>}
+  {groups.map(({ s, rows }) => (
+    <section class="group" aria-labelledby={`g-${s}`}>
+      <Label id={`g-${s}`}>{s} · {rows.length}</Label>
+      <ol class="rows">{rows.map(({ p, n }) => <RowProject entry={p} index={n} />)}</ol>
+    </section>
+  ))}
+
+  {other.length > 0 && (
+    <section class="group" aria-labelledby="g-other">
+      <Label id="g-other">teaching &amp; fieldwork · {other.length}</Label>
+      <ol class="rows">{other.map(({ p, n }) => <RowProject entry={p} index={n} />)}</ol>
+    </section>
+  )}
+</Page>
+
+<style>
+  .group + .group { margin-top: 4rem; }
+  .project-hero { height: 180px; margin: -1rem 0 2rem; }
+  .project-hero .bg { position: relative; inset: auto; height: 100%; }
+</style>

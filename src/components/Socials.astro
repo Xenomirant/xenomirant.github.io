@@ -1,0 +1,16 @@
+---
+import { hits, shown } from '@/data/socials';
+import Glyph from './Glyph.astro';
+interface Props { all?: boolean; class?: string }
+const { all = false, class: cls } = Astro.props;
+const list = all ? shown : hits;
+---
+<ul class:list={['socials', 'mono', cls]}>
+  {list.map((s) => (
+    <li>
+      <a href={s.url} rel={s.id === 'email' ? undefined : 'me noopener'} target={s.id === 'email' ? undefined : '_blank'} title={s.label}>
+        <Glyph name={s.glyph} /><span>{s.label}</span>
+      </a>
+    </li>
+  ))}
+</ul>

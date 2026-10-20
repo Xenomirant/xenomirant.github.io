@@ -1,0 +1,57 @@
+.statusbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem;
+  padding: 0.85rem var(--pad-x);
+  background: color-mix(in srgb, var(--ground) 86%, transparent);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule);
+  font: var(--t-xs) var(--mono); letter-spacing: 0.04em; text-transform: lowercase;
+  view-transition-name: statusbar;
+}
+.statusbar .brand { display: flex; align-items: center; gap: 0.7rem; color: var(--ink); margin-right: auto; }
+.statusbar .brand .dots { color: var(--ink-3); }
+.statusbar nav { display: flex; flex-wrap: wrap; gap: 0.2rem 1.1rem; }
+.statusbar nav a { color: var(--ink-3); display: inline-flex; align-items: baseline; gap: 0.45em; transition: color 0.2s; }
+.statusbar nav a .n { font-variant-numeric: tabular-nums; opacity: 0.6; }
+.statusbar nav a:hover { color: var(--ink); }
+.statusbar nav a[aria-current='page'] { color: var(--amber); }
+.statusbar nav a[aria-current='page']::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%; align-self: center;
+  background: var(--amber); box-shadow: var(--glow); margin-right: 0.1em;
+}
+@media (width <= 640px) {
+  .statusbar { gap: 0.5rem 1rem; padding-block: 0.7rem; }
+  .statusbar .brand { width: 100%; }
+  .statusbar nav { gap: 0.2rem 0.9rem; }
+}
+
+.footer {
+  border-top: 1px solid var(--rule);
+  padding: 1.5rem var(--pad-x) 2.5rem;
+  font: var(--t-xs) / 1.9 var(--mono); letter-spacing: 0.04em; text-transform: lowercase;
+  color: var(--ink-3);
+  display: flex; flex-wrap: wrap; gap: 0.2rem 1.2rem; align-items: center;
+}
+.footer a:hover, .footer button:hover { color: var(--amber); }
+.footer .sep { opacity: 0.55; }
+.footer .spacer { flex: 1; }
+.footer button { font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; }
+
+.section { margin-top: 4.5rem; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.2rem; }
+.section-head .label { margin: 0; }
+
+.ribbon {
+  position: relative; height: 56px; margin: 4rem 0;
+  background: url('/img/ribbon-tile.png') repeat-x center / auto 56px;
+  border-block: 1px solid var(--rule); opacity: 0.9;
+}
+.hero { position: relative; }
+.hero .bg {
+  position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+  mask-image: linear-gradient(#000 35%, transparent 95%);
+  -webkit-mask-image: linear-gradient(#000 35%, transparent 95%);
+}
+.hero .bg img, .hero .bg picture { width: 100%; height: 100%; object-fit: cover; opacity: 0.55; }
+.hero .bg canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+@media (width <= 640px) { .hero .bg img { opacity: 0.4; } }

@@ -1,0 +1,6 @@
+---
+/** [ label ] eyebrow with glowing dot. */
+interface Props { as?: 'h2' | 'h3' | 'p' | 'span'; id?: string; class?: string }
+const { as: Tag = 'h2', id, class: cls } = Astro.props;
+---
+<Tag class:list={['label', cls]} id={id}><span class="br" aria-hidden="true">[</span><slot /><span class="br" aria-hidden="true">]</span></Tag>

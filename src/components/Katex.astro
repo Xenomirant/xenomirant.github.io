@@ -1,0 +1,9 @@
+---
+/**
+ * Rendered only on pages with math: true. Imported with `?url` so Vite emits
+ * katex.min.css (fonts rewritten, self-hosted) as its own asset instead of
+ * bundling it into the global stylesheet every page loads.
+ */
+import katexCss from 'katex/dist/katex.min.css?url';
+---
+<link rel="stylesheet" href={katexCss} />

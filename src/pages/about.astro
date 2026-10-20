@@ -1,0 +1,37 @@
+---
+/**
+ * /about/ — long bio from src/content/about.mdx (a plain mdx import, not a collection).
+ * guarded with import.meta.glob so the build survives while the content agent is still writing it.
+ */
+import type { MDXInstance } from 'astro';
+import { existsSync } from 'node:fs';
+import Page from '@/layouts/Page.astro';
+import { components } from '@/components/mdx';
+import { meta } from '@/data/meta';
+
+const mods = import.meta.glob<MDXInstance<Record<string, unknown>>>('/src/content/about.mdx', { eager: true });
+const about = Object.values(mods)[0];
+const About = about?.Content;
+const heroImg = existsSync(new URL('../../public/img/about-1280.png', import.meta.url)) ? '/img/about-1280.png' : undefined;
+---
+<Page title="about" zone={5} description={`about ${meta.name}: bio, timeline, priors, name variants.`}>
+  {heroImg && (
+    <Fragment slot="hero">
+      <div class="hero about-hero" aria-hidden="true">
+        <div class="bg"><img src={heroImg} alt="" width="1280" height="720" loading="eager" decoding="async" /></div>
+      </div>
+    </Fragment>
+  )}
+  <div class="prose">
+    {About ? <About components={components} /> : <p class="meta">the long version is being written. the short one is on the <a href="/">index</a>.</p>}
+  </div>
+  <p class="meta variants" lang="ru">
+    also spelled: {meta.nameVariants.filter((n) => n !== meta.name).join(' · ')}
+  </p>
+</Page>
+
+<style>
+  .about-hero { height: 220px; margin: -1rem 0 2rem; }
+  .about-hero .bg { position: relative; inset: auto; height: 100%; }
+  .variants { margin-top: 3rem; text-transform: none; }
+</style>

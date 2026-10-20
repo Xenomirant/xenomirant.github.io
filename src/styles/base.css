@@ -1,0 +1,43 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: var(--t-m);
+  line-height: 1.65;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--amber); color: var(--ground); }
+a { color: inherit; text-decoration: none; }
+.prose a {
+  text-decoration: underline 1px var(--amber-dim);
+  text-underline-offset: 0.2em;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+.prose a:hover { color: var(--amber); text-decoration-color: var(--amber); }
+img, svg, video { max-width: 100%; height: auto; display: block; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 1px solid var(--amber); outline-offset: 3px; }
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+.skip {
+  position: absolute; left: var(--pad-x); top: -3rem; z-index: 100;
+  font: var(--t-xs) var(--mono); padding: 0.5rem 0.75rem;
+  background: var(--amber); color: var(--ground);
+}
+.skip:focus { top: 0.5rem; }
+.shell { overflow-x: clip; min-height: 100svh; display: flex; flex-direction: column; }
+main.content {
+  flex: 1;
+  padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
+  width: min(100%, var(--wide));
+  margin-inline: auto;
+}
+.content { animation: rise 0.35s var(--ease) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } }

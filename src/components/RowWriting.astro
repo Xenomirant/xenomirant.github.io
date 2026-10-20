@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { fmtDate, isoDate } from '@/lib/fmt';
+interface Props { entry: CollectionEntry<'posts'>; index: number; zone?: number }
+const { entry, index, zone = 2 } = Astro.props;
+const { data } = entry;
+const external = data.source !== 'local' && data.externalUrl ? data.externalUrl : undefined;
+const href = external ?? `/writing/${entry.id}/`;
+const extAttrs = external ? { target: '_blank', rel: 'external noopener' } : {};
+const go = data.source === 'lesswrong' ? 'lesswrong' : data.source === 'telegram' ? 'telegram' : 'read';
+---
+<li class="row" data-source={data.source} data-lang={data.lang}>
+  <span class="num">{zone}.{index}</span>
+  <div class="body">
+    <time class="date" datetime={isoDate(data.date)}>{fmtDate(data.date)}</time>
+    <a class="title italic" href={href} lang={data.lang === 'ru' ? 'ru' : undefined} {...extAttrs}>{data.title}</a>
+    {data.description && <p class="summary">{data.description}</p>}
+    {(data.source !== 'local' || data.lang === 'ru' || data.coauthors.length > 0) && (
+      <div class="chips">
+        {data.source === 'lesswrong' && <span class="chip teal">lesswrong ↗</span>}
+        {data.source === 'telegram' && <span class="chip">telegram</span>}
+        {data.lang === 'ru' && <span class="chip dim">ru</span>}
+        {data.coauthors.length > 0 && <span class="meta">with {data.coauthors.join(', ')}</span>}
+      </div>
+    )}
+  </div>
+  <a class="go" href={href} {...extAttrs} aria-hidden="true" tabindex="-1">{go} <span class="arrow">→</span></a>
+</li>

@@ -1,0 +1,12 @@
+---
+import Base from './Base.astro';
+interface Props { title: string; description?: string; zone?: number; lede?: string; lang?: 'en' | 'ru'; image?: string; math?: boolean; class?: string }
+const { title, description, zone, lede, lang, image, math, class: cls } = Astro.props;
+---
+<Base {title} {description} {zone} {lang} {image} {math} class={cls}>
+  <slot name="head" slot="head" />
+  <slot name="hero" />
+  <h1 class="page-title" data-decode={title}>{title}<span class="cursor" aria-hidden="true">▌</span></h1>
+  {lede && <p class="lede">{lede}</p>}
+  <slot />
+</Base>

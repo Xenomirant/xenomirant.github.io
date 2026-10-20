@@ -1,0 +1,6 @@
+---
+/** dash ribbon from the photo pipeline; purely decorative. */
+interface Props { class?: string }
+const { class: cls } = Astro.props;
+---
+<div class:list={['ribbon', cls]} role="separator" aria-hidden="true"></div>

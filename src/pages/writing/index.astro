@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '@/layouts/Page.astro';
+import RowWriting from '@/components/RowWriting.astro';
+import { byDateAsc } from '@/lib/fmt';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(byDateAsc);
+const rows = posts.map((p, i) => ({ p, n: i + 1 })).reverse();
+const count = (f: (p: (typeof posts)[number]) => boolean) => posts.filter(f).length;
+const nLocal = count((p) => p.data.source === 'local');
+const nLw = count((p) => p.data.source === 'lesswrong');
+const nRu = count((p) => p.data.lang === 'ru');
+---
+<Page title="writing" zone={2} lede="random notes from random places." description="writing by Sergei Kudriashov: local notes and LessWrong cross-posts.">
+  <div class="stream">
+    <div class="filters" role="radiogroup" aria-label="filter the stream">
+      <input type="radio" name="f" id="f-all" checked /><label class="chip" for="f-all">all · {posts.length}</label>
+      <input type="radio" name="f" id="f-local" /><label class="chip" for="f-local">local · {nLocal}</label>
+      <input type="radio" name="f" id="f-lesswrong" /><label class="chip" for="f-lesswrong">lesswrong · {nLw}</label>
+      {nRu > 0 && <><input type="radio" name="f" id="f-ru" /><label class="chip" for="f-ru">ru · {nRu}</label></>}
+    </div>
+    {rows.length > 0
+      ? <ol class="rows">{rows.map(({ p, n }) => <RowWriting entry={p} index={n} />)}</ol>
+      : <p class="meta">nothing here yet. the feed at <a href="/rss.xml">/rss.xml</a> will say when there is.</p>}
+  </div>
+  <p class="meta feed-note">subscribe: <a href="/rss.xml">rss</a> <span class="sep">·</span> <a href="https://www.lesswrong.com/users/xenomirant" target="_blank" rel="external noopener">lesswrong ↗</a></p>
+</Page>
+
+<style>
+  .filters { position: relative; }
+  .feed-note { margin-top: 2.5rem; }
+</style>

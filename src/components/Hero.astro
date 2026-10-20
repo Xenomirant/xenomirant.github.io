@@ -1,0 +1,20 @@
+---
+/**
+ * homepage hero shell: .hero > .bg (picture + optional dot-matrix canvas) + slotted content.
+ * the photo is optional: if the photo agent has not produced src/assets/hero.* yet, the bg is just the canvas placeholder.
+ */
+import { Picture } from 'astro:assets';
+interface Props { image?: ImageMetadata; class?: string }
+const found = import.meta.glob<{ default: ImageMetadata }>('/src/assets/hero.{jpg,jpeg,png,webp}', { eager: true });
+const fallback = Object.values(found)[0]?.default;
+const { image = fallback, class: cls } = Astro.props;
+---
+<div class:list={['hero', cls]}>
+  <div class="bg" aria-hidden="true">
+    {image && (
+      <Picture src={image} widths={[720, 1280, 1920]} sizes="100vw" formats={['avif', 'webp']} alt="" loading="eager" fetchpriority="high" decoding="async" />
+    )}
+    <canvas data-matrix hidden></canvas>
+  </div>
+  <slot />
+</div>

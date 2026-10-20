@@ -1,0 +1,9 @@
+/* TEAM */
+a human: sergei kudriashov
+an agent: claude
+the writing is his.
+
+/* SITE */
+stack: astro, mdx, ibm plex mono, source serif 4
+photographs: his, dithered into two inks
+analytics: none

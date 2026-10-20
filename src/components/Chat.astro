@@ -1,0 +1,29 @@
+---
+import { email, shown } from '@/data/socials';
+import Label from './Label.astro';
+interface Props { full?: boolean; note?: string }
+const { full = false, note } = Astro.props;
+const [user, domain] = email.split('@');
+const [host, tld] = domain.split('.');
+const rows = shown.filter((s) => s.id !== 'email');
+---
+<section class:list={['chat', { full }]} aria-labelledby="chat-h">
+  <p class="invite">
+    <a id="chat-h" href={`mailto:${email}?subject=${encodeURIComponent("let's chat")}`}>let's chat? <span class="arrow" aria-hidden="true">→</span></a>
+  </p>
+  <div class="details">
+    <div class="cell">
+      <Label as="h2">email</Label>
+      <a class="value" href={`mailto:${email}`}>{user}<span class="sep"> &lt;at&gt; </span>{host}<span class="sep"> &lt;dot&gt; </span>{tld}</a>
+    </div>
+    {rows.map((s) => (
+      <div class="cell">
+        <Label as="h2">{s.label}</Label>
+        {s.url
+          ? <a class="value" href={s.url} rel="me noopener" target="_blank">{s.handle}</a>
+          : <span class:list={['value', { selectable: s.selectable }]}>{s.handle}</span>}
+      </div>
+    ))}
+  </div>
+  {note && <p class="note meta">{note}</p>}
+</section>

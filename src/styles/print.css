@@ -1,0 +1,7 @@
+@media print {
+  :root { --ground: #fff; --ink: #000; --amber: #000; --teal: #000; --overlay: 0; }
+  .statusbar, .footer, .hero .bg, .ribbon, .cursor, .contact-page .bg, .hits, .filters { display: none !important; }
+  main.content { padding: 0; width: 100%; }
+  .row { break-inside: avoid; }
+  a[href^='http']::after { content: ' (' attr(href) ')'; font: 0.7rem monospace; }
+}

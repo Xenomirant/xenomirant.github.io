@@ -1,0 +1,91 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import { components } from '@/components/mdx';
+import { byDateDesc, fmtDate, isoDate, readingTime, wordCount } from '@/lib/fmt';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(byDateDesc);
+  return posts.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}
+interface Props { entry: CollectionEntry<'posts'>; newer?: CollectionEntry<'posts'>; older?: CollectionEntry<'posts'> }
+const { entry, newer, older } = Astro.props;
+const { data } = entry;
+const stub = data.source !== 'local' && !!data.externalUrl;
+const { Content } = await render(entry);
+const minutes = data.readingTime ?? readingTime(wordCount(entry.body));
+const canonical = data.canonicalUrl ?? (stub ? data.externalUrl : undefined);
+const sourceLabel = data.source === 'lesswrong' ? 'lesswrong' : data.source === 'telegram' ? 'telegram' : undefined;
+const hrefOf = (p: CollectionEntry<'posts'>) => (p.data.source !== 'local' && p.data.externalUrl ? p.data.externalUrl : `/writing/${p.id}/`);
+---
+<Base
+  title={data.title}
+  description={data.description}
+  zone={2}
+  lang={data.lang}
+  type="article"
+  canonical={canonical}
+  math={data.math}
+  noindex={stub}
+  date={data.date}
+>
+  <Fragment slot="head">
+    {stub && <meta http-equiv="refresh" content={`6;url=${data.externalUrl}`} />}
+  </Fragment>
+
+  <article class="post" lang={data.lang}>
+    <header class="post-head">
+      <a class="back meta" href="/writing/">← all writing</a>
+      <h1 class="post-title" data-decode={data.title}>{data.title}</h1>
+      <div class="facts meta">
+        <span>
+          <time datetime={isoDate(data.date)}>{fmtDate(data.date)}</time>
+          {!stub && <><span class="sep">//</span>{minutes} min</>}
+          {data.tags.length > 0 && <><span class="sep">//</span>{data.tags.join(', ')}</>}
+          {data.coauthors.length > 0 && <><span class="sep">//</span>with {data.coauthors.join(', ')}</>}
+        </span>
+        {data.externalUrl && sourceLabel && (
+          <a class="right" href={data.externalUrl} target="_blank" rel="external noopener">read on {sourceLabel} ↗</a>
+        )}
+      </div>
+    </header>
+
+    {stub ? (
+      <div class="prose stub">
+        <p class="lede">{data.description}</p>
+        <p class="invite">
+          <a href={data.externalUrl} rel="external noopener">read on {sourceLabel} <span class="arrow" aria-hidden="true">→</span></a>
+        </p>
+        <p class="meta">this page forwards in a few seconds. the text lives there{data.karma !== undefined && <>; karma {data.karma} at last count</>}.</p>
+      </div>
+    ) : (
+      <div class="prose">
+        <Content components={components} />
+      </div>
+    )}
+
+    <nav class="end" aria-label="nearby fragments">
+      <div class="near">
+        {older && <><span class="meta">← earlier</span><a href={hrefOf(older)}>{older.data.title}</a></>}
+      </div>
+      <div class="near right">
+        {newer && <><span class="meta">later →</span><a href={hrefOf(newer)}>{newer.data.title}</a></>}
+      </div>
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .stub .invite { margin: 2.5rem 0; }
+  .stub .invite a {
+    font-family: var(--serif); font-size: clamp(1.7rem, 3vw, 2.75rem); line-height: 1.22; color: var(--ink-2);
+    text-decoration: none; transition: color 0.25s;
+  }
+  .stub .invite a:hover { color: var(--ink); }
+  .stub .invite .arrow { color: var(--amber); }
+  .right { text-align: right; }
+</style>

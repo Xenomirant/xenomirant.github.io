@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { entry: CollectionEntry<'projects'>; index: number; zone?: number }
+const { entry, index, zone = 4 } = Astro.props;
+const { data } = entry;
+const first = data.links[0];
+const withLine = [data.with.length ? `with ${data.with.join(', ')}` : '', data.org ?? ''].filter(Boolean).join(' · ');
+---
+<li class="row" data-status={data.status} data-kind={data.kind}>
+  <span class="num">{zone}.{index}</span>
+  <div class="body">
+    <span class="date">{data.period}</span>
+    {first
+      ? <a class="title" href={first.url} target="_blank" rel="external noopener">{data.title}</a>
+      : <span class="title">{data.title}</span>}
+    {withLine && <p class="meta">{withLine}</p>}
+    <div class="chips">
+      {data.award && <span class="chip amber">{data.award}</span>}
+      <span class:list={['chip', { dim: data.status === 'dormant', teal: data.status === 'ongoing' }]}>{data.status}</span>
+      {(data.kind === 'teaching' || data.kind === 'fieldwork') && <span class="chip dim">{data.kind}</span>}
+    </div>
+    <p class="summary">{data.tldr}</p>
+    {data.links.length > 0 && (
+      <div class="links">
+        {data.links.map((l) => (
+          <a class="chip" href={l.url} target="_blank" rel="external noopener">{l.label} ↗</a>
+        ))}
+      </div>
+    )}
+  </div>
+</li>

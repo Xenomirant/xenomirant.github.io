@@ -1,0 +1,86 @@
+/* motion layer. everything here is decorative; the kill-switch at the end disables it. */
+
+/* cursor glow */
+html.js body::before {
+  content: ''; position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 25%), rgb(240 163 46 / 0.07), transparent 45%);
+}
+html[data-motion='off'] body::before { display: none; }
+@media (prefers-reduced-motion: reduce) { body::before { display: none; } }
+
+/* scanlines + grain */
+.hero::after, .ribbon::after, figure::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  opacity: var(--overlay); mix-blend-mode: multiply;
+  background:
+    repeating-linear-gradient(0deg, rgb(0 0 0 / 0.16) 0 1px, transparent 1px 3px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+figure { position: relative; }
+figure::after { z-index: 0; }
+
+/* hero breath */
+.hero .bg img { animation: breath 6s var(--ease) both; }
+@keyframes breath { from { transform: scale(1.03); } to { transform: scale(1); } }
+
+/* sigil draw-on */
+.sigil .draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.1s var(--ease) forwards; }
+.sigil .chord.draw { animation-delay: 0.25s; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* row reveal */
+html.js .reveal { opacity: 0; transform: translateY(12px); }
+html.js .reveal.in {
+  opacity: 1; transform: none;
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  transition-delay: calc(var(--i, 0) * 50ms);
+}
+
+/* copy buttons need js */
+[data-copy] { display: none; }
+html.js [data-copy] { display: inline-block; }
+
+/* glitch burst on titles */
+.page-title::before, .page-title::after, .hero-home .name::before, .hero-home .name::after {
+  content: attr(data-decode); position: absolute; inset: 0; opacity: 0; pointer-events: none; overflow: hidden;
+}
+.page-title::before, .hero-home .name::before { color: var(--teal); }
+.page-title::after, .hero-home .name::after { color: var(--glitch); }
+.page-title:hover::before, .page-title:focus-visible::before, .hero-home .name:hover::before { animation: glitch-a 320ms steps(2) 1; }
+.page-title:hover::after, .page-title:focus-visible::after, .hero-home .name:hover::after { animation: glitch-b 320ms steps(2) 1; }
+@keyframes glitch-a {
+  0% { opacity: 0.8; clip-path: inset(0 0 72% 0); transform: translateX(-4px); }
+  25% { opacity: 0.8; clip-path: inset(38% 0 40% 0); transform: translateX(3px); }
+  50% { opacity: 0.6; clip-path: inset(70% 0 8% 0); transform: translateX(-2px); }
+  75% { opacity: 0.6; clip-path: inset(12% 0 60% 0); transform: translateX(4px); }
+  100% { opacity: 0; clip-path: inset(0 0 100% 0); transform: none; }
+}
+@keyframes glitch-b {
+  0% { opacity: 0.7; clip-path: inset(60% 0 10% 0); transform: translateX(4px); }
+  25% { opacity: 0.7; clip-path: inset(5% 0 80% 0); transform: translateX(-3px); }
+  50% { opacity: 0.6; clip-path: inset(44% 0 30% 0); transform: translateX(2px); }
+  75% { opacity: 0.6; clip-path: inset(80% 0 2% 0); transform: translateX(-4px); }
+  100% { opacity: 0; clip-path: inset(100% 0 0 0); transform: none; }
+}
+html[data-motion='off'] .page-title::before, html[data-motion='off'] .page-title::after,
+html[data-motion='off'] .hero-home .name::before, html[data-motion='off'] .hero-home .name::after { content: none; }
+
+/* cross-document view transitions */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation: 160ms steps(6) both vt-wipe; }
+  ::view-transition-new(root) { animation: 200ms ease-out both vt-in; }
+}
+@keyframes vt-wipe { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(100% 0 0 0); } }
+@keyframes vt-in { from { opacity: 0; } to { opacity: 1; } }
+html[data-motion='off'] { view-transition-name: none; }
+html[data-motion='off']::view-transition-old(root), html[data-motion='off']::view-transition-new(root) { animation: none; }
+
+/* kill-switch */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .page-title::before, .page-title::after, .hero-home .name::before, .hero-home .name::after { content: none; }
+}
+html[data-motion='off'] *, html[data-motion='off'] *::before, html[data-motion='off'] *::after {
+  animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important;
+}

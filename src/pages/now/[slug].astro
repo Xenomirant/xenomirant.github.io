@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Page from '@/layouts/Page.astro';
+import { byDateDesc, fmtDate } from '@/lib/fmt';
+
+export async function getStaticPaths() {
+  const entries = (await getCollection('now')).sort(byDateDesc);
+  return entries.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, newer: entries[i - 1], older: entries[i + 1] },
+  }));
+}
+interface Props { entry: CollectionEntry<'now'>; newer?: CollectionEntry<'now'>; older?: CollectionEntry<'now'> }
+const { entry, newer, older } = Astro.props;
+const { Content } = await render(entry);
+const title = fmtDate(entry.data.date);
+const utc = (s: string) => (s.startsWith('+') || s.startsWith('-') ? `utc${s}` : `utc+${s}`);
+---
+<Page title={title} zone={1} description={`log entry ${title} // ${entry.data.where}`}>
+  <a class="back meta" href="/now/">← now</a>
+  <p class="meta">
+    {entry.data.where.toLowerCase()}<span class="sep">//</span>{utc(entry.data.utcOffset)}
+    {entry.data.mood && <><span class="sep">//</span><em class="mood">{entry.data.mood}</em></>}
+  </p>
+  <div class="prose entry">
+    <Content />
+  </div>
+  <nav class="end" aria-label="nearby entries">
+    <div class="near">
+      {older && <><span class="meta">← earlier</span><a href={`/now/${older.id}/`}>{fmtDate(older.data.date)} // {older.data.where.toLowerCase()}</a></>}
+    </div>
+    <div class="near right">
+      {newer && <><span class="meta">later →</span><a href={`/now/${newer.id}/`}>{fmtDate(newer.data.date)} // {newer.data.where.toLowerCase()}</a></>}
+    </div>
+  </nav>
+</Page>
+
+<style>
+  .mood { font-family: var(--serif); text-transform: none; letter-spacing: 0; font-size: 0.95rem; }
+  .entry { margin-top: 2rem; }
+  .entry :global(h2) {
+    display: flex; align-items: center; gap: 0.6em;
+    font: var(--t-xs) var(--mono); letter-spacing: 0.04em; text-transform: lowercase; color: var(--ink-3);
+  }
+  .entry :global(h2::before) { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--amber); box-shadow: var(--glow); flex: none; }
+  .entry :global(ul) { list-style: none; padding: 0; }
+  .entry :global(li::before) { content: '— '; color: var(--amber); }
+  .right { text-align: right; }
+</style>

@@ -1,0 +1,33 @@
+---
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import '@fontsource-variable/source-serif-4';
+import '@fontsource-variable/source-serif-4/wght-italic.css';
+import '@/styles/global.css';
+import Head from '@/components/Head.astro';
+import StatusBar from '@/components/StatusBar.astro';
+import Footer from '@/components/Footer.astro';
+interface Props {
+  title?: string; description?: string; zone?: number; lang?: 'en' | 'ru'; image?: string;
+  type?: 'website' | 'article'; canonical?: string; math?: boolean; noindex?: boolean; date?: Date; class?: string;
+}
+const { title, description, zone, lang = 'en', image, type, canonical, math, noindex, date, class: cls } = Astro.props;
+---
+<!doctype html>
+<html lang={lang} data-zone={zone}>
+  <head>
+    <Head {title} {description} {image} {type} {canonical} {math} {noindex} {date} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#main">skip to content</a>
+    <div class="shell">
+      <StatusBar {zone} />
+      <main id="main" class:list={['content', cls]} tabindex="-1">
+        <slot />
+      </main>
+      <Footer {zone} {date} />
+    </div>
+    <script src="@/scripts/site.ts"></script>
+  </body>
+</html>

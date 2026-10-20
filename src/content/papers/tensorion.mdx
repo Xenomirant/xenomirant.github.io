@@ -1,0 +1,19 @@
+---
+title: 'Tensorion: A Tensor-Aware Generalization of the Muon Optimizer'
+authors: ['Vladimir Bogachev', 'Vladimir Aletov', 'Alexander Molozhavenko', 'Sergei Kudriashov', 'Maxim Rakhuba']
+role: coauthor
+venue: 'ICML 2026, 2nd Workshop on Connecting Low-rank Representations in AI: From Practice to Theory'
+venueShort: 'icml 2026 workshop'
+venueType: workshop
+status: accepted
+year: 2026
+date: 2026-07-18
+tags: [optimizers, tensors, muon]
+featured: true
+group: main
+note: 'listed as poster on the workshop page; CV says spotlight — confirm'
+tldr: 'Muon does steepest descent under the spectral norm, which only makes sense for matrices. Tensorion extends it to tensor-shaped parameters (convolutions, MoE blocks) with a linear minimisation oracle over a tensor norm ball on adaptively chosen unfoldings; order two recovers Muon exactly. It converges faster than Adam and the tensor-aware baselines on the tasks we tried, which is what every optimizer paper says.'
+links:
+  - { label: arxiv, url: 'https://arxiv.org/abs/2606.25975' }
+  - { label: paper, url: 'https://openreview.net/forum?id=RBB76AxcGm' }
+---

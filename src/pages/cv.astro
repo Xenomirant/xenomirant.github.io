@@ -1,0 +1,26 @@
+---
+/** zone 9: a redirect to the pdf. kept as html so /cv/ exists for the status bar and old links. */
+import { meta } from '@/data/meta';
+const href = '/CV.pdf';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="refresh" content={`0;url=${href}`} />
+    <meta name="robots" content="noindex" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#07090c" />
+    <title>cv · {meta.name}</title>
+    <link rel="canonical" href={new URL(href, meta.site).href} />
+    <style>
+      html { background: #07090c; color: #d9d4c7; font: 0.9rem/1.7 'IBM Plex Mono', ui-monospace, Menlo, monospace; letter-spacing: 0.04em; }
+      body { margin: 0; min-height: 100svh; display: grid; place-items: center; padding: 1rem; }
+      a { color: #f0a32e; }
+    </style>
+  </head>
+  <body>
+    <p>§9 // cv ({meta.cvUpdated}) · <a href={href}>open the pdf →</a></p>
+  </body>
+</html>

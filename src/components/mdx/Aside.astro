@@ -1,0 +1,6 @@
+---
+import Label from '../Label.astro';
+interface Props { label?: string }
+const { label = 'aside' } = Astro.props;
+---
+<aside class="aside"><Label as="p">{label}</Label><slot /></aside>

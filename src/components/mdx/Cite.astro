@@ -1,0 +1,6 @@
+---
+/** inline citation chip: <Cite href="https://arxiv.org/abs/..." label="arxiv 2507.07814" /> */
+interface Props { href: string; label: string }
+const { href, label } = Astro.props;
+---
+<a class="chip" href={href} target="_blank" rel="noopener">{label}</a>

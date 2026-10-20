@@ -1,0 +1,13 @@
+---
+title: 'Unpacking Multimodal Data Leakage, Broken Benchmarks, and the Hessian Fallacy'
+date: 2026-04-18
+description: 'Most membership-inference benchmarks detect distribution shift rather than memorisation, and the Hessian-basin intuition does not survive contact with real models.'
+tags: [membership-inference, evals, data-leakage]
+source: lesswrong
+crosspost: excerpt
+externalUrl: 'https://www.lesswrong.com/posts/oSAiKTpQjjKmeeTvT/unpacking-multimodal-data-leakage-broken-benchmarks-and-the-2'
+canonicalUrl: 'https://www.lesswrong.com/posts/oSAiKTpQjjKmeeTvT/unpacking-multimodal-data-leakage-broken-benchmarks-and-the-2'
+karma: 8
+---
+
+Companion to the FiMMIA paper. A classifier that never sees the target model gets 98.6% AUC on VL-MIA-Flickr and 99.9% on WikiMIA-24, so those benchmarks are measuring distribution shift, not memorisation. Hutchinson estimates of the input-space Hessian trace detect members at roughly chance; the input Hessian is not even positive semi-definite on training samples. Of the sets we looked at, only LAION-MI looked trustworthy. Use hash-based splits.

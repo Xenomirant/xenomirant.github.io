@@ -1,0 +1,38 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { isMe } from '@/lib/fmt';
+interface Props { entry: CollectionEntry<'papers'>; index: number; zone?: number }
+const { entry, index, zone = 3 } = Astro.props;
+const { data } = entry;
+const first = data.links[0];
+const venueTone =
+  data.venueType === 'conference' ? 'amber'
+  : data.venueType === 'workshop' ? 'teal'
+  : data.status === 'submitted' || data.status === 'preprint' || data.venueType === 'preprint' || data.venueType === 'submitted' ? 'dim'
+  : undefined;
+const roleChip = data.role === 'first' ? 'first author' : data.role === 'co-first' ? 'co-first' : undefined;
+---
+<li class="row" data-year={data.year} data-status={data.status}>
+  <span class="num">{zone}.{index}</span>
+  <div class="body">
+    <span class="date">{data.year}</span>
+    <a class="title" href={first.url} target="_blank" rel="external noopener">{data.title}</a>
+    <p class="authors">
+      {data.authors.map((a, i) => (
+        <>{isMe(a, data.me) ? <span class="me">{a}</span> : a}{i < data.authors.length - 1 && ', '}</>
+      ))}
+    </p>
+    <div class="chips">
+      <span class:list={['chip', venueTone]} title={data.venue}>{data.venueShort}</span>
+      {roleChip && <span class="chip">{roleChip}</span>}
+      {data.status === 'submitted' && data.venueType !== 'submitted' && <span class="chip dim">submitted</span>}
+    </div>
+    <p class="summary">{data.tldr}</p>
+    <div class="links">
+      {data.links.map((l) => (
+        <a class="chip" href={l.url} target="_blank" rel="external noopener">{l.label} ↗</a>
+      ))}
+    </div>
+    {data.note && <p class="meta">{data.note}</p>}
+  </div>
+</li>

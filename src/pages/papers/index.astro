@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '@/layouts/Page.astro';
+import Label from '@/components/Label.astro';
+import RowPaper from '@/components/RowPaper.astro';
+import { byDateAsc } from '@/lib/fmt';
+
+const all = (await getCollection('papers')).sort(byDateAsc).map((p, i) => ({ p, n: i + 1 }));
+const main = all.filter(({ p }) => p.data.group === 'main').reverse();
+const linguistics = all.filter(({ p }) => p.data.group === 'linguistics').reverse();
+const years = [...new Set(main.map(({ p }) => p.data.year))].sort((a, b) => b - a);
+---
+<Page title="papers" zone={3} lede="what got written down. links to whatever exists." description="papers by Sergei Kudriashov: tensors, optimizers, attention geometry, membership inference.">
+  {main.length === 0 && <p class="meta">nothing published yet.</p>}
+  {years.map((y) => (
+    <section aria-labelledby={`y-${y}`}>
+      <h2 class="year-head" id={`y-${y}`}>{y}</h2>
+      <ol class="rows">
+        {main.filter(({ p }) => p.data.year === y).map(({ p, n }) => <RowPaper entry={p} index={n} />)}
+      </ol>
+    </section>
+  ))}
+
+  {linguistics.length > 0 && (
+    <details class="more">
+      <summary><Label as="span">earlier: linguistics · {linguistics.length}</Label></summary>
+      <ol class="rows">
+        {linguistics.map(({ p, n }) => <RowPaper entry={p} index={n} />)}
+      </ol>
+    </details>
+  )}
+
+  <p class="meta also">
+    also indexed at <a href="https://orcid.org/0000-0003-1899-4405" target="_blank" rel="external noopener">orcid ↗</a>
+    <span class="sep">·</span><a href="https://www.semanticscholar.org/author/2339664654" target="_blank" rel="external noopener">semantic scholar ↗</a>
+    <span class="sep">·</span><a href="/CV.pdf" target="_blank" rel="noopener">cv ↗</a>
+  </p>
+</Page>
+
+<style>
+  .also { margin-top: 3rem; }
+</style>

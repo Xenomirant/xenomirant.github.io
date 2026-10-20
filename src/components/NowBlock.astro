@@ -1,0 +1,20 @@
+---
+/** latest log entry on the homepage; silent when stale. */
+import { getCollection, render } from 'astro:content';
+import { meta } from '@/data/meta';
+import { byDateDesc, daysAgo, fmtDate, isoDate } from '@/lib/fmt';
+const entries = (await getCollection('now')).sort(byDateDesc);
+const latest = entries[0];
+const fresh = latest && daysAgo(latest.data.date) <= meta.staleNowDays;
+const Content = fresh ? (await render(latest)).Content : undefined;
+---
+{fresh && Content && (
+  <aside class="now-block" aria-labelledby="now-h">
+    <p class="meta" id="now-h">
+      <a href="/now/">log</a> <time datetime={isoDate(latest.data.date)}>{fmtDate(latest.data.date)}</time>
+      <span class="sep">//</span>{latest.data.where.toLowerCase()}
+      {entries.length > 1 && <><span class="sep">//</span><a href="/now/#log">{entries.length - 1} earlier →</a></>}
+    </p>
+    <Content />
+  </aside>
+)}

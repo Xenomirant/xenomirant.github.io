@@ -1,0 +1,19 @@
+---
+/** numogram sigil: ten nodes on a ring, five syzygy chords. active zone node lit. */
+interface Props { zone?: number; big?: boolean; title?: string }
+const { zone, big = false, title = 'sigil' } = Astro.props;
+const R = 40, C = 50;
+const pt = (i: number) => {
+  const a = (-90 + i * 36) * Math.PI / 180;
+  return [C + R * Math.cos(a), C + R * Math.sin(a)] as const;
+};
+const nodes = Array.from({ length: 10 }, (_, i) => ({ i, p: pt(i) }));
+const chords = [0, 1, 2, 3, 4].map((i) => [pt(i), pt(9 - i)] as const);
+---
+<svg class:list={['sigil', { big }]} viewBox="0 0 100 100" role="img" aria-label={title} data-sigil>
+  <circle cx={C} cy={C} r={R} class="ring" />
+  {chords.map(([a, b]) => <line x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} class="chord" />)}
+  {nodes.map(({ i, p }) => (
+    <circle cx={p[0]} cy={p[1]} r={big ? 3.2 : 4} class:list={['node', { on: i === zone }]} data-node={i} />
+  ))}
+</svg>

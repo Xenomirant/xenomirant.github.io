@@ -1,0 +1,20 @@
+---
+/** tiny inline svg glyphs for socials; stroke-free, fill currentColor. */
+interface Props { name: string }
+const { name } = Astro.props;
+const paths: Record<string, string> = {
+  mail: 'M2 4h20v16H2z M2 4l10 8 10-8',
+  telegram: 'M21 3 2 11l6 2 2 7 4-4 5 4z',
+  x: 'M3 3h5l13 18h-5z M21 3 3 21',
+  linkedin: 'M4 9h4v12H4z M6 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4 M10 9h4v2c1-2 7-3 7 3v7h-4v-6c0-3-3-3-3 0v6h-4z',
+  discord: 'M8 5c3-1 5-1 8 0l3 11-4 3-1-2c-2 1-4 1-6 0l-1 2-4-3z M9 11a1 1 0 1 0 0 3 1 1 0 0 0 0-3 M15 11a1 1 0 1 0 0 3 1 1 0 0 0 0-3',
+  github: 'M12 2a10 10 0 0 0-3 19.5v-3c-3 1-3.5-1.5-4-2 1 0 2 1 2 1 1 2 3 1.5 4 1 0-1 .5-1.5 1-2-3-.5-5-2-5-5 0-1 .5-2 1-3-.5-1 0-3 0-3s1 0 3 1.5a9 9 0 0 1 5 0c2-1.5 3-1.5 3-1.5s.5 2 0 3c.5 1 1 2 1 3 0 3-2 4.5-5 5 .5.5 1 1.5 1 2.5v3.5A10 10 0 0 0 12 2',
+  lw: 'M4 4h3v13h6v3H4z M15 4h3l2 16h-3z',
+  hf: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18 M8 9h2v2H8z M14 9h2v2h-2z M8 14c2 2 6 2 8 0',
+  orcid: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20 M8 7h2v2H8z M8 10h2v7H8z M11 10h4a3.5 3.5 0 0 1 0 7h-4z',
+  book: 'M4 4h7a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4z M20 4h-7a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h7z',
+};
+const d = paths[name] ?? paths.book;
+const stroked = ['mail', 'telegram', 'x', 'discord', 'book', 'hf', 'lw'].includes(name);
+---
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" style={stroked ? 'fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round' : undefined}><path d={d} /></svg>
