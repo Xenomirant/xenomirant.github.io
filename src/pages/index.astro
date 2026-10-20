@@ -23,7 +23,6 @@ const featured = papers.map((p, i) => ({ p, n: i + 1 })).reverse().filter(({ p }
     <section class="hero-home" aria-label="intro">
       <p class="prompt meta">[ {meta.handle}@shenzhen ~ ] $</p>
       <h1 class="name" data-decode={meta.name}>{meta.name}<span class="cursor" aria-hidden="true">▌</span></h1>
-      <p class="sub">tensors, tokenization, unlearning, evals</p>
       <p class="bio">
         phd student in ai at cuhk-shenzhen, supervised by zhi-quan tom luo. part-time, i do ai safety
         research with a group in cambridge. formerly a linguist.
