@@ -9,10 +9,24 @@
 .topline .brand:hover { color: var(--ink); }
 .statusbar .brand .dots { color: var(--ink-3); }
 .statusbar nav { display: flex; flex-wrap: wrap; gap: 0 1.1rem; margin-left: auto; }
-.statusbar nav a { color: var(--ink-3); display: inline-flex; align-items: baseline; gap: 0.45em; transition: color 0.2s; padding: 0.4rem 0; }
-.statusbar nav a .n { font-variant-numeric: tabular-nums; opacity: 0.6; }
-.statusbar nav a:hover { color: var(--ink); }
+.statusbar nav a {
+  position: relative; display: inline-flex; align-items: baseline; gap: 0.45em;
+  padding: 0.55rem 0.6rem; margin: 0 -0.6rem; color: var(--ink-2);
+  border-radius: 2px; transition: color 0.15s, background-color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.statusbar nav a .n { font-variant-numeric: tabular-nums; color: var(--amber); opacity: 0.75; }
+.statusbar nav a::after {
+  content: ''; position: absolute; left: 0.6rem; right: 0.6rem; bottom: 0.3rem; height: 1px;
+  background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 0.25s var(--ease);
+}
+.statusbar nav a:hover, .statusbar nav a:focus-visible { color: var(--ink); background: var(--wash); }
+.statusbar nav a:hover::after, .statusbar nav a:focus-visible::after { transform: scaleX(1); }
+@media (hover: none) { .statusbar nav a::after { transform: scaleX(1); opacity: 0.35; } }
+.statusbar nav a:active { animation: tap-flicker 0.32s steps(1) 1; background: color-mix(in srgb, var(--amber) 18%, transparent); color: var(--amber); }
+@keyframes tap-flicker { 0% { opacity: 1; } 20% { opacity: 0.35; } 40% { opacity: 1; } 60% { opacity: 0.55; } 80% { opacity: 1; } }
 .statusbar nav a[aria-current='page'] { color: var(--amber); }
+.statusbar nav a[aria-current='page']::after { transform: scaleX(1); opacity: 0.6; }
 .statusbar nav a[aria-current='page']::before {
   content: ''; width: 5px; height: 5px; border-radius: 50%; align-self: center;
   background: var(--amber); box-shadow: var(--glow); margin-right: 0.1em;
@@ -31,7 +45,10 @@
   display: flex; flex-wrap: wrap; gap: 0.2rem 1.2rem; align-items: center;
 }
 .footer a, .footer button { padding: 0.3rem 0; display: inline-block; }
-.footer a:hover, .footer button:hover { color: var(--amber); }
+.footer a, .footer button { text-decoration: underline 1px transparent; text-underline-offset: 0.3em; transition: color 0.15s, text-decoration-color 0.15s; -webkit-tap-highlight-color: transparent; }
+.footer a:hover, .footer button:hover, .footer a:focus-visible, .footer button:focus-visible { color: var(--amber); text-decoration-color: currentColor; }
+.footer a:active, .footer button:active { animation: tap-flicker 0.32s steps(1) 1; color: var(--amber); }
+@media (hover: none) { .footer a, .footer button { text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); } }
 .footer .sep { opacity: 0.55; }
 .footer .spacer { flex: 1; }
 .footer button { font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; }
