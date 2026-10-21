@@ -66,3 +66,5 @@
 }
 :root[data-era='future'] .page-title { font-size: clamp(2rem, 8.2vw, 5rem); }
 @media (height <= 820px) { :root[data-era='future'] .page-title { font-size: clamp(2rem, min(8.2vw, 7.5vh), 4rem); margin-bottom: 0.3em; } }
+/* chinese is never slanted; synthetic italics distort the characters */
+[lang|='zh'] { font-style: normal !important; font-synthesis: none; }

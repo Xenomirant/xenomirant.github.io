@@ -13,6 +13,8 @@ const TONGUES: Record<string, string[]> = {
   projects: ['проекты', 'projektit', '项目', 'opera'],
   cv: ['резюме', 'ansioluettelo', '简历', 'curriculum'],
 };
+/** language tags in the same order as each list: russian, finnish, simplified chinese, latin */
+const LANGS = ['ru', 'fi', 'zh-Hans', 'la'];
 const SEL = '.rail a, .rail .era-head, .statusbar nav a, .door-title, .door-links a';
 const busy = new WeakSet<Element>();
 
@@ -25,13 +27,20 @@ function babble(el: Element) {
   const t = textNode(el);
   if (!t) return;
   const home = t.data;
+  const homeLang = el.getAttribute('lang');
   const list = TONGUES[home.trim().toLowerCase()];
   if (!list) return;
   busy.add(el);
   let k = 2 + ((Math.random() * 3) | 0);
   const step = () => {
-    if (k-- <= 0) { t.data = home; busy.delete(el); return; }
-    t.data = list[(Math.random() * list.length) | 0];
+    if (k-- <= 0) {
+      t.data = home;
+      if (homeLang === null) el.removeAttribute('lang'); else el.setAttribute('lang', homeLang);
+      busy.delete(el); return;
+    }
+    const i = (Math.random() * list.length) | 0;
+    t.data = list[i];
+    el.setAttribute('lang', LANGS[i]);
     setTimeout(step, 70 + Math.random() * 160);
   };
   step();
