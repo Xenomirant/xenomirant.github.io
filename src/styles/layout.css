@@ -109,7 +109,7 @@ main.content { overflow: visible; }
   .rail-era::before { display: none; }
   .rail-line .era-head {
     position: relative; display: inline-block; margin: 0 0 0.1rem -0.55rem; padding: 0.15rem 0.55rem;
-    font: 600 1.35rem/1.15 var(--din); letter-spacing: 0.01em; text-transform: lowercase; color: var(--ink);
+    font: 400 var(--era-size, 0.92rem)/1.25 var(--unicase); letter-spacing: -0.02em; text-transform: lowercase; white-space: nowrap; color: var(--ink);
   }
   span.era-head { color: var(--ink-2); }
   .rail-line a.era-head::after { bottom: 0.1rem; }
@@ -179,3 +179,5 @@ html { font-size: clamp(16px, min(0.55vw + 8px, 1.1vh + 6px), 22px); }
 }
 /* mid widths: the footer drops the cross-link so it stays on one line */
 @media (900px <= width < 1200px) { .footer .pair { display: none; } }
+/* major mono has no ellipsis glyph: three of its own periods, set tight */
+.rail-line .era-head .ell { margin-left: 0.2em; letter-spacing: -0.42em; }

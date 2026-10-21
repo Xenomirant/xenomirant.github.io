@@ -16,8 +16,9 @@
 
   --serif: 'Source Serif 4 Variable', 'serif-fb', Georgia, 'Times New Roman', serif;
   --display: 'Instrument Serif', 'Source Serif 4 Variable', Georgia, serif;
+  --unicase: 'Major Mono Display', var(--mono);
   --din: 'Barlow Condensed', 'DIN Condensed', 'Arial Narrow', sans-serif;
-  --rail: 14rem;
+  --rail: 15rem;
   --mono: 'IBM Plex Mono', 'mono-fb', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
   --t-xs: 0.72rem;

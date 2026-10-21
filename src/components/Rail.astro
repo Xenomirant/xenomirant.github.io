@@ -15,7 +15,7 @@ const { zone } = Astro.props;
     {tree.map((b) => (
       <li class="rail-era" data-era={b.era}>
         {b.zone
-          ? <a class="era-head" href={b.zone.href} data-zone={b.zone.n} aria-current={b.zone.n === zone ? 'page' : undefined}>{b.label}{b.era === 'future' && <span class="ell" aria-hidden="true"> …</span>}</a>
+          ? <a class="era-head" href={b.zone.href} data-zone={b.zone.n} aria-current={b.zone.n === zone ? 'page' : undefined}>{b.label}{b.era === 'future' && <span class="ell" aria-hidden="true">...</span>}</a>
           : <span class="era-head">{b.label}</span>}
         {b.children.length > 0 && (
           <ol>
