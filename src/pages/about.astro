@@ -13,16 +13,12 @@ const mods = import.meta.glob<MDXInstance<Record<string, unknown>>>('/src/conten
 const about = Object.values(mods)[0];
 const About = about?.Content;
 ---
-<Page title="about" zone={5} description={`about ${meta.name}: bio, timeline, priors, name variants.`}>
+<Page title="about" zone={5} description={`about ${meta.name}: what I do, how I got here, interests.`}>
   <EraBg kind="bruegel" slot="bg" />
   <div class="prose">
     {About ? <About components={components} /> : <p class="meta">the long version is being written. the short one is on the <a href="/">index</a>.</p>}
   </div>
-  <p class="meta variants" lang="ru">
-    also spelled: {meta.nameVariants.filter((n) => n !== meta.name).join(' · ')}
-  </p>
 </Page>
 
 <style>
-  .variants { margin-top: 3rem; text-transform: none; }
 </style>
