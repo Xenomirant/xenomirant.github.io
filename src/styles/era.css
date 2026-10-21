@@ -50,14 +50,31 @@ html.quake .era-bg { filter: contrast(1.4) brightness(1.15); }
 canvas.blowup { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 200; pointer-events: none; }
 :root[data-era='future'] .shell > :not(.rail) { transition: opacity 0.7s steps(7, end); }
 
-/* ---------- future ---------- */
-main.future .lede { margin-bottom: 1.5rem; }
-.future-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); gap: 2rem 3rem; align-items: center; }
-.questions { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.9rem; max-width: 34rem; }
-.questions li { display: grid; grid-template-columns: 3.4rem 1fr; gap: 1rem; align-items: baseline; cursor: default; }
+/* ---------- future: a stream of notes, research interests beside the numogram ---------- */
+main.future .lede { margin-bottom: 2rem; max-width: 36rem; }
+.future-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 23rem); gap: 2.5rem clamp(2rem, 4vw, 4rem); align-items: start; }
+.notes { list-style: none; margin: 0; padding: 0; max-width: 36rem; }
+.note { padding: 1rem 0 1.15rem; border-top: 1px solid var(--rule); scroll-margin-top: 2rem; }
+.note:last-child { border-bottom: 1px solid var(--rule); }
+.note-meta { margin: 0 0 0.5rem; display: flex; gap: 0.9rem; align-items: baseline; font: 400 0.78rem/1 var(--mono); letter-spacing: 0.05em; color: var(--ink-3); }
+.note-meta a { color: inherit; }
+.note-meta a:hover { color: var(--bolt); }
+.note-meta .kind { color: var(--amber); }
+.note-body { font-size: 1.12rem; line-height: 1.55; }
+.note-body p { margin: 0 0 0.6em; }
+.note-body p:last-child { margin-bottom: 0; }
+.note-body a { text-decoration: underline 1px var(--amber); text-underline-offset: 0.2em; }
+.note-body a:hover { color: var(--bolt); }
+.note .links { margin: 0.7rem 0 0; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.note:target .note-body { color: var(--bolt); }
+.interests { display: flex; flex-direction: column; gap: 0.9rem; }
+.interests h2 { margin: 0; font: 400 1.05rem/1.2 var(--f-dot); letter-spacing: 0.04em; color: var(--amber); }
+.questions { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.7rem; }
+.questions li { display: grid; grid-template-columns: 2.8rem 1fr; gap: 0.7rem; align-items: baseline; cursor: default; }
 .questions .pair { font: 700 1rem/1 var(--din); letter-spacing: 0.08em; color: var(--amber); }
-.questions .q { font-size: 1.08rem; line-height: 1.45; transition: color 0.15s; }
+.questions .q { font-size: 0.92rem; line-height: 1.45; color: var(--ink-2); transition: color 0.15s; }
 .questions li:hover .q { color: var(--bolt); }
+.interests .numogram { width: min(100%, 15rem); align-self: center; margin-bottom: 0.6rem; }
 .numogram { width: 100%; height: auto; overflow: visible; }
 .numogram .ring { fill: none; stroke: var(--ink-3); stroke-width: 1; }
 .numogram .ring.inner { stroke-dasharray: 2 5; opacity: 0.6; }
@@ -75,10 +92,10 @@ main.future .lede { margin-bottom: 1.5rem; }
 .future-grid:has(li[data-q='q36']:hover) .syzygy[data-q='q36'],
 .future-grid:has(li[data-q='q45']:hover) .syzygy[data-q='q45'] { stroke: var(--bolt); opacity: 1; stroke-width: 2.5; }
 @media (width < 1200px) {
-  .future-grid { grid-template-columns: 1fr; }
-  .future-grid > .numogram { position: fixed; right: -12vw; top: 10vh; width: min(70vw, 80vh); opacity: 0.28; z-index: -1; pointer-events: none; }
+  .future-grid { grid-template-columns: minmax(0, 36rem); }
+  .interests .numogram { position: fixed; right: -12vw; top: 10vh; width: min(70vw, 80vh); opacity: 0.22; z-index: -1; pointer-events: none; margin: 0; }
 }
-@media (width < 900px) { .future-grid > .numogram { right: -30vw; width: 90vw; } .questions .q { font-size: 0.95rem; } .questions li { grid-template-columns: 2.8rem 1fr; gap: 0.6rem; } }
+@media (width < 900px) { .interests .numogram { right: -30vw; width: 90vw; } .note-body { font-size: 1.02rem; } }
 
 /* ---------- now: a calm column beside the tower ---------- */
 .now-col { max-width: 32rem; display: flex; flex-direction: column; gap: 0.8rem; }
@@ -114,7 +131,6 @@ main.future .lede { margin-bottom: 1.5rem; }
 }
 @media (width >= 641px) and (height <= 780px) { .plate { margin-top: 1.4rem; } .door-title { font-size: 1.6rem; } }
 
-@media (width >= 641px) and (height <= 780px) { main.future .lede { margin-bottom: 0.8rem; } .questions { gap: 0.6rem; } .questions .q { font-size: 1rem; } }
 
 /* the present: how to reach me, under the log */
 .reach { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--rule); display: flex; flex-direction: column; gap: 0.5rem; }
@@ -187,10 +203,7 @@ main.future .lede { margin-bottom: 1.5rem; }
   .facts dd { font-size: 1.12rem; }
 }
 
-/* future and connect on shorter or narrower screens */
+/* connect on shorter or narrower screens */
 @media (height <= 820px), (width <= 400px) {
-  main.future .lede { margin-bottom: 0.7rem; }
-  .questions { gap: 0.55rem; }
-  .questions .q { font-size: 0.92rem; line-height: 1.4; }
   .chat.full .invite { padding-bottom: 1rem; }
 }

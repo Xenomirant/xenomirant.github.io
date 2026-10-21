@@ -74,4 +74,14 @@ const now = defineCollection({
   }),
 });
 
-export const collections = { posts, papers, projects, now };
+// the future page: short notes, project ideas, finds. one file each; the body is a sentence or a paragraph.
+const future = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/future' }),
+  schema: z.object({
+    date: z.coerce.date(),
+    kind: z.enum(['note', 'idea', 'find']).default('note'),
+    links: z.array(link).default([]),
+  }),
+});
+
+export const collections = { posts, papers, projects, now, future };

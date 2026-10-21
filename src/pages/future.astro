@@ -1,23 +1,40 @@
 ---
+import { getCollection, render } from 'astro:content';
 import Page from '@/layouts/Page.astro';
 import Numogram from '@/components/Numogram.astro';
-// five open questions, one per syzygy (two zones that sum to nine). plain text; edit freely.
-const questions: { pair: [number, number]; id: string; text: string }[] = [
+import { byDateDesc, fmtDate, isoDate } from '@/lib/fmt';
+// research interests, one per syzygy (two zones that sum to nine). plain text; edit freely.
+const interests: { pair: [number, number]; id: string; text: string }[] = [
   { pair: [0, 9], id: 'q09', text: 'Is there a sparse, context-dependent basis in which a network’s computation becomes simple to read?' },
   { pair: [1, 8], id: 'q18', text: 'Can optimizers respect the tensor structure of parameters instead of flattening it into matrices?' },
   { pair: [2, 7], id: 'q27', text: 'How invariant are language models to the way text is tokenized, and what breaks when they are not?' },
   { pair: [3, 6], id: 'q36', text: 'Can a model unlearn something, or can we only suppress it?' },
   { pair: [4, 5], id: 'q45', text: 'Can an evaluation come with a statistical guarantee about what it measures?' },
 ];
+const notes = await Promise.all((await getCollection('future')).sort(byDateDesc).map(async (e) => ({ e, Content: (await render(e)).Content })));
 ---
-<Page title="the future is …" zone={7} lede="open questions I want to work on." description="open research questions of Sergei Kudriashov, arranged on a numogram." class="screen future">
+<Page title="the future is …" zone={7} lede="short notes, project ideas, things worth reading, research interests." description="Sergei Kudriashov: short notes, project ideas, finds and research interests." class="future">
   <p class="credit" slot="bg">numogram after the <em>CCRU</em>, Cybernetic Culture Research Unit, 1995–2003</p>
   <div class="future-grid">
-    <ol class="questions">
-      {questions.map((q) => (
-        <li data-q={q.id}><span class="pair">{q.pair[0]}::{q.pair[1]}</span><span class="q">{q.text}</span></li>
+    <ol class="notes" aria-label="notes">
+      {notes.map(({ e, Content }) => (
+        <li class="note" id={e.id}>
+          <p class="note-meta"><a href={`#${e.id}`}><time datetime={isoDate(e.data.date)}>{fmtDate(e.data.date)}</time></a><span class="kind">{e.data.kind}</span></p>
+          <div class="note-body"><Content /></div>
+          {e.data.links.length > 0 && (
+            <p class="links">{e.data.links.map((l) => <a class="chip" href={l.url} target="_blank" rel="external noopener">{l.label} ↗</a>)}</p>
+          )}
+        </li>
       ))}
     </ol>
-    <Numogram questions={questions} />
+    <section class="interests" aria-labelledby="interests-h">
+      <Numogram questions={interests} />
+      <h2 id="interests-h">research interests</h2>
+      <ol class="questions">
+        {interests.map((q) => (
+          <li data-q={q.id}><span class="pair">{q.pair[0]}::{q.pair[1]}</span><span class="q">{q.text}</span></li>
+        ))}
+      </ol>
+    </section>
   </div>
 </Page>

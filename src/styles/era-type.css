@@ -41,7 +41,7 @@
 
 /* the future */
 .questions .pair { font: 400 1.05rem/1 var(--f-dot); letter-spacing: 0.04em; }
-.questions .q { font-family: var(--f-syne); font-size: 1rem; line-height: 1.5; }
+.questions .q, .note-body { font-family: var(--f-syne); }
 .numogram .zone text, .numogram .region-label { font-family: var(--f-dot); font-weight: 400; text-transform: none; letter-spacing: 0.08em; }
 
 /* home doors: each title in its own era's face, lowercase */
@@ -55,7 +55,7 @@
 }
 
 /* pixel and fax faces have no proper ligatures */
-.page-title, .hero-home .name, .lede, .now-sections h2, .now-col .mood, .reach-chat, .chat .invite a, .door-title, .questions, .numogram text { font-variant-ligatures: none; font-feature-settings: 'liga' 0, 'clig' 0; }
+.page-title, .hero-home .name, .lede, .now-sections h2, .now-col .mood, .reach-chat, .chat .invite a, .door-title, .questions, .note-body, .numogram text { font-variant-ligatures: none; font-feature-settings: 'liga' 0, 'clig' 0; }
 .door[data-era='future'] .door-title { font-size: 1.55rem; white-space: nowrap; }
 .door-title .ell { font-family: var(--mono); font-weight: 600; }
 @media (width >= 641px) and (height <= 780px) {

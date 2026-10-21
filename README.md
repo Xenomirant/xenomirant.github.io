@@ -30,6 +30,7 @@ src/content/posts/        writing (local mdx + external stubs)
 src/content/papers/       one file per paper (data only, no pages)
 src/content/projects/     one file per project (data only, no pages)
 src/content/now/          dated log entries, YYYY-MM-DD.mdx
+src/content/future/       short notes for /future/, one file each
 src/content/about.mdx     the long bio (plain mdx import, not a collection)
 src/data/                 meta.ts, socials.ts, zones.ts
 src/components/           Row*.astro, NowBlock, Hero, Chat, StatusBar, Footer, mdx/*
@@ -145,6 +146,22 @@ mood: deadpan, slightly jetlagged
 ```
 
 `h2` headings render as `[ label ]` eyebrows and lists as dashed rows. The newest entry also appears on the homepage until it is older than `staleNowDays` (60) in `src/data/meta.ts`; the footer clock uses its `tz`.
+
+## Add a note to the future page
+
+`src/content/future/2026-10-21-some-slug.md`
+
+```md
+---
+date: 2026-10-21
+kind: note        # note | idea | find
+links:            # optional chips under the note
+  - { label: paper, url: https://arxiv.org/abs/... }
+---
+One sentence or a short paragraph. Markdown links work.
+```
+
+Notes are listed newest first; each one has an anchor at `/future/#<file name>`. The research interests beside them are edited in `src/pages/future.astro`.
 
 ## Photos
 
