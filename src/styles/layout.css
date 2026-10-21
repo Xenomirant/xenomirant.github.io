@@ -109,7 +109,7 @@ main.content { overflow: visible; }
   .rail-era::before { display: none; }
   .rail-line .era-head {
     position: relative; display: inline-block; margin: 0 0 0.1rem -0.55rem; padding: 0.15rem 0.55rem;
-    font: italic 400 1.45rem/1.15 var(--display); letter-spacing: 0; text-transform: none; color: var(--ink);
+    font: 600 1.35rem/1.15 var(--din); letter-spacing: 0.01em; text-transform: lowercase; color: var(--ink);
   }
   span.era-head { color: var(--ink-2); }
   .rail-line a.era-head::after { bottom: 0.1rem; }
