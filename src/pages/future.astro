@@ -11,11 +11,14 @@ const interests: { pair: [number, number]; id: string; text: string }[] = [
   { pair: [3, 6], id: 'q36', text: 'Can a model unlearn something, or can we only suppress it?' },
   { pair: [4, 5], id: 'q45', text: 'Can an evaluation come with a statistical guarantee about what it measures?' },
 ];
+// hidden for now: set to true to bring back the lede, the research interests and the numogram (with its credit line).
+const full = false;
+const lede = 'short notes, project ideas, things worth reading, research interests.';
 const notes = await Promise.all((await getCollection('future')).sort(byDateDesc).map(async (e) => ({ e, Content: (await render(e)).Content })));
 ---
-<Page title="the future is …" zone={7} lede="short notes, project ideas, things worth reading, research interests." description="Sergei Kudriashov: short notes, project ideas, finds and research interests." class="future">
-  <p class="credit" slot="bg">numogram after the <em>CCRU</em>, Cybernetic Culture Research Unit, 1995–2003</p>
-  <div class="future-grid">
+<Page title="the future is …" zone={7} lede={full ? lede : undefined} description={full ? "Sergei Kudriashov: short notes, project ideas, finds and research interests." : "Sergei Kudriashov: notes."} class="future">
+  {full && <p class="credit" slot="bg">numogram after the <em>CCRU</em>, Cybernetic Culture Research Unit, 1995–2003</p>}
+  <div class:list={['future-grid', { solo: !full }]}>
     <ol class="notes" aria-label="notes">
       {notes.map(({ e, Content }) => (
         <li class="note" id={e.id}>
@@ -27,7 +30,7 @@ const notes = await Promise.all((await getCollection('future')).sort(byDateDesc)
         </li>
       ))}
     </ol>
-    <section class="interests" aria-labelledby="interests-h">
+    {full && <section class="interests" aria-labelledby="interests-h">
       <Numogram questions={interests} />
       <h2 id="interests-h">research interests</h2>
       <ol class="questions">
@@ -35,6 +38,6 @@ const notes = await Promise.all((await getCollection('future')).sort(byDateDesc)
           <li data-q={q.id}><span class="pair">{q.pair[0]}::{q.pair[1]}</span><span class="q">{q.text}</span></li>
         ))}
       </ol>
-    </section>
+    </section>}
   </div>
 </Page>
