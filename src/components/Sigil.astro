@@ -10,7 +10,7 @@ const pt = (i: number) => {
 const nodes = Array.from({ length: 10 }, (_, i) => ({ i, p: pt(i) }));
 const chords = [0, 1, 2, 3, 4].map((i) => [pt(i), pt(9 - i)] as const);
 ---
-<svg class:list={['sigil', { big }]} viewBox="0 0 100 100" role="img" aria-label={title} data-sigil data-zone={zone}>
+<svg class:list={["sigil", { big }]} viewBox="0 0 100 100" width="28" height="28" role="img" aria-label={title} data-sigil data-zone={zone}>
   <circle cx={C} cy={C} r={R} class="ring" />
   {chords.map(([a, b]) => <line x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} class="chord" />)}
   {nodes.map(({ i, p }) => <circle cx={p[0]} cy={p[1]} r="3" class="node" data-node={i} />)}
