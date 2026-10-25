@@ -161,6 +161,18 @@ links:            # optional chips under the note
 One sentence or a short paragraph. Markdown links work.
 ```
 
+To add a longer elaboration that opens from a flickering dot after the note, name the file `.mdx` and wrap the extra paragraphs in `<More>` on their own lines:
+
+```mdx
+The short note.
+
+<More>
+
+Longer elaboration, any number of paragraphs.
+
+</More>
+```
+
 Notes are listed newest first; each one has an anchor at `/future/#<file name>`. The research interests beside them are edited in `src/pages/future.astro`.
 
 ## Photos

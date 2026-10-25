@@ -17,8 +17,8 @@ export const meta = {
   facts: [
     { k: 'role', v: 'phd student in ai, cuhk-shenzhen' },
     { k: 'supervisor', v: 'zhi-quan tom luo' },
-    { k: 'also', v: 'ai safety research, cambridge ai safety hub (mars v)' },
-    { k: 'topics', v: 'tensors and optimizers · tokenization · unlearning · evaluations' },
+    { k: 'also', v: 'speaking neuralese' },
+    { k: 'topics', v: 'optimizers, neural similarities across systems, tokenization primitives' },
     { k: 'before', v: 'linguistics and mathematics, hse moscow' },
   ],
   ogImage: '/img/og.jpg',

@@ -55,8 +55,8 @@ main.future .lede { margin-bottom: 2rem; max-width: 36rem; }
 .future-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 23rem); gap: 2.5rem clamp(2rem, 4vw, 4rem); align-items: start; }
 .future-grid.solo { grid-template-columns: minmax(0, 36rem); }
 .notes { list-style: none; margin: 0; padding: 0; max-width: 36rem; }
-.note { padding: 1rem 0 1.15rem; border-top: 1px solid var(--rule); scroll-margin-top: 2rem; }
-.note:last-child { border-bottom: 1px solid var(--rule); }
+.notes .note { padding: 1rem 0 1.15rem; border-top: 1px solid var(--rule); scroll-margin-top: 2rem; }
+.notes .note:last-child { border-bottom: 1px solid var(--rule); }
 .note-meta { margin: 0 0 0.5rem; display: flex; gap: 0.9rem; align-items: baseline; font: 400 0.78rem/1 var(--mono); letter-spacing: 0.05em; color: var(--ink-3); }
 .note-meta a { color: inherit; }
 .note-meta a:hover { color: var(--bolt); }
@@ -66,8 +66,8 @@ main.future .lede { margin-bottom: 2rem; max-width: 36rem; }
 .note-body p:last-child { margin-bottom: 0; }
 .note-body a { text-decoration: underline 1px var(--amber); text-underline-offset: 0.2em; }
 .note-body a:hover { color: var(--bolt); }
-.note .links { margin: 0.7rem 0 0; display: flex; flex-wrap: wrap; gap: 0.35rem; }
-.note:target .note-body { color: var(--bolt); }
+.notes .note .links { margin: 0.7rem 0 0; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.notes .note:target .note-body { color: var(--bolt); }
 .interests { display: flex; flex-direction: column; gap: 0.9rem; }
 .interests h2 { margin: 0; font: 400 1.05rem/1.2 var(--f-dot); letter-spacing: 0.04em; color: var(--amber); }
 .questions { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.7rem; }
@@ -96,6 +96,18 @@ main.future .lede { margin-bottom: 2rem; max-width: 36rem; }
   .future-grid { grid-template-columns: minmax(0, 36rem); }
   .interests .numogram { position: fixed; right: -12vw; top: 10vh; width: min(70vw, 80vh); opacity: 0.22; z-index: -1; pointer-events: none; margin: 0; }
 }
+/* a flickering dot after a note opens its longer elaboration */
+.note-body > p:has(+ details.more) { display: inline; }
+details.more, details.more > summary { display: inline; }
+details.more > summary { list-style: none; cursor: pointer; padding: 0.6em 0.5em; margin: -0.6em -0.2em; }
+details.more > summary::-webkit-details-marker { display: none; }
+details.more .flick { display: inline-block; width: 0.42em; height: 0.42em; border-radius: 50%; background: var(--bolt); vertical-align: 0.12em; animation: flick 2.6s steps(1, end) infinite; }
+details.more > summary:hover .flick, details.more > summary:focus-visible .flick { animation: none; background: var(--amber); }
+details.more[open] .flick { animation: none; background: var(--amber); }
+details.more .more-body { display: block; margin-top: 0.9rem; padding-left: 0.9rem; border-left: 1px solid var(--amber); font-size: 0.92rem; line-height: 1.6; color: var(--ink-2); }
+details.more .more-body p { margin: 0 0 0.8em; }
+details.more .more-body p:last-child { margin-bottom: 0; }
+@keyframes flick { 0%, 100% { opacity: 1; } 7% { opacity: 0.15; } 9% { opacity: 1; } 41% { opacity: 0.35; } 43% { opacity: 1; } 44% { opacity: 0.1; } 47% { opacity: 1; } 78% { opacity: 0.5; } 80% { opacity: 1; } }
 @media (width < 900px) { .interests .numogram { right: -30vw; width: 90vw; } .note-body { font-size: 1.02rem; } }
 
 /* ---------- now: a calm column beside the tower ---------- */
