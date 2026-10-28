@@ -33,13 +33,15 @@ a { color: inherit; text-decoration: none; }
 .prose.has-sidenotes .sidenote {
   display: block; position: absolute; left: calc(100% + 40px);
   font-size: 0.84rem; line-height: 1.5; color: var(--ink-2);
-  padding: 0.35rem 0 0.35rem 0.8rem; border-left: 1px solid var(--rule);
-  background: color-mix(in srgb, var(--ground) 86%, transparent);
-  transition: color 0.2s, border-color 0.2s;
+  /* no frame: a dark backing that feathers out, so the note reads over background art */
+  background: color-mix(in srgb, var(--ground) 72%, transparent);
+  box-shadow: 0 0 22px 14px color-mix(in srgb, var(--ground) 72%, transparent);
+  transition: color 0.2s;
 }
 .sidenote p { display: inline; margin: 0; }
-.sidenote-n { font: 600 0.72rem var(--mono); color: var(--amber); margin-right: 0.55em; }
-.sidenote.lit { color: var(--ink); border-left-color: var(--amber); }
+/* the number hangs in the gutter, so the note's text keeps a clean left edge */
+.sidenote-n { position: absolute; right: calc(100% + 0.6em); top: 0.1em; font: 600 0.72rem var(--mono); color: var(--amber); }
+.sidenote.lit { color: var(--ink); }
 img, svg, video { max-width: 100%; height: auto; display: block; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 :focus-visible { outline: 1px solid var(--amber); outline-offset: 3px; }

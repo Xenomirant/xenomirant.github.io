@@ -141,7 +141,7 @@
 .fig .ghost-out { fill: none; stroke: #d8432a; stroke-dasharray: 3 2; animation: wipe-out 5s steps(10, end) infinite; }
 @keyframes wipe-out { 0%, 30% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(90px); opacity: 0; } }
 .fig::after { content: none; }
-.fig-shared, .fig-fate { background: color-mix(in srgb, var(--ground) 92%, transparent); padding: 1rem; margin-inline: -1rem; }
+.fig-shared, .fig-fate { background: color-mix(in srgb, var(--ground) 80%, transparent); box-shadow: 0 0 28px 18px color-mix(in srgb, var(--ground) 80%, transparent); }
 .fig-legend { margin: 1rem 0 0; display: flex; flex-wrap: wrap; gap: 0.35rem 1.4rem; font: var(--t-xs) var(--mono); color: var(--ink-2); letter-spacing: 0.02em; }
 .fig-legend > span { display: inline-flex; align-items: baseline; gap: 0.5em; }
 .fig-legend .sw { flex: none; display: inline-block; width: 1.4em; height: 0.4em; }
