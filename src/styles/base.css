@@ -1,9 +1,10 @@
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+/* the ground lives on html, not body: with html painted (Head.astro sets it inline), a body background
+   would be an opaque box over the z-index:-1 background art instead of propagating to the canvas */
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; background: var(--ground); }
 body {
   visibility: visible; /* hidden by an inline style in Head.astro until this stylesheet has loaded */
   margin: 0;
-  background: var(--ground);
   color: var(--ink);
   font-family: var(--serif);
   font-size: var(--t-m);
