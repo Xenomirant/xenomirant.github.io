@@ -34,6 +34,7 @@ function run(el: HTMLElement, target: string) {
     if (shown < n) requestAnimationFrame(frame); else { text.data = target; unpin(); }
   };
   text.data = target.replace(/\S/g, () => POOL[(Math.random() * POOL.length) | 0]!);
+  document.documentElement.classList.remove('decoding');
   requestAnimationFrame(frame);
 }
 
@@ -42,12 +43,20 @@ export function initDecode() {
   let seen = false;
   try { seen = !!sessionStorage.getItem(key); } catch { /* ignore */ }
   const els = document.querySelectorAll<HTMLElement>('[data-decode]');
-  if (!els.length) return;
+  const reveal = () => document.documentElement.classList.remove('decoding');
+  if (!els.length) { reveal(); return; }
   try { sessionStorage.setItem(key, '1'); } catch { /* ignore */ }
-  if (isReduced() || seen) return;
-  els.forEach((el) => {
+  if (isReduced() || seen) { reveal(); return; }
+  // measure and pin the box only once the web fonts are in: pinned to a fallback font's width, the name gets clipped
+  const go = () => els.forEach((el) => {
     if (el.dataset.decoded) return;
     el.dataset.decoded = '1';
     run(el, el.dataset.decode ?? el.textContent ?? '');
   });
+  const fonts = document.fonts?.ready;
+  if (!fonts) { go(); return; }
+  let done = false;
+  const once = () => { if (!done) { done = true; go(); } };
+  fonts.then(once);
+  setTimeout(once, 600); // never wait long for slow fonts
 }

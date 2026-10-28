@@ -18,10 +18,10 @@ const c = credits[kind];
 const tremble = kind === 'bruegel' || kind === 'drips' || kind === 'panopticon';
 ---
 <div class:list={['era-bg', `era-bg--${kind}`]} aria-hidden="true" data-tremble={tremble ? '' : undefined} style={focus ? `--focus:${focus}` : undefined}>
-  {kind === 'bruegel' && <Picture src={bruegel} widths={[960, 1600, 2400]} sizes="100vw" formats={['avif', 'webp']} alt="" loading="eager" fetchpriority="high" />}
-  {kind === 'meireles' && <Picture src={meireles} widths={[420, 831]} sizes="(width >= 900px) 40vw, 90vw" formats={['avif', 'webp']} alt="" loading="eager" fetchpriority="high" />}
-  {kind === 'panopticon' && <Picture src={panopticon} widths={[900, 1400, 2179]} sizes="(width >= 900px) 60vw, 100vw" formats={['avif', 'webp']} alt="" loading="eager" fetchpriority="high" />}
-  {kind === 'grille' && <img src="/img/contact-1600.png" alt="" width="1600" height="1801" loading="eager" decoding="async" />}
+  {kind === 'bruegel' && <Picture src={bruegel} widths={[960, 1600, 2400]} sizes="100vw" formats={['avif', 'webp']} alt="" onload="this.classList.add('ok')" loading="eager" fetchpriority="high" />}
+  {kind === 'meireles' && <Picture src={meireles} widths={[420, 831]} sizes="(width >= 900px) 40vw, 90vw" formats={['avif', 'webp']} alt="" onload="this.classList.add('ok')" loading="eager" fetchpriority="high" />}
+  {kind === 'panopticon' && <Picture src={panopticon} widths={[900, 1400, 2179]} sizes="(width >= 900px) 60vw, 100vw" formats={['avif', 'webp']} alt="" onload="this.classList.add('ok')" loading="eager" fetchpriority="high" />}
+  {kind === 'grille' && <img src="/img/contact-1600.png" alt="" onload="this.classList.add('ok')" width="1600" height="1801" loading="eager" decoding="async" />}
   {kind === 'drips' && <canvas data-drips></canvas>}
 </div>
 <p class="credit">

@@ -28,5 +28,12 @@ function init() {
   initFigures();
 }
 
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
-else init();
+/** the scripts measure layout; doing that before the stylesheet has applied makes Firefox paint the page unstyled */
+function styled(): Promise<void> {
+  const pending = [...document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')].filter((l) => !l.sheet);
+  return Promise.all(pending.map((l) => new Promise((r) => { l.addEventListener('load', r, { once: true }); l.addEventListener('error', r, { once: true }); }))).then(() => {});
+}
+
+const start = () => { styled().then(init); };
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+else start();

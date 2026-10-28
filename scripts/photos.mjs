@@ -180,10 +180,14 @@ async function hero() {
       { input: grain, blend: 'soft-light' },
     ]);
 
+  // the colour grade the page used to apply as a css filter (saturate 1.25, contrast 1.08, brightness 1.1),
+  // baked in here: a live filter on a masked, rotated layer is expensive to repaint and Safari draws it badly
+  const graded = sharp(await base.png().toBuffer()).modulate({ saturation: 1.25, brightness: 1.1 }).linear(1.08, -10);
+
   const out = ASSET('hero.jpg');
   const BUDGET = 220 * 1024;
   for (let q = 82; q >= 60; q -= 4) {
-    const { size } = await base.clone().jpeg({ quality: q, mozjpeg: true, chromaSubsampling: '4:2:0' }).toFile(out);
+    const { size } = await graded.clone().jpeg({ quality: q, mozjpeg: true, chromaSubsampling: '4:2:0' }).toFile(out);
     if (size <= BUDGET) { console.log(`  hero quality ${q}`); break; }
   }
   written.push(out);

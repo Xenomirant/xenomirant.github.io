@@ -24,17 +24,27 @@ import Footer from '@/components/Footer.astro';
 import Sigil from '@/components/Sigil.astro';
 import { meta } from '@/data/meta';
 import { eraOf } from '@/data/zones';
+// fonts seen at first paint, fetched alongside the css instead of after it (same files the css points to)
+import plexMono from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url';
+import majorMono from '@fontsource/major-mono-display/files/major-mono-display-latin-400-normal.woff2?url';
+import pixelify from '@fontsource/pixelify-sans/files/pixelify-sans-latin-400-normal.woff2?url';
+import grenze from '@fontsource/grenze-gotisch/files/grenze-gotisch-latin-500-normal.woff2?url';
+import specialElite from '@fontsource/special-elite/files/special-elite-latin-400-normal.woff2?url';
+import brokenFax from '@fontsource/rubik-broken-fax/files/rubik-broken-fax-latin-400-normal.woff2?url';
 interface Props {
   title?: string; description?: string; zone?: number; lang?: 'en' | 'ru'; image?: string;
   type?: 'website' | 'article'; canonical?: string; math?: boolean; noindex?: boolean; date?: Date; class?: string;
 }
 const { title, description, zone, lang = 'en', image, type, canonical, math, noindex, date, class: cls } = Astro.props;
 const era = eraOf(zone);
+const eraFonts = { present: [pixelify], past: [grenze, specialElite], future: [brokenFax] }[era];
+const preload = [plexMono, majorMono, ...eraFonts];
 ---
 <!doctype html>
 <html lang={lang} data-zone={zone} data-era={era}>
   <head>
     <Head {title} {description} {image} {type} {canonical} {math} {noindex} {date} />
+    {preload.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
     <slot name="head" />
   </head>
   <body>

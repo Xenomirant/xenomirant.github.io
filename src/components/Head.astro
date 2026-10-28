@@ -24,6 +24,8 @@ const jsonld = {
 ---
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- before the stylesheet arrives: a dark ground instead of white, and nothing unstyled (Firefox paints early); base.css reveals the body -->
+<style is:inline>html{background:#07090c;color:#d9d4c7;color-scheme:dark}a{color:inherit}body{visibility:hidden}</style>
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
 <meta name="google-site-verification" content="J0ovs2DS2BprumC1g7Tj51hdwnN0wsizbo8OecJMiVU" />
@@ -53,7 +55,14 @@ const jsonld = {
   (function () {
     var d = document.documentElement;
     d.classList.add('js');
+    // failsafe: if the stylesheet never loads, show the page anyway
+    setTimeout(function () { if (document.body && getComputedStyle(document.body).visibility === 'hidden') document.body.style.visibility = 'visible'; }, 3000);
     try { var m = localStorage.getItem('motion'); if (m === 'off') d.dataset.motion = 'off'; } catch (e) {}
+    // the name/title decodes once per page per tab: keep it hidden until the scramble starts, so it never shows, then scrambles
+    try {
+      var still = d.dataset.motion === 'off' || matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!still && !sessionStorage.getItem('decoded:' + location.pathname)) d.classList.add('decoding');
+    } catch (e) {}
     try {
       if (sessionStorage.getItem('knob:from') !== null && d.dataset.motion !== 'off' && !matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('arriving');
     } catch (e) {}

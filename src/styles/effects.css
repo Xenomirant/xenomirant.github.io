@@ -11,9 +11,6 @@
 figure { position: relative; }
 figure::after { z-index: 0; }
 
-/* hero breath */
-.hero .bg img { animation: breath 6s var(--ease) both; }
-@keyframes breath { from { transform: scale(1.03); } to { transform: scale(1); } }
 
 /* sigil draw-on */
 .sigil .draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.1s var(--ease) forwards; }
@@ -66,6 +63,9 @@ html.arriving .knob-dot { transition: none; }
 .shell > :not(.rail) { transition: opacity 0.45s ease; }
 html.leaving .shell > :not(.rail) { opacity: 0; transition-duration: 0.32s; }
 html.arriving .shell > :not(.rail) { opacity: 0; transition: none; animation: unhide 0s 1.2s forwards; }
+/* decode: the text waits hidden for its scramble (class set in Head.astro, lifted by scripts/decode.ts); failsafe after 1.5 s */
+html.decoding [data-decode] { visibility: hidden; animation: unhide-v 0s 1.5s forwards; }
+@keyframes unhide-v { to { visibility: visible; } }
 /* failsafe: if the script that lifts .arriving is slow or never runs, the page still appears */
 @keyframes unhide { to { opacity: 1; } }
 html.leaving .rail-line { opacity: 0.45; transition: opacity 0.32s ease; }
