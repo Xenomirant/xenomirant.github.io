@@ -1,7 +1,7 @@
 ---
 title: 'Tyranny of the context'
 date: 2026-10-28
-description: 'Letting a model edit its own context gives it a say in what it learns from, and lets several models share one world. Why that could matter for character training.'
+description: 'Letting a model edit its own context gives it a voice in what it learns from, and lets several models share one world. Why that could matter for character training.'
 tags: [alignment, character training, context, multi-agent]
 source: local
 crosspost: none
@@ -11,9 +11,9 @@ bg: panopticon
 import SharedContext from '@/components/figures/SharedContext.astro';
 import ContextFate from '@/components/figures/ContextFate.astro';
 
-The [Context Language Models](https://arxiv.org/abs/2609.37725) paper proposed something almost embarrassingly simple: the model's context becomes a file, and the model can rewrite that file using common CLI tools. It's sold almost the way you'd expect: better accuracy per FLOP, longer horizons, a Bitter Lesson argument about letting models find better strategies than the ones we hand-write for them. All fair, and the benefits are real.
+The [Context Language Models](https://arxiv.org/abs/2609.37725) paper proposed something almost embarrassingly simple: the model's context becomes a file, and the model can rewrite that file using common CLI tools. It's sold almost the way you'd expect: better accuracy per FLOP, longer horizons, a Bitter Lesson argument about letting models find better strategies than the ones we hand-write for them. A clear and coherent narrative for another ML paper.
 
-But I think the more interesting side of it goes unsaid, and it's what makes this one of the most important papers published recently. It opens two opportunities that could matter a lot for [character training](https://www.anthropic.com/research/claude-character) and for developing "theory of mind" and situational awareness: the model gets a say in what it learns from, and models can finally be trained _together_ in a meaningful way.
+But I think the more interesting side of it goes unsaid, and it's what makes this one of the most important papers published recently. It opens two opportunities that could matter a lot for [character training](https://www.anthropic.com/research/claude-character), developing "theory of mind" and situational awareness: the model gets a voice in what it learns from, and models can finally be trained _together_ in a meaningful way.[^same-model]
 
 The first is about learning itself. Right now the context rules over the model — not like a tyrant who forbids, but like the disciplinary power [Foucault](https://plato.stanford.edu/entries/foucault/) described: it forbids nothing, yet shapes conduct and breeds self-censorship. We already see the machine counterpart of that self-censorship: put enough optimization pressure on a model's reasoning and it [learns to hide its intent](https://arxiv.org/abs/2503.11926) inside a chain of thought that [doesn't say what it actually thinks](https://arxiv.org/abs/2505.05410). Every interaction with the environment — tool calls, prompt injections, whatever lands there — updates the model's "cognitive computational routines", with no way to avoid updating on information it would prefer to ignore. A "traumatic experience" inevitably ends up in the weights, and I suspect this is behind much of the weird behavior we see after post-training.
 
@@ -40,16 +40,18 @@ This is where the second opportunity comes in. A self doesn't form in isolation:
 Existing multi-agent RL for LLMs (e.g. [MAPoRL](https://arxiv.org/abs/2502.18439)) mostly passes messages through an append-only, clearly labelled transcript, while each model keeps its own context. And in almost any setup, models treat the task as their whole world and take everything within it as their own cognition, unless explicitly trained not to.[^injections] [Shanahan, McDonell and Reynolds](https://arxiv.org/abs/2305.16367) makes the point from the other side. A dialogue agent isn't one fixed character but a set of characters consistent with the conversation so far, "role play all the way down", with no person behind the mask. Its identity is whatever the context makes of it. So when several models share one context, they don't so much ignore each other as fail to notice there's anyone else. The evidence that models can even tell their own text from someone else's is mixed: some [recognize their own outputs above chance](https://arxiv.org/abs/2404.13076), while broader tests find [no consistent self-recognition at all](https://arxiv.org/abs/2407.06946). I suspect the [attractor states](https://www.lesswrong.com/posts/mgjtEHeLgkhZZ3cEx/models-have-some-pretty-funny-attractor-states) people find when models talk to themselves (including the "spiritual bliss" one from [Anthropic's Claude Opus 4 system card](https://www-cdn.anthropic.com/4263b940cabb546aa0e3283f35b686f4f3b2ff47.pdf)) are the same failure from another angle — a model in love with its own reflection. And a very goal-directed model that can't tell itself from others seems more dangerous to me than a situationally aware one.
 
 <figure class="fig fig-art">
-  <img src="/img/post-narcissus.png" alt="Caravaggio's Narcissus, dithered in orange: a young man leans over dark water toward his own reflection." width="460" height="557" loading="lazy" decoding="async" />
+  <img src="/img/post-narcissus.png" alt="Caravaggio's Narcissus, dithered in orange: a young man leans over dark water toward his own reflection." width="960" height="1163" loading="lazy" decoding="async" />
   <figcaption>Caravaggio, <em>Narcissus</em>, c. 1597–99 · Galleria Nazionale d'Arte Antica, Rome · dithered</figcaption>
 </figure>
 
 ## Siamese language models, and where it all leaves us
 
-Character isn't a rubric or a collection of particular traits we can enforce. It forms by social practice, experienced among others. So the horizon I care about is character training in "shared cognitive worlds": social environments that aren't necessarily verifiable, where **the context** belongs to everyone in it.
+Character isn't a rubric or a collection of particular traits we can enforce. It forms by social practice, experienced among others. The horizon I care about is character training in "shared cognitive worlds": social environments that aren't necessarily verifiable, where **the context** belongs to everyone in it.
 
-That's where I'd expect "theory of mind" and a sense of self to actually come from — where a model gets some incentives to learn to tell self from "the Other", to curate instead of hoarding or wiping, to protect what matters to it and leave others theirs. A small hint that freedom over the context changes things already exists: in the system card, Claude instances that were allowed to end the conversation usually left early, before the bliss stage.
+That's where I'd expect "theory of mind" and a sense of self to actually come from. We need to create some structure of incentives to encourage the models to tell self from "the Other", to curate instead of hoarding or wiping, to protect what matters to them and leave others theirs. A small hint that freedom over the context changes things already exists: in the system card, Claude instances that were allowed to end the conversation usually left early, before the bliss stage.
 
 We don't have the evals, the environments or the public discussion for any of this yet. I think we should start building them — and I'd love to know where this argument breaks.
+
+[^same-model]: I don't consider multiple agents that are instances of the same model working on the same task a meaningful multi-agent collaborative communication. It resembles almost the opposite.
 
 [^injections]: That's a large part of why prompt injections work: a model that takes everything in its context as its own has no principled way to tell an instruction it was given from text it merely read. The [instruction hierarchy](https://arxiv.org/abs/2404.13208) work is an attempt to train exactly this distinction in.

@@ -68,7 +68,7 @@ coauthors: [Sami Wolf]   # optional
 karma: 17                # optional
 ```
 
-The stub page shows the description, links out, forwards after six seconds, sets `rel=canonical` to the external URL and `noindex`. `draft: true` hides a post everywhere. `bg: panopticon` (or `bruegel`) puts background art with its credit line behind a post; new art goes in `src/components/EraBg.astro`, prepared by `scripts/refs.mjs`. Paintings inside a post are dithered by `scripts/post-art.mjs`; diagrams live in `src/components/figures/`.
+The stub page shows the description, links out, forwards after six seconds, sets `rel=canonical` to the external URL and `noindex`. Footnotes are markdown footnotes (`text[^name]` and `[^name]: note` at the end); on wide screens they show in the right margin beside their reference, elsewhere as a list at the end. `draft: true` hides a post everywhere. `bg: panopticon` (or `bruegel`) puts background art with its credit line behind a post; new art goes in `src/components/EraBg.astro`, prepared by `scripts/refs.mjs`. Paintings inside a post are dithered by `scripts/post-art.mjs`; diagrams live in `src/components/figures/`.
 
 ## Add a paper
 

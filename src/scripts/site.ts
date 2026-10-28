@@ -9,6 +9,7 @@ import { initCopy } from './copy';
 import { initTremor } from './tremor';
 import { initDrips } from './drips';
 import { initBabel } from './babel';
+import { initSidenotes } from './sidenotes';
 
 function init() {
   initMotion();
@@ -22,6 +23,7 @@ function init() {
   initTremor();
   initDrips();
   initBabel();
+  initSidenotes();
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });

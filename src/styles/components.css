@@ -151,7 +151,7 @@
 .fig-legend .sw.mix { background: linear-gradient(90deg, var(--amber), var(--ink-2), var(--teal)); }
 .fig-legend .sw.hot { background: #d8432a; }
 .fig figcaption { max-width: 36rem; }
-.prose .fig-art img { width: min(100%, 23rem); height: auto; image-rendering: pixelated; border: 0; }
+.prose .fig-art img { width: min(100%, 30rem); height: auto; border: 0; }
 
 /* contact page bg */
 .contact-page { position: relative; }
