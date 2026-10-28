@@ -151,7 +151,13 @@
 .fig-legend .sw.mix { background: linear-gradient(90deg, var(--amber), var(--ink-2), var(--teal)); }
 .fig-legend .sw.hot { background: #d8432a; }
 .fig figcaption { max-width: 36rem; }
-.prose .fig-art img { width: min(100%, 30rem); height: auto; border: 0; }
+.prose .fig-art img {
+  width: min(100%, 30rem); height: auto; border: 0; image-rendering: pixelated;
+  /* the edges dissolve into the page */
+  --fade: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent), linear-gradient(180deg, transparent, #000 10%, #000 88%, transparent);
+  mask-image: var(--fade); mask-composite: intersect;
+  -webkit-mask-image: var(--fade); -webkit-mask-composite: source-in;
+}
 
 /* contact page bg */
 .contact-page { position: relative; }

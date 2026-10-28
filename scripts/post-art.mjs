@@ -63,6 +63,6 @@ async function dithered(src, out, { width, method = 'ordered', levels = 2, gamma
   console.log(out, `${w}×${h}`, Math.round(size / 1024) + ' KB');
 }
 
-// 2× the display width, so each dither dot is one device pixel on retina screens
+// at the display width (30rem ≈ 480 px), shown pixelated: each dot is visible as grain
 const V = process.argv[2] ? JSON.parse(process.argv[2]) : { levels: 3, curve: 0.75, water: [0.6, 2.0], lift: 1.06, offset: -16 };
-await dithered('photos/refs/dl/narcissus.jpg', process.argv[3] ?? 'public/img/post-narcissus.png', { width: 960, method: 'atkinson', sharpen: true, ...V });
+await dithered('photos/refs/dl/narcissus.jpg', process.argv[3] ?? 'public/img/post-narcissus.png', { width: 480, method: 'atkinson', sharpen: true, ...V });
