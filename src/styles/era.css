@@ -7,6 +7,9 @@ main.content, .footer { position: relative; z-index: 1; }
 .era-bg--bruegel { left: 40vw; opacity: 0.9; }
 .era-bg--bruegel img { object-position: var(--focus, 30% 50%); }
 .era-bg--bruegel::after { background: linear-gradient(90deg, var(--ground) 0%, color-mix(in srgb, var(--ground) 40%, transparent) 22%, transparent 55%), linear-gradient(180deg, transparent 80%, var(--ground) 100%); }
+.era-bg--panopticon { left: 48vw; opacity: 0.34; }
+.era-bg--panopticon img { object-fit: contain; object-position: var(--focus, 60% 50%); }
+.era-bg--panopticon::after { background: linear-gradient(90deg, var(--ground) 0%, color-mix(in srgb, var(--ground) 50%, transparent) 25%, transparent 60%), linear-gradient(180deg, transparent 75%, var(--ground) 100%); }
 .era-bg--drips { opacity: 0.9; }
 .era-bg--drips::after { background: linear-gradient(90deg, var(--ground) 0%, color-mix(in srgb, var(--ground) 88%, transparent) 45%, color-mix(in srgb, var(--ground) 35%, transparent) 80%, color-mix(in srgb, var(--ground) 15%, transparent) 100%); }
 .era-bg--grille { opacity: 0.32; mask-image: radial-gradient(70% 65% at 60% 45%, #000 25%, transparent 78%); -webkit-mask-image: radial-gradient(70% 65% at 60% 45%, #000 25%, transparent 78%); }
@@ -17,6 +20,7 @@ main.content, .footer { position: relative; z-index: 1; }
 .era-bg--meireles::after { background: linear-gradient(90deg, var(--ground) 0%, transparent 38%), linear-gradient(180deg, transparent 75%, var(--ground) 100%); }
 @media (width < 900px) {
   .era-bg--bruegel { left: 0; opacity: 0.6; }
+  .era-bg--panopticon { left: 0; opacity: 0.22; }
   .era-bg::after { background: linear-gradient(180deg, color-mix(in srgb, var(--ground) 55%, transparent) 0%, var(--ground) 70%); }
   .era-bg--meireles { width: 100%; opacity: 0.55; }
 }

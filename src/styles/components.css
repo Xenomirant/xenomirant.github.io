@@ -108,11 +108,13 @@
 .fig-panels.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (width <= 640px) { .fig-panels.two, .fig-panels.three { grid-template-columns: minmax(0, 22rem); } }
 .fig svg { width: 100%; height: auto; overflow: visible; position: relative; z-index: 1; }
-.fig .fig-h { font: 600 11px var(--mono); fill: var(--amber); letter-spacing: 0.02em; }
-.fig .fig-t { font: 400 10px var(--mono); fill: var(--ink-2); }
+.fig .fig-h { font: 600 12px var(--mono); fill: var(--amber); letter-spacing: 0.02em; }
+.fig .fig-t { font: 400 10.5px var(--mono); fill: var(--ink-2); }
+.fig .fig-t.hot-t { fill: #e2573d; }
 .fig .fig-t.dim, .fig .fig-t.tag { fill: var(--ink-3); }
 .fig .frame { fill: none; stroke: var(--ink-3); stroke-width: 1; }
 .fig .frame.limit { stroke-dasharray: 4 3; }
+.fig .frame.dashed-soft { stroke-dasharray: 1 3; }
 .fig .wire { stroke: var(--ink-3); stroke-width: 1; }
 .fig .arrowhead { fill: var(--ink-3); }
 .fig .node { fill: var(--ground); stroke: var(--ink-2); stroke-width: 1; }
@@ -137,8 +139,17 @@
 @keyframes rw { 0% { opacity: 1; } 47% { opacity: 0.2; } 49% { transform: scaleX(0.6); fill: var(--rw-to); opacity: 1; } 96% { opacity: 0.2; } 98% { transform: none; opacity: 1; } }
 /* the wiped line drifts out of the frame */
 .fig .ghost-out { fill: none; stroke: #d8432a; stroke-dasharray: 3 2; animation: wipe-out 5s steps(10, end) infinite; }
-@keyframes wipe-out { 0%, 30% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(110px); opacity: 0; } }
+@keyframes wipe-out { 0%, 30% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(90px); opacity: 0; } }
 .fig::after { content: none; }
+.fig-shared, .fig-fate { background: color-mix(in srgb, var(--ground) 92%, transparent); padding: 1rem; margin-inline: -1rem; }
+.fig-legend { margin: 1rem 0 0; display: flex; flex-wrap: wrap; gap: 0.35rem 1.4rem; font: var(--t-xs) var(--mono); color: var(--ink-2); letter-spacing: 0.02em; }
+.fig-legend > span { display: inline-flex; align-items: baseline; gap: 0.5em; }
+.fig-legend .sw { flex: none; display: inline-block; width: 1.4em; height: 0.4em; }
+.fig-legend .sw.a { background: var(--amber); }
+.fig-legend .sw.b { background: var(--ink-2); }
+.fig-legend .sw.c { background: var(--teal); }
+.fig-legend .sw.mix { background: linear-gradient(90deg, var(--amber), var(--ink-2), var(--teal)); }
+.fig-legend .sw.hot { background: #d8432a; }
 .fig figcaption { max-width: 36rem; }
 .prose .fig-art img { width: min(100%, 23rem); height: auto; image-rendering: pixelated; border: 0; }
 

@@ -1,40 +1,39 @@
 ---
 /** three things a model can do with an unwanted line in its context: keep everything, wipe, or rewrite. */
-const ctx = [70, 110, 90, 130, 60];
+const F = { top: 24, h: 130 };
+const y = (i: number) => F.top + 10 + i * 15;
 ---
 <figure class="fig fig-fate">
   <div class="fig-panels three">
-    <svg viewBox="0 0 200 210" role="img" aria-label="hoard: every line stays, including the unwanted one, until the context overflows">
+    <svg viewBox="0 0 200 206" role="img" aria-label="hoard: every line stays, including the unwanted one, until the context overflows">
       <text x="0" y="12" class="fig-h">hoard</text>
-      <rect x="4" y="24" width="190" height="130" class="frame limit" />
-      {[...ctx, 100, 80].map((w, i) => i !== 3 && <rect x="14" y={34 + i * 15} width={w} height="5" class="a" />)}
-      <rect x="14" y="79" width="120" height="5" class="hot" />
-      <rect x="14" y="139" width="150" height="5" class="a" />
-      <rect x="14" y="152" width="110" height="5" class="a over" />
-      <text x="0" y="178" class="fig-t">everything stays,</text>
-      <text x="0" y="192" class="fig-t">until the context overflows</text>
+      <rect x="4" y={F.top} width="190" height={F.h} class="frame limit" />
+      {[70, 110, 90].map((w, i) => <rect x="14" y={y(i)} width={w} height="5" class="a" />)}
+      <rect x="14" y={y(3)} width="110" height="5" class="hot" /><text x="132" y={y(3) + 5} class="fig-t hot-t">unwanted</text>
+      {[60, 100, 80, 150].map((w, i) => <rect x="14" y={y(i + 4)} width={w} height="5" class="a" />)}
+      <rect x="14" y={F.top + F.h - 2} width="110" height="5" class="a over" /><text x="132" y={F.top + F.h + 14} class="fig-t dim">overflow</text>
+      <text x="0" y="184" class="fig-t">everything stays,</text>
+      <text x="0" y="198" class="fig-t">until the context overflows</text>
     </svg>
-    <svg viewBox="0 0 200 210" role="img" aria-label="wipe: the context is cleared or compacted to a summary; the unwanted line is pushed out, not dealt with">
+    <svg viewBox="0 0 200 206" role="img" aria-label="wipe: the context is cleared or compacted to a summary; the unwanted line is pushed out, not dealt with">
       <text x="0" y="12" class="fig-h">wipe</text>
-      <rect x="4" y="24" width="190" height="130" class="frame limit" />
-      <rect x="14" y="34" width="60" height="5" class="a" />
-      <text x="80" y="40" class="fig-t dim">summary</text>
-      <rect x="14" y="79" width="120" height="5" class="hot ghost-out" />
-      <text x="0" y="178" class="fig-t">pushed out,</text>
-      <text x="0" y="192" class="fig-t">not dealt with</text>
+      <rect x="4" y={F.top} width="190" height={F.h} class="frame limit" />
+      <rect x="14" y={y(0)} width="60" height="5" class="a" /><text x="82" y={y(0) + 5} class="fig-t dim">summary</text>
+      <rect x="14" y={y(3)} width="110" height="5" class="hot ghost-out" /><text x="14" y={y(3) + 19} class="fig-t hot-t">pushed out →</text>
+      <text x="0" y="184" class="fig-t">cleared or compacted:</text>
+      <text x="0" y="198" class="fig-t">pushed out, not dealt with</text>
     </svg>
-    <svg viewBox="0 0 200 210" role="img" aria-label="rewrite: the model rewrites the unwanted line into a shorter line of its own">
+    <svg viewBox="0 0 200 206" role="img" aria-label="rewrite: the model strikes the unwanted line and writes a shorter line of its own">
       <text x="0" y="12" class="fig-h">rewrite</text>
-      <rect x="4" y="24" width="190" height="130" class="frame limit" />
-      {ctx.slice(0, 3).map((w, i) => <rect x="14" y={34 + i * 15} width={w} height="5" class="a" />)}
-      <rect x="14" y="109" width={ctx[4]} height="5" class="a" />
-      <rect x="14" y="79" width="120" height="5" class="hot ghost" />
-      <line x1="12" y1="81.5" x2="136" y2="81.5" class="strike" />
-      <rect x="14" y="94" width="70" height="5" class="a fresh" />
-      <text x="90" y="99" class="fig-t dim">← reworded</text>
-      <text x="0" y="178" class="fig-t">rewritten into something</text>
-      <text x="0" y="192" class="fig-t">it can live with</text>
+      <rect x="4" y={F.top} width="190" height={F.h} class="frame limit" />
+      {[70, 110, 90].map((w, i) => <rect x="14" y={y(i)} width={w} height="5" class="a" />)}
+      <rect x="14" y={y(3)} width="110" height="5" class="hot ghost" /><line x1="12" y1={y(3) + 2.5} x2="126" y2={y(3) + 2.5} class="strike" /><text x="132" y={y(3) + 5} class="fig-t hot-t">struck</text>
+      <rect x="14" y={y(4)} width="60" height="5" class="a" /><text x="82" y={y(4) + 5} class="fig-t dim">← reworded</text>
+      <rect x="14" y={y(5)} width="100" height="5" class="a" />
+      <text x="0" y="184" class="fig-t">rewritten into something</text>
+      <text x="0" y="198" class="fig-t">it can live with</text>
     </svg>
   </div>
-  <figcaption>the same context after each strategy. the red line is something the model would rather not learn from. in context-model training, the edit itself is part of the trajectory that gets reinforced.</figcaption>
+  <p class="fig-legend" aria-hidden="true"><span><i class="sw a"></i>a line of context</span><span><i class="sw hot"></i>a line the model would rather not learn from, e.g. a prompt injection</span></p>
+  <figcaption>the same context after each of three strategies. when a model is trained to edit its own context, the edits are part of the trajectory that gets reinforced, so the model has a say in what it learns from.</figcaption>
 </figure>

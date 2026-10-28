@@ -21,6 +21,8 @@ const posts = defineCollection({
     karma: z.number().optional(),
     readingTime: z.number().optional(),
     draft: z.boolean().default(false),
+    // optional background art behind the post (see components/EraBg.astro)
+    bg: z.enum(['bruegel', 'panopticon']).optional(),
   }),
 });
 

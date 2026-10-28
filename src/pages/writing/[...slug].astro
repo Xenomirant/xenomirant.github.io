@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '@/layouts/Base.astro';
 import { components } from '@/components/mdx';
+import EraBg from '@/components/EraBg.astro';
 import { byDateDesc, fmtDate, isoDate, readingTime, wordCount } from '@/lib/fmt';
 
 export async function getStaticPaths() {
@@ -37,6 +38,7 @@ const hrefOf = (p: CollectionEntry<'posts'>) => (p.data.source !== 'local' && p.
     {stub && <meta http-equiv="refresh" content={`6;url=${data.externalUrl}`} />}
   </Fragment>
 
+  {data.bg && <EraBg kind={data.bg} slot="bg" />}
   <article class="post" lang={data.lang}>
     <header class="post-head">
       <a class="back meta" href="/writing/">← blog</a>
