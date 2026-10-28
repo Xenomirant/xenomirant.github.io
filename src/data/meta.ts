@@ -14,7 +14,7 @@ export const meta = {
   ],
   staleNowDays: 60,
   /** one line under the name on the front page */
-  bio: 'speaking neuralese',
+  bio: 'i learn to speak neuralese',
   /** key facts on the front page plate; edit freely */
   facts: [
     { k: 'role', v: 'phd student in ai, cuhk-shenzhen' },
