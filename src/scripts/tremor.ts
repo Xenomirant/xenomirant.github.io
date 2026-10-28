@@ -61,12 +61,14 @@ function burst() {
   const amp = (future ? 2.2 : 1.3) * (Math.random() < 0.25 ? 4 : 1.5);
   const bgs = document.querySelectorAll<HTMLElement>('[data-tremble]');
   const title = document.querySelector<HTMLElement>('.page-title');
+  // the title joins about 1 in 3 bursts (past) or 3 in 5 (future)
+  const withTitle = Math.random() < (future ? 0.6 : 0.3);
   let n = 2 + ((Math.random() * 3) | 0);
   const jolt = () => {
     if (!running) return;
     const last = --n < 0;
     bgs.forEach((b) => (b.style.transform = last ? '' : `translate(${((Math.random() - 0.5) * amp).toFixed(1)}px, ${((Math.random() - 0.5) * amp).toFixed(1)}px)`));
-    if (title) title.classList.toggle('quake', !last && Math.random() < 0.5);
+    if (title) title.classList.toggle('quake', withTitle && !last && Math.random() < 0.5);
     if (!last) shake = window.setTimeout(jolt, 60 + Math.random() * 90);
   };
   clearTimeout(shake);

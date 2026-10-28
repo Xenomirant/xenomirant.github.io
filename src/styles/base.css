@@ -64,5 +64,6 @@ main.content {
   width: min(100%, var(--wide));
   margin-inline: auto;
 }
-.content { animation: rise 0.35s var(--ease) both; }
+/* backwards, not both: a held end value froze mid-fade in Firefox when .arriving (effects.css) swapped the animation out and back */
+.content { animation: rise 0.35s var(--ease) backwards; }
 @keyframes rise { from { opacity: 0; transform: translateY(12px); } }

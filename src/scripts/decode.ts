@@ -53,10 +53,15 @@ export function initDecode() {
     el.dataset.decoded = '1';
     run(el, el.dataset.decode ?? el.textContent ?? '');
   });
-  const fonts = document.fonts?.ready;
-  if (!fonts) { go(); return; }
+  // wait for the title's own face (preloaded per era), not document.fonts.ready, which also waits for body fonts
+  const fs = document.fonts;
+  if (!fs) { go(); return; }
   let done = false;
   const once = () => { if (!done) { done = true; go(); } };
-  fonts.then(once);
+  Promise.all([...els].map((el) => {
+    const s = getComputedStyle(el);
+    const font = `${s.fontStyle} ${s.fontWeight} ${s.fontSize} ${s.fontFamily.split(',')[0]}`;
+    return fs.load(font, el.dataset.decode || el.textContent || ' ').catch(() => {});
+  })).then(once);
   setTimeout(once, 600); // never wait long for slow fonts
 }

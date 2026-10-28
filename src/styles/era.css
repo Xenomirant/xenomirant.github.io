@@ -2,8 +2,8 @@
 main.content, .footer { position: relative; z-index: 1; }
 .era-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; will-change: transform; }
 /* the art fades in once it has loaded, instead of popping in after the page has already appeared (onload in EraBg) */
-.era-bg img { transition: opacity 0.8s ease; }
-html.js .era-bg img:not(.ok) { opacity: 0; }
+.era-bg img, .era-bg canvas { transition: opacity 0.8s ease; }
+html.js .era-bg img:not(.ok), html.js .era-bg canvas:not(.ok) { opacity: 0; }
 .era-bg picture, .era-bg img, .era-bg canvas { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--focus, 60% 50%); }
 /* keep the reading column dark: art lives to the right and fades toward the text */
 .era-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--ground) 0%, color-mix(in srgb, var(--ground) 82%, transparent) 38%, color-mix(in srgb, var(--ground) 20%, transparent) 75%, transparent 100%); }

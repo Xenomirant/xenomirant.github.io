@@ -45,18 +45,20 @@ export function initDrips() {
     cv.dataset.drawn = '1';
     const cx = cv.getContext('2d');
     if (!cx) return;
-    // full-screen canvas: keep it at css resolution, the skeins are rough anyway
-    const dpr = 1;
+    // capped at 1.5x: sharp enough on retina, and the canvas is static once painted
+    const dpr = Math.min(1.5, devicePixelRatio || 1);
     const w = cv.clientWidth, h = cv.clientHeight;
     cv.width = w * dpr; cv.height = h * dpr; cx.scale(dpr, dpr);
     const seed = seedOf(location.pathname);
     const r = rng(seed);
     const n = Math.round((w * h) / 9000);
-    // the field is painted over several frames, a dozen skeins at a time, so the page never freezes on load
+    // the field is painted over several frames, a dozen skeins at a time, so the page never freezes on load;
+    // it stays hidden until complete, then fades in like the image backgrounds
     let made = 0;
     const paint = () => {
       for (let j = 0; j < 12 && made < n; j++, made++) draw(cx, makeSkein(w, h, r));
       if (made < n) requestAnimationFrame(paint);
+      else cv.classList.add('ok'); // whole field drawn: fade it in at once (era.css)
     };
     paint();
     if (isReduced()) return;

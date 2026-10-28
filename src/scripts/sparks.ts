@@ -8,7 +8,7 @@ let ps: P[] = [], raf = 0, lx = 0, ly = 0, acc = 0, lastStar = 0, color = '#f6bd
 
 function size() {
   if (!cv || !cx) return;
-  dpr = 1; // a full-screen overlay: hairline sparks don't need retina resolution
+  dpr = Math.min(2, devicePixelRatio || 1); // hairline sparks need device resolution to stay sharp
   cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
   cx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
