@@ -45,13 +45,20 @@ export function initDrips() {
     cv.dataset.drawn = '1';
     const cx = cv.getContext('2d');
     if (!cx) return;
-    const dpr = Math.min(1.5, devicePixelRatio || 1);
+    // full-screen canvas: keep it at css resolution, the skeins are rough anyway
+    const dpr = 1;
     const w = cv.clientWidth, h = cv.clientHeight;
     cv.width = w * dpr; cv.height = h * dpr; cx.scale(dpr, dpr);
     const seed = seedOf(location.pathname);
     const r = rng(seed);
     const n = Math.round((w * h) / 9000);
-    for (let i = 0; i < n; i++) draw(cx, makeSkein(w, h, r));
+    // the field is painted over several frames, a dozen skeins at a time, so the page never freezes on load
+    let made = 0;
+    const paint = () => {
+      for (let j = 0; j < 12 && made < n; j++, made++) draw(cx, makeSkein(w, h, r));
+      if (made < n) requestAnimationFrame(paint);
+    };
+    paint();
     if (isReduced()) return;
     // a new skein lands now and then, poured in stuttering chunks
     const land = () => {
@@ -62,12 +69,12 @@ export function initDrips() {
           const next = at + 6 + ((Math.random() * 30) | 0);
           draw(cx, k, at, next);
           at = next;
-          if (at < k.segs.length) setTimeout(pour, 40 + Math.random() * 180);
+          if (at < k.segs.length) setTimeout(pour, 90 + Math.random() * 200);
         };
         pour();
       }
-      setTimeout(land, 1600 + Math.random() * 4400);
+      setTimeout(land, 3500 + Math.random() * 6000);
     };
-    setTimeout(land, 1200);
+    setTimeout(land, 2500);
   });
 }

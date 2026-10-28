@@ -46,9 +46,7 @@ svg.spikes { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0;
 .spike .bolt { fill: var(--bolt, #ffe14d); }
 :root[data-era='past'] svg.spikes { opacity: 0.55; }
 :root[data-era='future'] svg.spikes { opacity: 0.8; }
-html.quake .page-title { transform: translate(3px, -1px) skewX(-6deg); }
-html.quake .era-bg { filter: contrast(1.4) brightness(1.15); }
-:root[data-era='future'].quake .numogram { transform: translate(-4px, 2px); }
+.page-title.quake { transform: translate(3px, -1px) skewX(-6deg); }
 
 /* page change into the future */
 canvas.blowup { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 200; pointer-events: none; }

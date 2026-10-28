@@ -8,7 +8,7 @@ let ps: P[] = [], raf = 0, lx = 0, ly = 0, acc = 0, lastStar = 0, color = '#f6bd
 
 function size() {
   if (!cv || !cx) return;
-  dpr = Math.min(2, devicePixelRatio || 1);
+  dpr = 1; // a full-screen overlay: hairline sparks don't need retina resolution
   cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
   cx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
@@ -66,11 +66,13 @@ function move(e: PointerEvent) {
 
 function down(e: PointerEvent) {
   if (isReduced()) return;
+  ensure();
   spawn(e.clientX, e.clientY, 9, 2.6); kick();
 }
 
-export function initSparks() {
-  if (cv || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+/** the overlay canvas only exists once the pointer has moved */
+function ensure() {
+  if (cv) return;
   cv = document.createElement('canvas');
   cv.className = 'sparks'; cv.setAttribute('aria-hidden', 'true');
   document.body.appendChild(cv);
@@ -78,7 +80,13 @@ export function initSparks() {
   color = COLOR();
   size();
   addEventListener('resize', size, { passive: true });
-  document.addEventListener('pointermove', move, { passive: true });
+}
+
+let bound = false;
+export function initSparks() {
+  if (bound || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  bound = true;
+  document.addEventListener('pointermove', (e) => { if (!isReduced()) { ensure(); move(e); } }, { passive: true });
   document.addEventListener('pointerdown', down, { passive: true });
   onMotion((r) => { if (r) { ps = []; cx?.clearRect(0, 0, innerWidth, innerHeight); } });
 }

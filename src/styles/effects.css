@@ -65,7 +65,9 @@ html.arriving .knob-dot { transition: none; }
 /* page change: everything but the rail fades to black, then back */
 .shell > :not(.rail) { transition: opacity 0.45s ease; }
 html.leaving .shell > :not(.rail) { opacity: 0; transition-duration: 0.32s; }
-html.arriving .shell > :not(.rail) { opacity: 0; transition: none; }
+html.arriving .shell > :not(.rail) { opacity: 0; transition: none; animation: unhide 0s 1.2s forwards; }
+/* failsafe: if the script that lifts .arriving is slow or never runs, the page still appears */
+@keyframes unhide { to { opacity: 1; } }
 html.leaving .rail-line { opacity: 0.45; transition: opacity 0.32s ease; }
 
 /* sparks canvas */

@@ -137,6 +137,9 @@
 .fig .rw2 rect { --rw-to: var(--teal); animation-delay: -5s; }
 .fig .rw3 rect { --rw-to: var(--ink-2); animation-delay: -7.5s; }
 @keyframes rw { 0% { opacity: 1; } 47% { opacity: 0.2; } 49% { transform: scaleX(0.6); fill: var(--rw-to); opacity: 1; } 96% { opacity: 0.2; } 98% { transform: none; opacity: 1; } }
+/* paused off screen (scripts/figures.ts) */
+.fig .rw rect, .fig .ghost-out { animation-play-state: paused; }
+.fig.playing .rw rect, .fig.playing .ghost-out { animation-play-state: running; }
 /* the wiped line drifts out of the frame */
 .fig .ghost-out { fill: none; stroke: #d8432a; stroke-dasharray: 3 2; animation: wipe-out 5s steps(10, end) infinite; }
 @keyframes wipe-out { 0%, 30% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(90px); opacity: 0; } }

@@ -10,6 +10,7 @@ import { initTremor } from './tremor';
 import { initDrips } from './drips';
 import { initBabel } from './babel';
 import { initSidenotes } from './sidenotes';
+import { initFigures } from './figures';
 
 function init() {
   initMotion();
@@ -24,6 +25,7 @@ function init() {
   initDrips();
   initBabel();
   initSidenotes();
+  initFigures();
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });

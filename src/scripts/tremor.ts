@@ -39,36 +39,44 @@ function makeSpikes(svg: SVGSVGElement, era: string) {
   }
 }
 
+// costs: every spike change repaints the full-screen spike layer, so spikes move a few times a second, not every frame;
+// the background art only jitters in short bursts (a transform on its own layer, cheap) and rests in between.
 function tick() {
   if (!running) return;
-  const root = document.documentElement;
   const spikes = document.querySelectorAll<SVGGElement>('.spikes .spike');
-  const k = Math.random() < 0.5 ? 1 : 1 + ((Math.random() * 3) | 0);
+  const k = 1 + ((Math.random() * 3) | 0);
   for (let i = 0; i < k && spikes.length; i++) {
     const s = spikes[(Math.random() * spikes.length) | 0];
     s.style.setProperty('--s', (Math.random() < 0.15 ? 0.05 : 0.25 + Math.random() * 1.15).toFixed(2));
   }
-  const future = root.dataset.era === 'future';
-  const amp = future ? 2.2 : 1.3;
-  const burst = Math.random() < (future ? 0.07 : 0.035);
-  const bgs = document.querySelectorAll<HTMLElement>('[data-tremble]');
-  bgs.forEach((b) => {
-    const a = burst ? amp * 4 : amp;
-    b.style.transform = `translate(${((Math.random() - 0.5) * a).toFixed(1)}px, ${((Math.random() - 0.5) * a).toFixed(1)}px)${burst ? ` skewX(${((Math.random() - 0.5) * 3).toFixed(1)}deg)` : ''}`;
-  });
-  if (burst) {
-    root.classList.add('quake');
-    clearTimeout(shake);
-    shake = window.setTimeout(() => root.classList.remove('quake'), 90 + Math.random() * 140);
-  }
-  // laggy cadence: mostly 70-160ms, sometimes a long stall
-  const next = Math.random() < 0.12 ? 500 + Math.random() * 900 : 70 + Math.random() * 90;
+  if (Math.random() < 0.3) burst();
+  // laggy cadence: mostly 250-600 ms, sometimes a long stall
+  const next = Math.random() < 0.15 ? 900 + Math.random() * 1400 : 250 + Math.random() * 350;
   timer = window.setTimeout(tick, next);
+}
+
+/** a few quick jolts of the background art and the title, then back to rest */
+function burst() {
+  const future = document.documentElement.dataset.era === 'future';
+  const amp = (future ? 2.2 : 1.3) * (Math.random() < 0.25 ? 4 : 1.5);
+  const bgs = document.querySelectorAll<HTMLElement>('[data-tremble]');
+  const title = document.querySelector<HTMLElement>('.page-title');
+  let n = 2 + ((Math.random() * 3) | 0);
+  const jolt = () => {
+    if (!running) return;
+    const last = --n < 0;
+    bgs.forEach((b) => (b.style.transform = last ? '' : `translate(${((Math.random() - 0.5) * amp).toFixed(1)}px, ${((Math.random() - 0.5) * amp).toFixed(1)}px)`));
+    if (title) title.classList.toggle('quake', !last && Math.random() < 0.5);
+    if (!last) shake = window.setTimeout(jolt, 60 + Math.random() * 90);
+  };
+  clearTimeout(shake);
+  jolt();
 }
 
 function start() { if (running || isReduced()) return; running = true; tick(); }
 function stop() {
-  running = false; clearTimeout(timer);
+  running = false; clearTimeout(timer); clearTimeout(shake);
+  document.querySelector('.page-title')?.classList.remove('quake');
   document.querySelectorAll<HTMLElement>('[data-tremble]').forEach((b) => (b.style.transform = ''));
 }
 
