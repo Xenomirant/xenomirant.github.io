@@ -1,0 +1,67 @@
+---
+/** two ways for several models to work together: private contexts plus an append-only transcript, or one shared, editable context. */
+const W = 300;
+// transcript lines: [author, bar length]
+const lines: [string, number][] = [['a', 150], ['b', 110], ['a', 170], ['c', 90], ['b', 140], ['a', 120], ['c', 160]];
+// shared context rows: segments [author, x, width], authorship blurs where models rewrote each other
+const rows: { segs: [string, number, number][]; cls?: string }[] = [
+  { segs: [['a', 0, 120], ['b', 124, 70]] },
+  { segs: [['c', 0, 180]], cls: 'rw rw1' },
+  { segs: [['ab', 0, 150]] },
+  { segs: [['b', 0, 90], ['struck', 94, 80]] },
+  { segs: [['a', 0, 200]], cls: 'rw rw2' },
+  { segs: [['bc', 0, 130], ['a', 134, 50]] },
+  { segs: [['c', 0, 110]] },
+  { segs: [['b', 0, 160]], cls: 'rw rw3' },
+];
+---
+<figure class="fig fig-shared">
+  <div class="fig-panels two">
+    <svg viewBox={`0 0 ${W} 250`} role="img" aria-label="three models, each with a private context, appending labelled messages to one transcript">
+      <text x="0" y="12" class="fig-h">today: private contexts, one transcript</text>
+      {['a', 'b', 'c'].map((m, i) => (
+        <g transform={`translate(${12 + i * 98}, 26)`}>
+          <rect width="78" height="46" class="frame" />
+          <rect x="8" y="9" width="50" height="5" class={m} />
+          <rect x="8" y="20" width="62" height="5" class={m} />
+          <rect x="8" y="31" width="36" height="5" class={m} />
+          <text x="39" y="60" text-anchor="middle" class="fig-t">model {m}</text>
+          <line x1="39" y1="64" x2="39" y2="86" class="wire" marker-end="url(#arr)" />
+        </g>
+      ))}
+      <rect x="12" y="116" width="274" height="116" class="frame" />
+      {lines.map(([m, len], i) => (
+        <g transform={`translate(22, ${126 + i * 14})`}>
+          <text x="0" y="6" class="fig-t tag">[{m}]</text>
+          <rect x="26" y="1" width={len} height="5" class={m} />
+        </g>
+      ))}
+      <text x="286" y="246" text-anchor="end" class="fig-t dim">transcript: append only ↓</text>
+      <defs><marker id="arr" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 6 3 0 6z" class="arrowhead" /></marker></defs>
+    </svg>
+    <svg viewBox={`0 0 ${W} 250`} role="img" aria-label="three models reading and rewriting one shared context of bounded length; authorship of the lines blurs">
+      <defs>
+        <linearGradient id="g-ab"><stop offset="0" class="s-a" /><stop offset="1" class="s-b" /></linearGradient>
+        <linearGradient id="g-bc"><stop offset="0" class="s-b" /><stop offset="1" class="s-c" /></linearGradient>
+      </defs>
+      <text x="0" y="12" class="fig-h">siamese: one shared, editable context</text>
+      {['a', 'b', 'c'].map((m, i) => (
+        <g transform={`translate(${60 + i * 90}, 40)`}>
+          <circle r="11" class="node" />
+          <text y="4" text-anchor="middle" class="fig-t">{m}</text>
+          <line x1="0" y1="14" x2="0" y2="40" class="wire both" />
+        </g>
+      ))}
+      <rect x="12" y="84" width="274" height="140" class="frame limit" />
+      {rows.map((r, i) => (
+        <g transform={`translate(24, ${96 + i * 15})`} class={r.cls}>
+          {r.segs.map(([m, x, w]) => m === 'struck'
+            ? <g><rect x={x} y="1" width={w} height="5" class="b ghost" /><line x1={x - 2} y1="3.5" x2={x + w + 2} y2="3.5" class="strike" /></g>
+            : <rect x={x} y="1" width={w} height="5" class={m.length > 1 ? `mix-${m}` : m} />)}
+        </g>
+      ))}
+      <text x="286" y="240" text-anchor="end" class="fig-t dim">context limit</text>
+    </svg>
+  </div>
+  <figcaption>left: how multi-agent setups usually work. right: several models share one context of bounded length and can rewrite any part of it, so who wrote what is something they have to keep track of.</figcaption>
+</figure>

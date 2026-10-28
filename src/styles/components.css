@@ -102,6 +102,46 @@
 .aside { border-left: 1px solid var(--amber-dim); padding: 0.2rem 0 0.2rem 1rem; color: var(--ink-2); font-size: 0.98rem; }
 .aside .label { margin-bottom: 0.4rem; }
 
+/* diagrams in posts: inline svg panels that stack on phones */
+.fig-panels { display: grid; gap: 1.6rem 1.4rem; }
+.fig-panels.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.fig-panels.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (width <= 640px) { .fig-panels.two, .fig-panels.three { grid-template-columns: minmax(0, 22rem); } }
+.fig svg { width: 100%; height: auto; overflow: visible; position: relative; z-index: 1; }
+.fig .fig-h { font: 600 11px var(--mono); fill: var(--amber); letter-spacing: 0.02em; }
+.fig .fig-t { font: 400 10px var(--mono); fill: var(--ink-2); }
+.fig .fig-t.dim, .fig .fig-t.tag { fill: var(--ink-3); }
+.fig .frame { fill: none; stroke: var(--ink-3); stroke-width: 1; }
+.fig .frame.limit { stroke-dasharray: 4 3; }
+.fig .wire { stroke: var(--ink-3); stroke-width: 1; }
+.fig .arrowhead { fill: var(--ink-3); }
+.fig .node { fill: var(--ground); stroke: var(--ink-2); stroke-width: 1; }
+.fig .a { fill: var(--amber); }
+.fig .b { fill: var(--ink-2); }
+.fig .c { fill: var(--teal); }
+.fig .s-a { stop-color: var(--amber); }
+.fig .s-b { stop-color: var(--ink-2); }
+.fig .s-c { stop-color: var(--teal); }
+.fig .mix-ab { fill: url(#g-ab); }
+.fig .mix-bc { fill: url(#g-bc); }
+.fig .hot { fill: #d8432a; }
+.fig .ghost { opacity: 0.35; }
+.fig .over { opacity: 0.35; }
+.fig .strike { stroke: #d8432a; stroke-width: 1.2; }
+.fig .fresh { fill: var(--amber); }
+/* rows that another model rewrites now and then */
+.fig .rw rect { transform-box: fill-box; transform-origin: left center; animation: rw 9s steps(1, end) infinite; }
+.fig .rw1 rect { --rw-to: var(--amber); animation-delay: -2s; }
+.fig .rw2 rect { --rw-to: var(--teal); animation-delay: -5s; }
+.fig .rw3 rect { --rw-to: var(--ink-2); animation-delay: -7.5s; }
+@keyframes rw { 0% { opacity: 1; } 47% { opacity: 0.2; } 49% { transform: scaleX(0.6); fill: var(--rw-to); opacity: 1; } 96% { opacity: 0.2; } 98% { transform: none; opacity: 1; } }
+/* the wiped line drifts out of the frame */
+.fig .ghost-out { fill: none; stroke: #d8432a; stroke-dasharray: 3 2; animation: wipe-out 5s steps(10, end) infinite; }
+@keyframes wipe-out { 0%, 30% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(110px); opacity: 0; } }
+.fig::after { content: none; }
+.fig figcaption { max-width: 36rem; }
+.prose .fig-art img { width: min(100%, 23rem); height: auto; image-rendering: pixelated; border: 0; }
+
 /* contact page bg */
 .contact-page { position: relative; }
 .contact-page .bg { position: fixed; inset: 0; z-index: -1; opacity: 0.22; pointer-events: none; }
