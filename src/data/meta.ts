@@ -13,11 +13,12 @@ export const meta = {
     { name: 'Cambridge AI Safety Hub (MARS V)', role: 'fellow', from: '2026-07' },
   ],
   staleNowDays: 60,
+  /** one line under the name on the front page */
+  bio: 'speaking neuralese',
   /** key facts on the front page plate; edit freely */
   facts: [
     { k: 'role', v: 'phd student in ai, cuhk-shenzhen' },
     { k: 'supervisor', v: 'zhi-quan tom luo' },
-    { k: 'also', v: 'speaking neuralese' },
     { k: 'topics', v: 'optimizers, neural similarities across systems, tokenization primitives' },
     { k: 'before', v: 'linguistics and mathematics, hse moscow' },
   ],

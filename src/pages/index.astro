@@ -10,6 +10,7 @@ import { email } from '@/data/socials';
     <section class="hero-home" aria-label="intro">
       <p class="prompt meta">[ {meta.handle}@shenzhen ~ ] $</p>
       <h1 class="name" data-decode={meta.name}>{meta.name}<span class="cursor" aria-hidden="true">▌</span></h1>
+      {meta.bio && <p class="bio">{meta.bio}</p>}
       <Socials class="hero-socials" />
     </section>
   </Hero>
@@ -26,5 +27,6 @@ import { email } from '@/data/socials';
 
 <style>
   :global(.hero-socials) { margin-top: 1.2rem; }
+  .bio { margin: 0.7rem 0 0; font: 400 clamp(1.1rem, 1.6vw, 1.45rem)/1.2 var(--f-pixel); color: var(--ink-2); font-variant-ligatures: none; }
   :global(main.home .hero-home) { padding-top: 0; padding-bottom: 0; }
 </style>
