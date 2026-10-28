@@ -120,6 +120,7 @@ details.more .more-body p:last-child { margin-bottom: 0; }
 .now-sections h2 { font: 700 0.8rem/1.2 var(--din); color: var(--amber); margin: 1.2rem 0 0.3rem; }
 .now-sections ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.25rem; }
 .now-sections li { font-size: 1.1rem; line-height: 1.4; }
+.now-sections p { font-size: 1.1rem; line-height: 1.4; margin: 1rem 0 0; }
 .now-sections li::before { content: '— '; color: var(--amber); }
 .now-sections a { text-decoration: underline 1px var(--amber-dim); text-underline-offset: 0.2em; }
 
@@ -184,12 +185,12 @@ details.more .more-body p:last-child { margin-bottom: 0; }
   .plate .door-credit { font-size: 0.64rem; }
   .plate .door-credit em { font-size: 0.82rem; }
 }
-/* the present on short laptop screens */
-@media (width >= 641px) and (height <= 780px) {
+/* the present on short laptop screens and short phones */
+@media (width >= 641px) and (height <= 780px), (width <= 640px) and (height <= 800px) {
   .now-col { gap: 0.4rem; }
   .now-col .mood { font-size: 1.2rem; }
   .now-sections h2 { margin: 0.6rem 0 0.15rem; }
-  .now-sections li { font-size: 1rem; line-height: 1.3; }
+  .now-sections li, .now-sections p { font-size: 1rem; line-height: 1.3; }
   .reach { margin-top: 0.6rem; padding-top: 0.6rem; gap: 0.3rem; }
   .reach-chat { font-size: 1.5rem; }
   main.now-page .page-title { margin-bottom: 0.25em; }
