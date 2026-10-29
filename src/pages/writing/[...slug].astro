@@ -4,6 +4,9 @@ import type { CollectionEntry } from 'astro:content';
 import Base from '@/layouts/Base.astro';
 import { components } from '@/components/mdx';
 import EraBg from '@/components/EraBg.astro';
+import Label from '@/components/Label.astro';
+import { bibtex } from '@/lib/bibtex';
+import { meta } from '@/data/meta';
 import { byDateDesc, fmtDate, isoDate, readingTime, wordCount } from '@/lib/fmt';
 
 export async function getStaticPaths() {
@@ -21,6 +24,7 @@ const { Content } = await render(entry);
 const minutes = data.readingTime ?? readingTime(wordCount(entry.body));
 const canonical = data.canonicalUrl ?? (stub ? data.externalUrl : undefined);
 const sourceLabel = data.source === 'lesswrong' ? 'lesswrong' : data.source === 'telegram' ? 'telegram' : undefined;
+const bib = !stub && data.cite ? bibtex({ title: data.title, date: data.date, coauthors: data.coauthors, url: new URL(`/writing/${entry.id}/`, meta.site).href }) : undefined;
 const hrefOf = (p: CollectionEntry<'posts'>) => (p.data.source !== 'local' && p.data.externalUrl ? p.data.externalUrl : `/writing/${p.id}/`);
 ---
 <Base
@@ -70,6 +74,16 @@ const hrefOf = (p: CollectionEntry<'posts'>) => (p.data.source !== 'local' && p.
       </div>
     )}
 
+    {bib && (
+      <section class="cite" aria-labelledby="cite-label">
+        <div class="cite-head">
+          <Label as="h2" id="cite-label">cite</Label>
+          <button type="button" class="cite-copy meta" data-copy={bib}>copy bibtex</button>
+        </div>
+        <pre><code>{bib}</code></pre>
+      </section>
+    )}
+
     <nav class="end" aria-label="nearby fragments">
       <div class="near">
         {older && <><span class="meta">← earlier</span><a href={hrefOf(older)}>{older.data.title}</a></>}
@@ -90,4 +104,16 @@ const hrefOf = (p: CollectionEntry<'posts'>) => (p.data.source !== 'local' && p.
   .stub .invite a:hover { color: var(--ink); }
   .stub .invite .arrow { color: var(--amber); }
   .right { text-align: right; }
+  /* bibtex: one click on the block selects all of it; the button copies (needs js) */
+  .cite { margin-top: 4rem; max-width: var(--measure); }
+  .cite-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.6rem; }
+  .cite-head :global(.label) { margin: 0; }
+  .cite-copy { color: var(--ink-3); transition: color 0.2s; }
+  .cite-copy:hover, .cite-copy:focus-visible { color: var(--amber); }
+  .cite pre {
+    /* long lines (the url) wrap on screen only; the copy button copies the original text */
+    margin: 0; padding: 0.9rem 1.1rem; white-space: pre-wrap; overflow-wrap: anywhere; user-select: all; -webkit-user-select: all;
+    font: var(--t-xs) / 1.6 var(--mono); color: var(--ink-2);
+    background: color-mix(in srgb, var(--ground-2) 80%, transparent);
+  }
 </style>

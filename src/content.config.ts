@@ -21,6 +21,8 @@ const posts = defineCollection({
     karma: z.number().optional(),
     readingTime: z.number().optional(),
     draft: z.boolean().default(false),
+    // a bibtex block at the end of the post (local posts only)
+    cite: z.boolean().default(true),
     // optional background art behind the post (see components/EraBg.astro)
     bg: z.enum(['bruegel', 'panopticon']).optional(),
   }),
