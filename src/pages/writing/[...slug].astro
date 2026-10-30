@@ -34,6 +34,8 @@ const hrefOf = (p: CollectionEntry<'posts'>) => (p.data.source !== 'local' && p.
   lang={data.lang}
   type="article"
   canonical={canonical}
+  image={stub ? undefined : `/og/${entry.id}.png`}
+  imageAlt={stub ? undefined : `${data.title}: ${data.description}`}
   math={data.math}
   noindex={stub}
   date={data.date}

@@ -32,10 +32,10 @@ import grenze from '@fontsource/grenze-gotisch/files/grenze-gotisch-latin-500-no
 import specialElite from '@fontsource/special-elite/files/special-elite-latin-400-normal.woff2?url';
 import brokenFax from '@fontsource/rubik-broken-fax/files/rubik-broken-fax-latin-400-normal.woff2?url';
 interface Props {
-  title?: string; description?: string; zone?: number; lang?: 'en' | 'ru'; image?: string;
+  title?: string; description?: string; zone?: number; lang?: 'en' | 'ru'; image?: string; imageAlt?: string;
   type?: 'website' | 'article'; canonical?: string; math?: boolean; noindex?: boolean; date?: Date; class?: string;
 }
-const { title, description, zone, lang = 'en', image, type, canonical, math, noindex, date, class: cls } = Astro.props;
+const { title, description, zone, lang = 'en', image, imageAlt, type, canonical, math, noindex, date, class: cls } = Astro.props;
 const era = eraOf(zone);
 const eraFonts = { present: [pixelify], past: [grenze, specialElite], future: [brokenFax] }[era];
 const preload = [plexMono, majorMono, ...eraFonts];
@@ -43,7 +43,7 @@ const preload = [plexMono, majorMono, ...eraFonts];
 <!doctype html>
 <html lang={lang} data-zone={zone} data-era={era}>
   <head>
-    <Head {title} {description} {image} {type} {canonical} {math} {noindex} {date} />
+    <Head {title} {description} {image} {imageAlt} {type} {canonical} {math} {noindex} {date} />
     {preload.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
     <slot name="head" />
   </head>

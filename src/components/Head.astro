@@ -1,15 +1,16 @@
 ---
 import { meta } from '@/data/meta';
-import { shown } from '@/data/socials';
+import { shown, socials } from '@/data/socials';
 import Katex from './Katex.astro';
 interface Props {
-  title?: string; description?: string; image?: string; lang?: string; type?: 'website' | 'article';
+  title?: string; description?: string; image?: string; imageAlt?: string; lang?: string; type?: 'website' | 'article';
   canonical?: string; math?: boolean; noindex?: boolean; date?: Date;
 }
-const { title, description = meta.description, image = meta.ogImage, type = 'website', canonical, math = false, noindex = false, date } = Astro.props;
+const { title, description = meta.description, image = meta.ogImage, imageAlt, type = 'website', canonical, math = false, noindex = false, date } = Astro.props;
 const fullTitle = title ? `${title} · ${meta.name}` : `${meta.name} · ${meta.tagline}`;
 const url = new URL(Astro.url.pathname, Astro.site);
 const img = new URL(image, Astro.site);
+const x = socials.find((s) => s.id === 'x' && s.show)?.handle;
 const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -44,11 +45,14 @@ const jsonld = {
 <meta property="og:image" content={img.href} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
+{imageAlt && <meta property="og:image:alt" content={imageAlt} />}
 {date && <meta property="article:published_time" content={date.toISOString()} />}
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title ?? meta.name} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={img.href} />
+{imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
+{x && <meta name="twitter:creator" content={x} />}
 {math && <Katex />}
 <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
 <script is:inline>
