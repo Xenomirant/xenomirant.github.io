@@ -1,57 +1,63 @@
 ---
-/** the loop: a hypernetwork predicts a weight edit from a task description, test-time learning refines it, and the error after refinement trains the hypernetwork only. */
-const B = { w: 198, h: 66 };
-const L = 12, R = 250, T = 96, D = 236;
-const WB = { x: R + 24, y: 14, w: 150, h: 44 }; // the frozen foundation model
+/** the loop as a wheel, after the Llull disc behind the post: the frozen foundation model W sits at the centre, the four steps are stations on the ring.
+ *  a hypernetwork predicts a weight edit from the task, test-time learning refines it, and the error after refinement trains the hypernetwork only. */
+const cx = 250, cy = 152, r = 92;
+const pt = (deg: number, rad = r) => `${(cx + rad * Math.cos((deg * Math.PI) / 180)).toFixed(1)},${(cy + rad * Math.sin((deg * Math.PI) / 180)).toFixed(1)}`;
+// stations: 1 left (180°), 2 top (270°), 3 right (0°), 4 bottom (90°); arcs run clockwise, trimmed so arrowheads clear the dots
+const arc = (a: number, b: number) => `M${pt(a + 7)} A${r},${r} 0 0 1 ${pt(b - 7)}`;
 ---
 <figure class="fig fig-loop">
-  <svg viewBox="0 0 460 350" role="img" aria-label="a loop of four steps. a hypernetwork with parameters phi reads the task description and predicts an edit delta W. the edit is added to the frozen foundation model W. one or two steps of self-supervised test-time learning refine the edited weights. the prediction error after that is backpropagated through the test-time steps into phi: only the hypernetwork is updated, W stays frozen.">
+  <svg viewBox="0 0 520 304" role="img" aria-label="a wheel with four stations. the frozen foundation model W sits at the centre. station 1, a hypernetwork with parameters phi, reads the task description and predicts an edit delta W. station 2 is the edited model W plus delta W. station 3 is one or two steps of self-supervised test-time learning, giving W plus delta W prime. station 4 is the prediction error of that model on the task; it is backpropagated through step 3 into phi. only the hypernetwork is updated, W never changes.">
     <defs>
       <marker id="loop-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" class="arrowhead" /></marker>
       <marker id="loop-arrow-hot" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" class="arrowhead hot" /></marker>
     </defs>
 
-    <text x={L} y="30" class="fig-t">task description</text>
-    <line x1={L + 50} y1="38" x2={L + 50} y2={T - 2} class="wire" marker-end="url(#loop-arrow)" />
+    <!-- the ring and the frozen centre -->
+    <circle cx={cx} cy={cy} r={r} class="ring" />
+    <circle cx={cx} cy={cy} r="26" class="frame limit" />
+    <text x={cx} y={cy} class="fig-h centre">W</text>
+    <text x={cx} y={cy + 14} class="fig-t dim centre">frozen</text>
+    <line x1={cx} y1={cy - 27} x2={cx} y2={cy - r + 6} class="wire" marker-end="url(#loop-arrow)" />
+    <text x={cx + 7} y={cy - 54} class="fig-t dim">+</text>
 
-    <rect x={WB.x} y={WB.y} width={WB.w} height={WB.h} class="frame limit" />
-    <text x={WB.x + 10} y={WB.y + 18} class="fig-t">foundation model W</text>
-    <text x={WB.x + 10} y={WB.y + 34} class="fig-t dim">frozen</text>
-    <line x1={WB.x + WB.w / 2} y1={WB.y + WB.h} x2={WB.x + WB.w / 2} y2={T - 2} class="wire" marker-end="url(#loop-arrow)" />
-    <text x={WB.x + WB.w / 2 + 8} y={(WB.y + WB.h + T) / 2 + 4} class="fig-t dim">+</text>
+    <!-- arcs: 1 → 2 → 3 → 4, then the red one back to 1 -->
+    <path d={arc(180, 270)} class="wire" marker-end="url(#loop-arrow)" />
+    <text x="176" y="82" class="fig-t end">ΔW</text>
+    <path d={arc(270, 360)} class="wire" marker-end="url(#loop-arrow)" />
+    <path d={arc(0, 90)} class="wire" marker-end="url(#loop-arrow)" />
+    <path d={arc(90, 180)} class="wire update" marker-end="url(#loop-arrow-hot)" />
 
-    <rect x={L} y={T} width={B.w} height={B.h} class="node trained" />
-    <text x={L + 12} y={T + 22} class="fig-h">1  hypernetwork H<tspan dy="3" font-size="10">φ</tspan></text>
-    <text x={L + 12} y={T + 42} class="fig-t">reads the task,</text>
-    <text x={L + 12} y={T + 58} class="fig-t">predicts the edit</text>
+    <!-- stations -->
+    <circle cx={cx - r} cy={cy} r="5" class="station trained" />
+    <circle cx={cx} cy={cy - r} r="4" class="station" />
+    <circle cx={cx + r} cy={cy} r="4" class="station" />
+    <circle cx={cx} cy={cy + r} r="4" class="station" />
 
-    <line x1={L + B.w} y1={T + B.h / 2} x2={R - 2} y2={T + B.h / 2} class="wire" marker-end="url(#loop-arrow)" />
-    <text x={L + B.w + 4} y={T + B.h / 2 - 7} class="fig-t">ΔW</text>
+    <!-- 1: hypernetwork, left -->
+    <text x="16" y="38" class="fig-t dim">task description</text>
+    <line x1="92" y1="46" x2={cx - r - 7} y2={cy - 7} class="wire" marker-end="url(#loop-arrow)" />
+    <text x="146" y="176" class="fig-h end">1  hypernetwork H<tspan dy="3" font-size="10">φ</tspan></text>
+    <text x="146" y="192" class="fig-t end">reads the task,</text>
+    <text x="146" y="208" class="fig-t end">predicts ΔW</text>
 
-    <rect x={R} y={T} width={B.w} height={B.h} class="node" />
-    <text x={R + 12} y={T + 22} class="fig-h">2  edited model</text>
-    <text x={R + 12} y={T + 42} class="fig-t">W + ΔW</text>
-    <text x={R + 12} y={T + 58} class="fig-t dim">ΔW is low-rank</text>
+    <!-- 2: edited model, top -->
+    <text x={cx} y="26" class="fig-h centre">2  edited model</text>
+    <text x={cx} y="42" class="fig-t centre">W + ΔW</text>
 
-    <line x1={R + B.w / 2} y1={T + B.h} x2={R + B.w / 2} y2={D - 2} class="wire" marker-end="url(#loop-arrow)" />
+    <!-- 3: test-time learning, right -->
+    <text x="356" y="140" class="fig-h">3  test-time learning</text>
+    <text x="356" y="156" class="fig-t">1–2 self-supervised steps</text>
+    <text x="356" y="172" class="fig-t dim">W + ΔW  →  W + ΔW′</text>
 
-    <rect x={R} y={D} width={B.w} height={B.h} class="node" />
-    <text x={R + 12} y={D + 22} class="fig-h">3  test-time learning</text>
-    <text x={R + 12} y={D + 42} class="fig-t">1–2 self-supervised steps</text>
-    <text x={R + 12} y={D + 58} class="fig-t dim">W + ΔW  →  W + ΔW′</text>
+    <!-- 4: prediction error, bottom -->
+    <text x={cx} y="274" class="fig-h centre">4  prediction error</text>
+    <text x={cx} y="290" class="fig-t centre">of W + ΔW′ on the task</text>
 
-    <line x1={R} y1={D + B.h / 2} x2={L + B.w + 2} y2={D + B.h / 2} class="wire" marker-end="url(#loop-arrow)" />
-
-    <rect x={L} y={D} width={B.w} height={B.h} class="node" />
-    <text x={L + 12} y={D + 22} class="fig-h">4  prediction error</text>
-    <text x={L + 12} y={D + 42} class="fig-t">of W + ΔW′ on the task</text>
-
-    <line x1={L + 50} y1={D} x2={L + 50} y2={T + B.h + 2} class="wire update" marker-end="url(#loop-arrow-hot)" />
-    <text x={L + 60} y={(T + B.h + D) / 2 - 4} class="fig-t hot-t">backprop through step 3</text>
-    <text x={L + 60} y={(T + B.h + D) / 2 + 11} class="fig-t hot-t">updates φ only</text>
-
-    <text x={L} y="340" class="fig-t dim">W never changes. ΔW′ is thrown away after the task.</text>
+    <!-- the red arc's label -->
+    <text x="146" y="240" class="fig-t hot-t end">backprop through 3,</text>
+    <text x="146" y="254" class="fig-t hot-t end">updates φ only</text>
   </svg>
-  <p class="fig-legend" aria-hidden="true"><span><i class="sw trained"></i>the only thing that gets trained</span><span><i class="sw frozen"></i>frozen</span></p>
-  <figcaption>the hypernetwork learns to propose a starting point that a few steps of test-time learning can take far, not the final weights.</figcaption>
+  <p class="fig-legend" aria-hidden="true"><span><i class="sw trained"></i>the only thing that gets trained</span><span><i class="sw frozen"></i>never changes</span></p>
+  <figcaption>the hypernetwork learns to propose a starting point that a few steps of test-time learning can take far, not the final weights. ΔW′ is thrown away after the task.</figcaption>
 </figure>

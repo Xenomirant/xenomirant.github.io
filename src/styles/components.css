@@ -132,7 +132,12 @@
 .fig .wire.update { stroke: #e2573d; stroke-dasharray: 4 3; }
 .fig .arrowhead.hot { fill: #e2573d; }
 .fig .node.trained { stroke: var(--amber); stroke-width: 1.5; }
-.fig-loop svg { max-width: 34rem; }
+.fig-loop .ring { fill: none; stroke: var(--ink-3); stroke-width: 1; opacity: 0.7; }
+.fig-loop .station { fill: var(--ground); stroke: var(--ink-2); stroke-width: 1.2; }
+.fig-loop .station.trained { fill: var(--amber); stroke: var(--amber); }
+.fig-loop .centre { text-anchor: middle; }
+.fig-loop .end { text-anchor: end; }
+.fig-loop svg { max-width: 36rem; }
 /* fewer, larger labels than the other diagrams: it has to stay legible at phone width */
 .fig-loop .fig-t { font-size: 12px; }
 .fig-loop .fig-h { font-size: 13px; }
@@ -158,7 +163,7 @@
 .fig-legend .sw.a { background: var(--amber); }
 .fig-legend .sw.b { background: var(--ink-2); }
 .fig-legend .sw.c { background: var(--teal); }
-.fig-legend .sw.trained { background: none; border: 1.5px solid var(--amber); height: 0.7em; }
+.fig-legend .sw.trained { background: var(--amber); width: 0.7em; height: 0.7em; border-radius: 50%; }
 .fig-legend .sw.frozen { background: none; border: 1px dashed var(--ink-3); height: 0.7em; }
 .fig-legend .sw.mix { background: linear-gradient(90deg, var(--amber), var(--ink-2), var(--teal)); }
 .fig-legend .sw.hot { background: #d8432a; }

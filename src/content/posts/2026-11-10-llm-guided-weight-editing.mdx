@@ -22,7 +22,7 @@ The second looks impressive only on the surface, but, like most generated edits 
 And a rank-1 edit is a steering vector whose strength depends on the input:
 
 $$
-(W + uv^\top)\,x = \underbrace{Wx}_{\text{base}} + \underbrace{u}_{\text{steering}}\,\underbrace{(v^\top x)}_{\text{scale}}
+(W + uv^\top)\,x = \underbrace{Wx\mathstrut}_{\text{base}} + \underbrace{u\mathstrut}_{\text{steering}}\,\underbrace{(v^\top x)}_{\text{scale}}
 $$
 
 The rank-1 edit adds a fixed $u$, scaled by how strongly the input points along $v$.
