@@ -22,13 +22,10 @@ The second looks impressive only on the surface, but, like most generated edits 
 And a rank-1 edit is a steering vector whose strength depends on the input:
 
 $$
-\begin{aligned}
-(W + \Delta W)\,x &= (W + uv^\top)\,x \\
-&= \underbrace{Wx}_{\substack{\text{typical}\\\text{activations}}} + \underbrace{u}_{\substack{\text{steering}\\\text{vector}}}\,\underbrace{(v^\top x)}_{\text{scale}}
-\end{aligned}
+(W + uv^\top)\,x = \underbrace{Wx}_{\text{base}} + \underbrace{u}_{\text{steering}}\,\underbrace{(v^\top x)}_{\text{scale}}
 $$
 
-The rank-1 edit adds the same $u$, scaled by how strongly the input points along $v$.
+The rank-1 edit adds a fixed $u$, scaled by how strongly the input points along $v$.
 
 Ultimately, Astra spent eight hours solving by trial and error what could have been a [linear program](https://nathan.rs/posts/weight-space-lp/) or an [EGGROLL](https://arxiv.org/abs/2511.16652) update, changing way more weights than necessary to achieve the same performance benefit.
 Given how much models are trained on coding, mechinterp included, the surprise would be Astra doing any worse.
@@ -47,14 +44,14 @@ Merge the two and you get the real thing: an LLM that proposes a semantic initia
 [PrimeTTT](https://aclanthology.org/2026.emnlp-main.271/) already showed something similar: a hypernetwork emits a prompt-specific LoRA initialization, a few self-supervised steps adapt it, and the loss after adaptation is backpropagated through those steps into the hypernetwork.
 The pipeline is simple:
 
-1. Initialize a hypernetwork that maps a task description to a weight-space edit of the foundation model.
-2. The hypernetwork proposes an edit for a new task.
-3. Make 1–2 steps of test-time learning from the edited weights, self-supervised on the task's own inputs.
-4. Calculate the prediction error after these steps and use it to update the hypernetwork. The foundation model stays frozen.
+1. A hypernetwork $H_\phi$ reads the task description and predicts an edit $\Delta W = H_\phi(\text{task})$ for the frozen foundation model $W$.
+2. Apply it: the model now runs with $W + \Delta W$.
+3. Make 1–2 steps of test-time learning from $W + \Delta W$, self-supervised on the task's own inputs. This gives $W + \Delta W'$.
+4. Calculate the prediction error of $W + \Delta W'$ on the task and backpropagate it through step 3 into $\phi$. Only the hypernetwork is updated. $W$ stays frozen, and $\Delta W'$ is thrown away after the task.
 
 <EditLoop />
 
-Step 4 is what makes this meta-optimization.
+Step 4 makes this meta-optimization.
 Instead of making the hypernetwork map to the final weights, we only learn a starting point from which a few steps of test-time learning get enough downstream performance.
 It's essentially [MAML](https://arxiv.org/abs/1703.03400), except that the initialization is task and TTT algorithm dependent rather than a good initialization for almost anything.
 That's basically [conditioning](https://arxiv.org/abs/2207.12598) for test-time training and ICL.
