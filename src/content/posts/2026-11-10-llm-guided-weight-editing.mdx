@@ -37,12 +37,13 @@ We invent concepts and compress generational knowledge into them, throwing recov
 Astra can swallow the floats, much as humans used to write bytecode on punch cards: tediously and inefficiently.
 
 When the interfaces we have don't fit, we invent connectors and converters.
-[Text-to-LoRA](https://arxiv.org/abs/2506.06105) and [Doc-to-LoRA](https://arxiv.org/abs/2602.15902) already showed that it's possible to cast a task description or a document into an adapter in one forward pass.
-LLM-guided [evolutionary search](https://arxiv.org/abs/2506.13131) and semantic meta-optimization will be among the hottest topics of the next few years, and none of it will involve a model squinting at a tensor.
+[Text-to-LoRA](https://arxiv.org/abs/2506.06105) and [Doc-to-LoRA](https://arxiv.org/abs/2602.15902) already showed that it's possible to cast a task description or a document into an adapter in one forward pass, and there's no reason to assume these cannot be extended.
+I suspect LLM-guided [evolutionary search](https://arxiv.org/abs/2506.13131) and semantic meta-optimization to be among the hottest topics of the next few years (*and none of them will involve an LLM squinting at a tensor*).
 
-Merge the two and you get the real thing: an LLM that proposes a semantic initialization of its own weights for a task, then optimizes it with test-time training, which already works for LLMs on [few-shot reasoning](https://arxiv.org/abs/2411.07279) and [long contexts](https://arxiv.org/abs/2512.23675).
-[PrimeTTT](https://aclanthology.org/2026.emnlp-main.271/) already showed something similar: a hypernetwork emits a prompt-specific LoRA initialization, a few self-supervised steps adapt it, and the loss after adaptation is backpropagated through those steps into the hypernetwork.
-The pipeline is simple:
+Potentially, an approximate pipeline could look like this.
+An LLM that proposes a semantic initialization of its own weights for a task, then optimizes it with test-time training, which already works for LLMs on [few-shot reasoning](https://arxiv.org/abs/2411.07279) and [long contexts](https://arxiv.org/abs/2512.23675).
+[PrimeTTT](https://aclanthology.org/2026.emnlp-main.271/) showed something similar: a hypernetwork emits a prompt-specific LoRA initialization, a few self-supervised steps adapt it, and the loss after adaptation is backpropagated through those steps into the hypernetwork.
+A task-specific scalable analogy:
 
 1. Cast the task or context $C$ into a semantic-guided low-rank adjustment of the weight space using Text-to-LoRA, Doc-to-LoRA or another hypernetwork $H_\phi : C \to \Delta W$.
 2. Use a few iterations of test-time training, in some self-supervised way, from $W + \Delta W$ to obtain $W + \Delta W'$.
@@ -57,5 +58,5 @@ That's basically [conditioning](https://arxiv.org/abs/2207.12598) for test-time 
 
 PrimeTTT conditions on the prompt.
 Condition on a more general task description and train the hypernetwork at a larger scale, the way Text-to-LoRA and Doc-to-LoRA do, and the hypernetwork becomes the model's own proposal of what it should turn into for the job at hand.
-Obviously, there are questions of making the meta-learning stable and of the adapter type: I suspect the multiplicative updates of [HiRA](https://iclr.cc/virtual/2025/poster/29500) or [LoKr](https://arxiv.org/abs/2309.14859) to have higher expressivity and suit meta-learning slightly better, but these are all engineering details.
+Obviously, there are questions of making the meta-learning stable and of the adapter type: for example, I suspect the multiplicative updates of [HiRA](https://iclr.cc/virtual/2025/poster/29500) or [LoKr](https://arxiv.org/abs/2309.14859) to have higher expressivity and suit meta-learning slightly better, or of hypernetwork scale and architecture, since Text-to-LoRA initially required almost a copy of the model's weights, but these are all engineering details.
 That is the weight-space programming worth doing today.
