@@ -44,14 +44,13 @@ Merge the two and you get the real thing: an LLM that proposes a semantic initia
 [PrimeTTT](https://aclanthology.org/2026.emnlp-main.271/) already showed something similar: a hypernetwork emits a prompt-specific LoRA initialization, a few self-supervised steps adapt it, and the loss after adaptation is backpropagated through those steps into the hypernetwork.
 The pipeline is simple:
 
-1. A hypernetwork $H_\phi$ reads the task description and predicts an edit $\Delta W = H_\phi(\text{task})$ for the frozen foundation model $W$.
-2. Apply it: the model now runs with $W + \Delta W$.
-3. Make 1–2 steps of test-time learning from $W + \Delta W$, self-supervised on the task's own inputs. This gives $W + \Delta W'$.
-4. Calculate the prediction error of $W + \Delta W'$ on the task and backpropagate it through step 3 into $\phi$. Only the hypernetwork is updated. $W$ stays frozen, and $\Delta W'$ is thrown away after the task.
+1. Cast the task or context $C$ into a semantic-guided low-rank adjustment of the weight space using Text-to-LoRA, Doc-to-LoRA or another hypernetwork $H_\phi : C \to \Delta W$.
+2. Use a few iterations of test-time training, in some self-supervised way, from $W + \Delta W$ to obtain $W + \Delta W'$.
+3. Backprop through the test-time training and update the hypernetwork $H_\phi$ using the prediction error on the downstream task.
 
 <EditLoop />
 
-Step 4 makes this meta-optimization.
+Step 3 makes this meta-optimization.
 Instead of making the hypernetwork map to the final weights, we only learn a starting point from which a few steps of test-time learning get enough downstream performance.
 It's essentially [MAML](https://arxiv.org/abs/1703.03400), except that the initialization is task and TTT algorithm dependent rather than a good initialization for almost anything.
 That's basically [conditioning](https://arxiv.org/abs/2207.12598) for test-time training and ICL.

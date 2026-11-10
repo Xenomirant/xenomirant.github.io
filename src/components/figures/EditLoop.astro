@@ -3,11 +3,11 @@
  *  a hypernetwork predicts a weight edit from the task, test-time learning refines it, and the error after refinement trains the hypernetwork only. */
 const cx = 250, cy = 152, r = 92;
 const pt = (deg: number, rad = r) => `${(cx + rad * Math.cos((deg * Math.PI) / 180)).toFixed(1)},${(cy + rad * Math.sin((deg * Math.PI) / 180)).toFixed(1)}`;
-// stations: 1 left (180°), 2 top (270°), 3 right (0°), 4 bottom (90°); arcs run clockwise, trimmed so arrowheads clear the dots
+// stations: 1 hypernetwork, left (180°); W + ΔW, top (270°); 2 test-time training, right (0°); 3 error, bottom (90°). arcs run clockwise, trimmed so arrowheads clear the dots
 const arc = (a: number, b: number) => `M${pt(a + 7)} A${r},${r} 0 0 1 ${pt(b - 7)}`;
 ---
 <figure class="fig fig-loop">
-  <svg viewBox="0 0 520 304" role="img" aria-label="a wheel with four stations. the frozen foundation model W sits at the centre. station 1, a hypernetwork with parameters phi, reads the task description and predicts an edit delta W. station 2 is the edited model W plus delta W. station 3 is one or two steps of self-supervised test-time learning, giving W plus delta W prime. station 4 is the prediction error of that model on the task; it is backpropagated through step 3 into phi. only the hypernetwork is updated, W never changes.">
+  <svg viewBox="0 0 520 304" role="img" aria-label="a wheel with three steps. the frozen foundation model W sits at the centre. step 1, a hypernetwork H phi, casts the task or context C into an edit delta W, which is added to W. step 2 is a few iterations of self-supervised test-time training from W plus delta W, giving W plus delta W prime. step 3 is the prediction error on the downstream task, backpropagated through the test-time training into H phi. only the hypernetwork is updated, W never changes.">
     <defs>
       <marker id="loop-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" class="arrowhead" /></marker>
       <marker id="loop-arrow-hot" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" class="arrowhead hot" /></marker>
@@ -30,33 +30,31 @@ const arc = (a: number, b: number) => `M${pt(a + 7)} A${r},${r} 0 0 1 ${pt(b - 7
 
     <!-- stations -->
     <circle cx={cx - r} cy={cy} r="5" class="station trained" />
-    <circle cx={cx} cy={cy - r} r="4" class="station" />
+    <circle cx={cx} cy={cy - r} r="3" class="station minor" />
     <circle cx={cx + r} cy={cy} r="4" class="station" />
     <circle cx={cx} cy={cy + r} r="4" class="station" />
 
     <!-- 1: hypernetwork, left -->
-    <text x="16" y="38" class="fig-t dim">task description</text>
+    <text x="16" y="38" class="fig-t dim">task / context C</text>
     <line x1="92" y1="46" x2={cx - r - 7} y2={cy - 7} class="wire" marker-end="url(#loop-arrow)" />
     <text x="146" y="176" class="fig-h end">1  hypernetwork H<tspan dy="3" font-size="10">φ</tspan></text>
-    <text x="146" y="192" class="fig-t end">reads the task,</text>
-    <text x="146" y="208" class="fig-t end">predicts ΔW</text>
+    <text x="146" y="192" class="fig-t end">C → ΔW</text>
 
     <!-- 2: edited model, top -->
-    <text x={cx} y="26" class="fig-h centre">2  edited model</text>
-    <text x={cx} y="42" class="fig-t centre">W + ΔW</text>
+    <text x={cx} y="34" class="fig-t centre">W + ΔW</text>
 
     <!-- 3: test-time learning, right -->
-    <text x="356" y="140" class="fig-h">3  test-time learning</text>
-    <text x="356" y="156" class="fig-t">1–2 self-supervised steps</text>
+    <text x="356" y="140" class="fig-h">2  test-time training</text>
+    <text x="356" y="156" class="fig-t">a few self-supervised steps</text>
     <text x="356" y="172" class="fig-t dim">W + ΔW  →  W + ΔW′</text>
 
     <!-- 4: prediction error, bottom -->
-    <text x={cx} y="274" class="fig-h centre">4  prediction error</text>
-    <text x={cx} y="290" class="fig-t centre">of W + ΔW′ on the task</text>
+    <text x={cx} y="274" class="fig-h centre">3  prediction error</text>
+    <text x={cx} y="290" class="fig-t centre">on the downstream task</text>
 
     <!-- the red arc's label -->
-    <text x="146" y="240" class="fig-t hot-t end">backprop through 3,</text>
-    <text x="146" y="254" class="fig-t hot-t end">updates φ only</text>
+    <text x="146" y="240" class="fig-t hot-t end">backprop through TTT,</text>
+    <text x="146" y="254" class="fig-t hot-t end">updates H<tspan dy="2" font-size="9">φ</tspan><tspan dy="-2"> only</tspan></text>
   </svg>
   <p class="fig-legend" aria-hidden="true"><span><i class="sw trained"></i>the only thing that gets trained</span><span><i class="sw frozen"></i>never changes</span></p>
   <figcaption>the hypernetwork learns to propose a starting point that a few steps of test-time learning can take far, not the final weights. ΔW′ is thrown away after the task.</figcaption>
