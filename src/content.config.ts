@@ -24,7 +24,7 @@ const posts = defineCollection({
     // a bibtex block at the end of the post (local posts only)
     cite: z.boolean().default(true),
     // optional background art behind the post (see components/EraBg.astro)
-    bg: z.enum(['bruegel', 'panopticon']).optional(),
+    bg: z.enum(['bruegel', 'panopticon', 'llull']).optional(),
   }),
 });
 

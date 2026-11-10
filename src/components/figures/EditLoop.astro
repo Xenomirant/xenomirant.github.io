@@ -1,0 +1,45 @@
+---
+/** the loop: a hypernetwork proposes a weight edit from a task description, test-time learning refines it, the error after refinement trains the hypernetwork. */
+const B = { w: 198, h: 66 };
+const L = 12, R = 250, T = 64, D = 200;
+---
+<figure class="fig fig-loop">
+  <svg viewBox="0 0 460 304" role="img" aria-label="a loop of four steps: a hypernetwork turns a task description into a proposed weight edit; one or two steps of self-supervised test-time learning refine the edited weights; the prediction error after that updates the hypernetwork. the foundation model stays frozen.">
+    <defs>
+      <marker id="loop-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" class="arrowhead" /></marker>
+    </defs>
+
+    <text x={L} y="22" class="fig-t">task description</text>
+    <line x1={L + 50} y1="30" x2={L + 50} y2={T - 2} class="wire" marker-end="url(#loop-arrow)" />
+
+    <rect x={L} y={T} width={B.w} height={B.h} class="node" />
+    <text x={L + 12} y={T + 22} class="fig-h">1  hypernetwork</text>
+    <text x={L + 12} y={T + 42} class="fig-t">maps the task to an edit</text>
+
+    <line x1={L + B.w} y1={T + B.h / 2} x2={R - 2} y2={T + B.h / 2} class="wire" marker-end="url(#loop-arrow)" />
+
+    <rect x={R} y={T} width={B.w} height={B.h} class="node" />
+    <text x={R + 12} y={T + 22} class="fig-h">2  proposed edit</text>
+    <text x={R + 12} y={T + 42} class="fig-t">ΔW, e.g. low-rank</text>
+    <text x={R + 12} y={T + 58} class="fig-t dim">applied: W + ΔW</text>
+
+    <line x1={R + B.w / 2} y1={T + B.h} x2={R + B.w / 2} y2={D - 2} class="wire" marker-end="url(#loop-arrow)" />
+
+    <rect x={R} y={D} width={B.w} height={B.h} class="node" />
+    <text x={R + 12} y={D + 22} class="fig-h">3  test-time learning</text>
+    <text x={R + 12} y={D + 42} class="fig-t">1–2 self-supervised steps</text>
+    <text x={R + 12} y={D + 58} class="fig-t dim">from W + ΔW</text>
+
+    <line x1={R} y1={D + B.h / 2} x2={L + B.w + 2} y2={D + B.h / 2} class="wire" marker-end="url(#loop-arrow)" />
+
+    <rect x={L} y={D} width={B.w} height={B.h} class="node" />
+    <text x={L + 12} y={D + 22} class="fig-h">4  prediction error</text>
+    <text x={L + 12} y={D + 42} class="fig-t">on the task, after step 3</text>
+
+    <line x1={L + 50} y1={D} x2={L + 50} y2={T + B.h + 2} class="wire update" marker-end="url(#loop-arrow)" />
+    <text x={L + 60} y={(T + B.h + D) / 2 + 4} class="fig-t hot-t">updates the hypernetwork</text>
+
+    <text x={L} y="296" class="fig-t dim">the foundation model W stays frozen</text>
+  </svg>
+  <figcaption>the hypernetwork learns to propose a starting point that a few steps of test-time learning can take far, not the final weights.</figcaption>
+</figure>

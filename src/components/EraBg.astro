@@ -4,7 +4,8 @@ import { Picture } from 'astro:assets';
 import bruegel from '@/assets/bruegel-babel.jpg';
 import meireles from '@/assets/babel-meireles.jpg';
 import panopticon from '@/assets/panopticon.jpg';
-export type Kind = 'bruegel' | 'meireles' | 'drips' | 'grille' | 'panopticon';
+import llull from '@/assets/llull.jpg';
+export type Kind = 'bruegel' | 'meireles' | 'drips' | 'grille' | 'panopticon' | 'llull';
 interface Props { kind: Kind; focus?: string }
 const { kind, focus } = Astro.props;
 const credits: Record<Kind, { who: string; what: string; when: string; note?: string; href?: string }> = {
@@ -12,15 +13,17 @@ const credits: Record<Kind, { who: string; what: string; when: string; note?: st
   meireles: { who: 'Cildo Meireles', what: 'Babel', when: '2001', note: 'my photo' },
   grille: { who: 'Cildo Meireles', what: 'Babel', when: '2001', note: 'detail, my photo' },
   drips: { who: 'after Jackson Pollock', what: 'Number 7A', when: '1948', note: 'generated' },
+  llull: { who: 'Ramon Llull', what: 'Ars magna generalis et ultima', when: 'Lyon, 1517', note: 'figura T, with a reader’s notes', href: 'https://commons.wikimedia.org/wiki/File:Illuminati_sacre_pagine_p.fessoris_amplissimi_magistri_Raymundi_Lull._Ars_magna,_generalis_et_vltima_-_quarucunq3_artium_(et)_scientiarum_ipsius_Lull._assecutrix_et_clauigera_-_(et)_ad_eas_aditum_(14591005828).jpg' },
   panopticon: { who: 'Jeremy Bentham', what: 'Panopticon', when: '1791', note: 'plan drawn by Willey Reveley', href: 'https://commons.wikimedia.org/wiki/File:Panopticon.jpg' },
 };
 const c = credits[kind];
-const tremble = kind === 'bruegel' || kind === 'drips' || kind === 'panopticon';
+const tremble = kind === 'bruegel' || kind === 'drips' || kind === 'panopticon' || kind === 'llull';
 ---
 <div class:list={['era-bg', `era-bg--${kind}`]} aria-hidden="true" data-tremble={tremble ? '' : undefined} style={focus ? `--focus:${focus}` : undefined}>
   {kind === 'bruegel' && <Picture src={bruegel} widths={[960, 1600, 2400]} sizes="100vw" formats={['avif', 'webp']} alt="" onload="this.classList.add('ok')" loading="eager" fetchpriority="high" />}
   {kind === 'meireles' && <Picture src={meireles} widths={[420, 831]} sizes="(width >= 900px) 40vw, 90vw" formats={['avif', 'webp']} alt="" onload="this.classList.add('ok')" loading="eager" fetchpriority="high" />}
   {kind === 'panopticon' && <Picture src={panopticon} widths={[900, 1400, 2179]} sizes="(width >= 900px) 60vw, 100vw" formats={['avif', 'webp']} alt="" onload="this.classList.add('ok')" loading="eager" fetchpriority="high" />}
+  {kind === 'llull' && <Picture src={llull} widths={[900, 1400, 1997]} sizes="(width >= 900px) 60vw, 100vw" formats={['avif', 'webp']} alt="" onload="this.classList.add('ok')" loading="eager" fetchpriority="high" />}
   {kind === 'grille' && <img src="/img/contact-1600.png" alt="" onload="this.classList.add('ok')" width="1600" height="1801" loading="eager" decoding="async" />}
   {kind === 'drips' && <canvas data-drips></canvas>}
 </div>

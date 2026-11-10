@@ -26,6 +26,7 @@ const loadFonts = () => (fonts ??= Promise.all([
 const ART: Record<string, { src: string; position: string; opacity: number }> = {
   panopticon: { src: 'src/assets/panopticon.jpg', position: 'centre', opacity: 0.62 },
   bruegel: { src: 'src/assets/bruegel-babel.jpg', position: 'left', opacity: 0.7 },
+  llull: { src: 'src/assets/llull.jpg', position: 'top', opacity: 0.85 },
 };
 async function art(kind?: string): Promise<string | undefined> {
   const a = kind ? ART[kind] : undefined;

@@ -1,0 +1,65 @@
+---
+title: 'On LLM-guided weight editing and search'
+date: 2026-11-10
+description: 'Category errors in LLM-guided weight editing and promises for semantic weight-space search.'
+tags: [weight editing, hypernetworks, test-time learning, interpretability]
+source: local
+crosspost: none
+math: true
+bg: llull
+---
+import EditLoop from '@/components/figures/EditLoop.astro';
+
+MIT CSAIL recently showed that GPT-6 Astra can read and write the weights of other neural networks directly ([Sparks of Weight-Space Programming](https://rikiyat.github.io/blog/weight-space-programming/)).
+It names the game a small policy network was trained on from its weights alone, writes MinAtar policies from scratch in a single reply given only the game's rules and a goal, and edits Qwen3.5-0.8B's weights to fix looping in its reasoning by removing a direction from its MLP layers, which improves its MATH-500 score by a huge margin.
+
+Almost none of this is new.
+The first is an example from a very small RL environment that can be solved by explicit policies written as programs.
+LLMs can already synthesize such programs well, even as explicit Python code ([Code to Control](https://arxiv.org/abs/2609.38733)), and distilling a program into a small downstream network is easy enough.
+The second looks impressive only on the surface, but, like most generated edits to larger models that appear to work, it amounts to [steering](https://arxiv.org/abs/2308.10248), which can be implemented at a fraction of the cost if done properly.
+
+[Dherin et al.](https://arxiv.org/abs/2507.16003) showed that the effect of in-context-learning on a transformer block can be written exactly as a rank-1 update of its MLP weights, so in-context learning is a weight edit.
+And a rank-1 edit is a steering vector whose strength depends on the input:
+
+$$
+\begin{aligned}
+(W + \Delta W)\,x &= (W + uv^\top)\,x \\
+&= \underbrace{Wx}_{\substack{\text{typical}\\\text{activations}}} + \underbrace{u}_{\substack{\text{steering}\\\text{vector}}}\,\underbrace{(v^\top x)}_{\text{scale}}
+\end{aligned}
+$$
+
+The rank-1 edit adds the same $u$, scaled by how strongly the input points along $v$.
+
+Ultimately, Astra spent eight hours solving by trial and error what could have been a [linear program](https://nathan.rs/posts/weight-space-lp/) or an [EGGROLL](https://arxiv.org/abs/2511.16652) update, changing way more weights than necessary to achieve the same performance benefit.
+Given how much models are trained on coding, mechinterp included, the surprise would be Astra doing any worse.
+And there's no doubt that the same LLM with autoresearch, asked to write code with [vllm-lens](https://www.lesswrong.com/posts/3bs27nZQuEcKhXf7q/vllm-lens-fast-interpretability-tooling-that-scales-to) to fix the very same issue, would do much better.
+
+Reading weights as text is a category error.
+Language was meant to be an instrument for extreme compression.
+We invent concepts and compress generational knowledge into them, throwing recoverable details away, while a weight matrix is meant for the opposite.
+Astra can swallow the floats, much as humans used to write bytecode on punch cards: tediously and inefficiently.
+
+When the interfaces we have don't fit, we invent connectors and converters.
+[Text-to-LoRA](https://arxiv.org/abs/2506.06105) and [Doc-to-LoRA](https://arxiv.org/abs/2602.15902) already showed that it's possible to cast a task description or a document into an adapter in one forward pass.
+LLM-guided [evolutionary search](https://arxiv.org/abs/2506.13131) and semantic meta-optimization will be among the hottest topics of the next few years, and none of it will involve a model squinting at a tensor.
+
+Merge the two and you get the real thing: an LLM that proposes a semantic initialization of its own weights for a task, then optimizes it with test-time training, which already works for LLMs on [few-shot reasoning](https://arxiv.org/abs/2411.07279) and [long contexts](https://arxiv.org/abs/2512.23675).
+[PrimeTTT](https://aclanthology.org/2026.emnlp-main.271/) already showed something similar: a hypernetwork emits a prompt-specific LoRA initialization, a few self-supervised steps adapt it, and the loss after adaptation is backpropagated through those steps into the hypernetwork.
+The pipeline is simple:
+
+1. Initialize a hypernetwork that maps a task description to a weight-space edit of the foundation model.
+2. The hypernetwork proposes an edit for a new task.
+3. Make 1–2 steps of test-time learning from the edited weights, self-supervised on the task's own inputs.
+4. Calculate the prediction error after these steps and use it to update the hypernetwork. The foundation model stays frozen.
+
+<EditLoop />
+
+Step 4 is what makes this meta-optimization.
+Instead of making the hypernetwork map to the final weights, we only learn a starting point from which a few steps of test-time learning get enough downstream performance.
+It's essentially [MAML](https://arxiv.org/abs/1703.03400), except that the initialization is task and TTT algorithm dependent rather than a good initialization for almost anything.
+That's basically [conditioning](https://arxiv.org/abs/2207.12598) for test-time training and ICL.
+
+PrimeTTT conditions on the prompt.
+Condition on a more general task description and train the hypernetwork at a larger scale, the way Text-to-LoRA and Doc-to-LoRA do, and the hypernetwork becomes the model's own proposal of what it should turn into for the job at hand.
+Obviously, there are questions of making the meta-learning stable and of the adapter type: I suspect the multiplicative updates of [HiRA](https://iclr.cc/virtual/2025/poster/29500) or [LoKr](https://arxiv.org/abs/2309.14859) to have higher expressivity and suit meta-learning slightly better, but these are all engineering details.
+That is the weight-space programming worth doing today.
