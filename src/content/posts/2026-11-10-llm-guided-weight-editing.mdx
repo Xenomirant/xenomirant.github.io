@@ -56,7 +56,12 @@ Instead of making the hypernetwork map to the final weights, we only learn a sta
 It's essentially [MAML](https://arxiv.org/abs/1703.03400), except that the initialization is task and TTT algorithm dependent rather than a good initialization for almost anything.
 That's basically [conditioning](https://arxiv.org/abs/2207.12598) for test-time training and ICL.
 
-PrimeTTT conditions on the prompt.
-Condition on a more general task description and train the hypernetwork at a larger scale, the way Text-to-LoRA and Doc-to-LoRA do, and the hypernetwork becomes the model's own proposal of what it should turn into for the job at hand.
-Obviously, there are questions of making the meta-learning stable and of the adapter type: for example, I suspect the multiplicative updates of [HiRA](https://iclr.cc/virtual/2025/poster/29500) or [LoKr](https://arxiv.org/abs/2309.14859) to have higher expressivity and suit meta-learning slightly better, or hypernetwork scale and architecture -- [ControlNet](https://arxiv.org/abs/2302.05543) required almost a copy of the model weights initially --  but these are all engineering details.
-That is the weight-space programming worth doing today.
+PrimeTTT showed that conditioning on the prompt works well enough, yet usually we want to condition on some latent task and its properties.
+Thus, we could try to condition on a more general task, map this prior using the hypernetwork trained at a larger scale, the way Text-to-LoRA and Doc-to-LoRA do, and you get a mix of semantic prior and downstream test-time training.
+
+Obviously, there are questions of making the meta-learning stable, the adapter type[^adapters] or hypernetwork scale and architecture — [ControlNet](https://arxiv.org/abs/2302.05543) required almost a copy of the model weights initially — but these are all engineering, not conceptual details.
+
+Broadly speaking, I expect models to be much better in local search and semantic structure learning than local functional approximation w.r.t. unknown distribution.
+It seems the principle might be general enough to be applicable across multiple domains.
+
+[^adapters]: For example, I suspect the multiplicative updates of [HiRA](https://iclr.cc/virtual/2025/poster/29500) or [LoKr](https://arxiv.org/abs/2309.14859) to have higher expressivity and suit meta-learning slightly better.
